@@ -50,7 +50,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#synergy" className="hover:text-blue-500 transition-colors">
+                <a href="/teams" className="hover:text-blue-500 transition-colors">
                   {t('nav.team')}
                 </a>
               </li>

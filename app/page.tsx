@@ -4,12 +4,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from 'react-i18next'; 
 import { useEffect, useState } from 'react';
 
-const Navbar = dynamic(() => import('@/components/Navbar'), { ssr: false });
+
 const Hero = dynamic(() => import('@/components/Hero'), { ssr: false });
 const About = dynamic(() => import('@/components/About'), { ssr: false });
 const Events = dynamic(() => import('@/components/Events'), { ssr: false });
 const Team = dynamic(() => import('@/components/Team'), { ssr: false });
-const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
+
 
 const TeamsSection = dynamic(() => import('@/components/TeamsSection'), { ssr: false });
 const UpcomingEvents = dynamic(() => import('@/components/UpcomingEvents'), { ssr: false });
@@ -31,7 +31,7 @@ export default function Home() {
 
   return (
     <>
-    <Navbar />
+
       
     {/*smooth effect translation*/}
       <AnimatePresence mode="wait">
@@ -48,7 +48,6 @@ export default function Home() {
           <About />
           <UpcomingEvents/>
           <TeamsSection />
-          <Footer />
         </motion.main>
       </AnimatePresence>
     </>

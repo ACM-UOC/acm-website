@@ -1,26 +1,32 @@
-// components/Navbar.tsx
 "use client";
 import { useState, useEffect } from "react";
 import '../lib/i18n';
 import { useTranslation } from 'react-i18next';
-import { link } from "fs";
-
+import Link from 'next/link';
+import { usePathname } from 'next/navigation'; 
 export default function Navbar() {
-    const { t, i18n } = useTranslation('common'); // t -> translation function
+    const { t, i18n } = useTranslation('common');
+    const pathname = usePathname(); 
     const [isOpen, setIsOpen] = useState(false);
-
     const [activeSection, setActiveSection] = useState("home");
 
     const toggleMenu = () => setIsOpen(!isOpen);
 
+    // Updated links to use absolute paths
     const navLinks = [
-        { id: "home", href: "#home" },
-        { id: "about", href: "#about" },
-        { id: "events", href: "#events" },
-        { id: "team", href: "#team" },
+        { id: "home", href: "/" },
+        { id: "about", href: "/#about" },
+        { id: "events", href: "/#events" },
+        { id: "team", href: "/teams" },
     ];
 
     useEffect(() => {
+       
+        if (pathname !== "/") {
+            setActiveSection(""); 
+            return;
+        }
+
         const observerOptions = {
             root: null,
             rootMargin: '-40% 0px -40% 0px',
@@ -30,21 +36,27 @@ export default function Navbar() {
         const observerCallback = (entries: IntersectionObserverEntry[]) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    setActiveSection(entry.target.id)
+                    setActiveSection(entry.target.id);
                 }
             });
         };
 
         const observer = new IntersectionObserver(observerCallback, observerOptions);
 
+ 
         navLinks.forEach((link) => {
-            const section = document.querySelector(link.href);
-            if (section) observer.observe(section);
+            if (link.href.startsWith("/#")) {
+                const sectionId = link.href.replace("/", "");
+                const section = document.querySelector(sectionId);
+                if (section) observer.observe(section);
+            } else if (link.id === "home") {
+                const section = document.querySelector("#home");
+                if (section) observer.observe(section);
+            }
         });
 
         return () => observer.disconnect();
-
-    }, []);
+    }, [pathname]); 
 
 
     return (
@@ -53,9 +65,8 @@ export default function Navbar() {
             <nav className="sticky top-0 z-[60] bg-white/70 backdrop-blur-md border-b border-slate-200/50 shadow-sm w-full">
                 <div className="max-w-[95%] mx-auto px-4 h-12 flex items-center justify-between">
 
-                    {/* Logo Section */}
-                    <div className="flex items-center space-x-3 group cursor-pointer">
-                    
+                    {/* Logo Section - Now wrapped in Link */}
+                    <Link href="/" className="flex items-center space-x-3 group cursor-pointer">
                         <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[5deg]">
                             <img
                                 src="/logo.png" 
@@ -64,7 +75,6 @@ export default function Navbar() {
                             />
                         </div>
 
-                   
                         <div className="flex flex-col justify-center">
                             <span className="font-bold text-xl tracking-tighter text-slate-900 leading-none">
                                 ACM <span className="text-blue-600 font-black italic">UOC</span>
@@ -73,34 +83,38 @@ export default function Navbar() {
                                 Student Chapter
                             </span>
                         </div>
-                    </div>
+                    </Link>
 
                     {/* Desktop Links */}
                     <div className="hidden md:flex items-center space-x-8">
                         {navLinks.map((link) => {
-                            const isActive = activeSection === link.href.replace("#", "");
+                            // Logic to determine if the link is active based on path OR scroll position
+                            let isActive = false;
+                            if (pathname === "/") {
+                                
+                                if (link.id === "home") isActive = activeSection === "home";
+                                else isActive = activeSection === link.id;
+                            } else {
+                               
+                                isActive = pathname === link.href;
+                            }
 
                             return (
-                                <a
+                                <Link
                                     key={link.id}
                                     href={link.href}
-                                    className={`text-[15px] font-bold transition-all relative group py-2 ${isActive ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
-                                        }`}
+                                    className={`text-[15px] font-bold transition-all relative group py-2 ${
+                                        isActive ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
+                                    }`}
                                 >
-                                    {t(`nav.${link.id}`)} {/*translation happens here*/}
-                                    {/*if isActive -> true then blue underline stays there */}
-                                    <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"
-                                        }`}></span>
-                                </a>
+                                    {t(`nav.${link.id}`)}
+                                    <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-300 ${
+                                        isActive ? "w-full" : "w-0 group-hover:w-full"
+                                    }`}></span>
+                                </Link>
                             );
                         })}
 
-                        {/*<a
-                            href="#contact"
-                            className="bg-blue-600 text-white px-7 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 transition-all shadow-lg shadow-blue-600/20 active:scale-95 ml-4 uppercase tracking-wider"
-                        >
-                            Join Us
-                        </a>*/}
                         {/* Language Switcher */}
                         <div className="flex items-center ml-4 border-l border-slate-200 pl-4 space-x-2">
                             <button
@@ -133,10 +147,8 @@ export default function Navbar() {
             {/* Mobile Menu  */}
             <div className={`fixed inset-0 z-[100] transition-all duration-500 ease-in-out md:hidden ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
 
-                {/* Background Layer */}
                 <div className="absolute inset-0 bg-white shadow-2xl"></div>
 
-                {/* Content Container */}
                 <div className="relative z-[110] flex flex-col h-full">
 
                     {/* Header  */}
@@ -154,10 +166,9 @@ export default function Navbar() {
 
                     {/* Main Content */}
                     <div className="flex flex-col p-8 pt-10 space-y-8">
-                        {/* Nav Links */}
                         <div className="flex flex-col space-y-6">
                             {navLinks.map((item, index) => (
-                                <a
+                                <Link
                                     key={item.id}
                                     href={item.href}
                                     onClick={() => setIsOpen(false)}
@@ -167,20 +178,9 @@ export default function Navbar() {
                                     <span className="text-2xl font-black text-slate-900 uppercase tracking-tight">
                                         {t(`nav.${item.id}`)}
                                     </span>
-                                </a>
+                                </Link>
                             ))}
                         </div>
-
-                        {/* Join Us Button */}
-                        {/*<div className="pt-2">
-                            <a
-                                href="#contact"
-                                onClick={() => setIsOpen(false)}
-                                className="block bg-blue-600 text-white px-6 py-4 rounded-xl text-lg font-bold text-center shadow-lg shadow-blue-600/20 active:scale-95 transition-all"
-                            >
-                                Join the Team
-                            </a>
-                        </div>*/}
 
                         {/* Footer-info */}
                         <div className="pt-4 border-t border-slate-50">
