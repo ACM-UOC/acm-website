@@ -31,16 +31,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased` } suppressHydrationWarning>
         <I18nProvider>
-          {/* 1. Navbar stays at the top of every page */}
           <Navbar />
-          
-          {/* 2. Children represents the active page (Home, Teams, etc.) */}
           {children}
-
-          {/* 3. Footer stays at the bottom of every page */}
           <Footer />
         </I18nProvider>
       </body>

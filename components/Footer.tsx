@@ -40,12 +40,12 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3 text-slate-400 text-base font-medium">
               <li>
-                <a href="#about" className="hover:text-blue-500 transition-colors">
+                <a href="/about" className="hover:text-blue-500 transition-colors">
                   {t('nav.about')}
                 </a>
               </li>
               <li>
-                <a href="#events" className="hover:text-blue-500 transition-colors">
+                <a href="/events" className="hover:text-blue-500 transition-colors">
                   {t('nav.events')}
                 </a>
               </li>

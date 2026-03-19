@@ -18,7 +18,7 @@ i18n
     fallbackLng: 'en',
     ns: ['common'], // Namespace
     defaultNS: 'common',
-    debug: true, 
+    debug: false, 
     interpolation: {
       escapeValue: false 
     }

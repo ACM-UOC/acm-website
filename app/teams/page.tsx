@@ -27,12 +27,10 @@ export default function TeamsPage() {
   const { t } = useTranslation('common');
 
   return (
-    // We removed 'pt-32' from here and added it inside the container so the background handles it better
     <main className="min-h-screen bg-slate-50 relative z-0">
 
-      {/* FIXED BACKGROUND BUBBLE */}
-      {/* Changed height from fixed h-96 to a percentage/auto setup so it adapts to text length */}
-      <div className="absolute top-0 left-0 w-full h-[55vh] min-h-[450px] bg-white rounded-b-[4rem] shadow-sm -z-10" />
+    
+      <div className="absolute top-0 left-0 w-full h-[45vh] min-h-[450px] bg-white rounded-b-[4rem] shadow-sm -z-10" />
 
       <motion.div 
         className="max-w-7xl mx-auto px-6 pt-32 pb-24"

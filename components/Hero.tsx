@@ -36,6 +36,7 @@ const Hero = () => {
 
     return (
         <section
+            id="home"
             ref={containerRef}
             className="relative min-h-screen w-full bg-[#020617] flex items-center justify-center overflow-hidden"
         >

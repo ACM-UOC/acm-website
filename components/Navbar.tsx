@@ -4,6 +4,8 @@ import '../lib/i18n';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'; 
+import LanguageSwitcher from "./LanguageSwitcher";
+
 export default function Navbar() {
     const { t, i18n } = useTranslation('common');
     const pathname = usePathname(); 
@@ -12,12 +14,12 @@ export default function Navbar() {
 
     const toggleMenu = () => setIsOpen(!isOpen);
 
-    // Updated links to use absolute paths
+
     const navLinks = [
         { id: "home", href: "/" },
-        { id: "about", href: "/#about" },
-        { id: "events", href: "/#events" },
         { id: "team", href: "/teams" },
+        { id: "events", href: "/events" },
+        { id: "about", href: "/about" },
     ];
 
     useEffect(() => {
@@ -88,7 +90,7 @@ export default function Navbar() {
                     {/* Desktop Links */}
                     <div className="hidden md:flex items-center space-x-8">
                         {navLinks.map((link) => {
-                            // Logic to determine if the link is active based on path OR scroll position
+                            
                             let isActive = false;
                             if (pathname === "/") {
                                 
@@ -116,20 +118,7 @@ export default function Navbar() {
                         })}
 
                         {/* Language Switcher */}
-                        <div className="flex items-center ml-4 border-l border-slate-200 pl-4 space-x-2">
-                            <button
-                                onClick={() => i18n.changeLanguage('en')}
-                                className={`text-xs font-bold ${i18n.language === 'en' ? 'text-blue-600' : 'text-slate-400'}`}
-                            >
-                                EN
-                            </button>
-                            <button
-                                onClick={() => i18n.changeLanguage('gr')}
-                                className={`text-xs font-bold ${i18n.language === 'gr' ? 'text-blue-600' : 'text-slate-400'}`}
-                            >
-                                GR
-                            </button>
-                        </div>
+                       <LanguageSwitcher />
                     </div>
 
                     {/* Mobile Menu Button*/}
