@@ -1,45 +1,32 @@
 "use client";
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 
 const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1 },
+    },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" }
-  },
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.5, ease: "easeOut" }
+    },
 };
 
 export default function TeamSection() {
     const { t } = useTranslation('common');
-    const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-    // Ορισμός των ομάδων χρησιμοποιώντας τα κλειδιά από το JSON
     const teamsData = [
-      { 
-        id: "game-dev", 
-        name: t('team.specialist_teams.game_dev.name'), 
-        icon: "🎮", 
-        tag: t('team.specialist_teams.game_dev.tag'), 
-        description: t('team.specialist_teams.game_dev.description') 
-      },
-      { 
-        id: "more", 
-        name: t('team.specialist_teams.more_to_come.name'), 
-        icon: "✨", 
-        tag: t('team.specialist_teams.more_to_come.tag'), 
-        description: t('team.specialist_teams.more_to_come.description') 
-      },
+        { id: "game-dev", name: t('team.specialist_teams.game_dev.name'), icon: "🎮" },
+        { id: "more", name: t('team.specialist_teams.more_to_come.name'), icon: "✨" },
     ];
 
     return (
@@ -48,7 +35,7 @@ export default function TeamSection() {
                 className="max-w-7xl mx-auto px-6"
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }} 
+                viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
             >
                 {/* Header */}
@@ -61,48 +48,63 @@ export default function TeamSection() {
                     </h3>
                     <div className="w-16 h-1.5 bg-blue-600 mt-6 rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.3)]"></div>
                 </motion.div>
-            
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-                    {teamsData.map((team) => {
-                        const isHovered = hoveredId === team.id;
 
-                        return (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {teamsData.map((team) => (
+                        <motion.div
+                            key={team.id}
+                            variants={itemVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            className="relative h-64 bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm hover:shadow-2xl transition-all duration-700 overflow-hidden flex flex-col justify-center items-center cursor-default group"
+                        >
                             <motion.div
-                                key={team.id}
-                                variants={itemVariants}
-                                onMouseEnter={() => setHoveredId(team.id)}
-                                onMouseLeave={() => setHoveredId(null)}
-                                whileHover={{ y: -8 }}
-                                className="relative h-72 group bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col justify-center items-center cursor-default"
-                            >
-                                {/* background glow */}
-                                <div className={`absolute -bottom-10 -right-10 w-40 h-40 rounded-full transition-all duration-700 blur-3xl ${isHovered ? 'bg-blue-100 opacity-100 scale-150' : 'bg-blue-50 opacity-40 scale-100'}`} />
-                                
-                                {/* Layer 1: Icon & Name */}
-                                <div className={`flex flex-col items-center gap-5 text-center transition-all duration-500 ease-in-out ${isHovered ? 'opacity-0 scale-90 -translate-y-5' : 'opacity-100 scale-100 translate-y-0'}`}>
-                                    <div className="text-5xl">{team.icon}</div>
-                                    <span className="text-xl text-blue-600 tracking-[0.1em] uppercase font-black leading-tight">
-                                        {team.name}
-                                    </span>
-                                </div>
+                                className="absolute inset-0 bg-gradient-to-br from-blue-50/0 via-blue-50/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                                whileHover={{
+                                    scale: 2,
+                                    rotate: 15,
+                                    transition: { duration: 0.8, ease: "easeOut" }
+                                }}
+                            />
 
-                                {/* Layer 2: Description & Tag */}
-                                <div className={`absolute inset-0 z-10 p-8 flex flex-col items-center justify-center text-center backdrop-blur-[2px] transition-all duration-500 ease-in-out ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8 pointer-events-none'}`}>
-                                    <span className="text-blue-600 font-mono text-xs font-bold tracking-[0.3em] uppercase mb-2">
-                                        {team.tag}
-                                    </span>
-                                    <p className="text-slate-500 leading-relaxed italic line-clamp-3 mb-5 text-[13px]">
-                                        "{team.description}"
-                                    </p>
-                                    <div className="w-8 h-1 bg-blue-600 mb-5 group-hover:w-16 transition-all duration-500 rounded-full" />
-                                    <button className="text-[10px] font-black uppercase tracking-widest text-slate-900 hover:text-blue-600 transition-colors">
-                                        {team.id === "more" ? "Stay Tuned →" : "Explore Team →"}
-                                    </button>
-                                </div>
-                            </motion.div>
-                        );
-                    })}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-blue-100/20 rounded-full blur-2xl scale-0 group-hover:scale-150 transition-transform duration-1000 ease-out pointer-events-none" />
+
+                            <div className="relative z-10 flex flex-col items-center gap-5 text-center">
+                                <motion.div
+                                    className="text-5xl mb-2"
+                                    whileHover={{
+                                        y: -8,
+                                        scale: 1.1,
+                                        filter: "drop-shadow(0 10px 15px rgba(37,99,235,0.2))",
+                                    }}
+                                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                                >
+                                    {team.icon}
+                                </motion.div>
+
+                                <span className="text-lg text-slate-900 tracking-tight uppercase font-black leading-tight group-hover:text-blue-600 transition-colors duration-500">
+                                    {team.name}
+                                </span>
+                            </div>
+
+                            <div className="absolute bottom-8 w-1 h-1 bg-slate-200 rounded-full group-hover:w-12 group-hover:bg-blue-600 transition-all duration-500" />
+                        </motion.div>
+                    ))}
                 </div>
+
+                {/* "View All" Mention */}
+                <motion.div variants={itemVariants} className="mt-16 text-center">
+                    <Link href="/teams" className="group inline-flex items-center gap-4 bg-slate-900 text-white px-8 py-4 rounded-full hover:bg-blue-600 transition-all duration-500 shadow-lg hover:shadow-blue-600/20">
+                        <span className="text-xs font-black uppercase tracking-[0.2em]">Meet All Our Specialist Teams</span>
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-blue-600 transition-colors">
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </div>
+                    </Link>
+                </motion.div>
+
             </motion.div>
         </section>
     );

@@ -1,5 +1,4 @@
 "use client";
-import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link'; 
@@ -30,7 +29,7 @@ export default function TeamsPage() {
     <main className="min-h-screen bg-slate-50 relative z-0">
 
     
-      <div className="absolute top-0 left-0 w-full h-[45vh] min-h-[450px] bg-white rounded-b-[4rem] shadow-sm -z-10" />
+      <div className="absolute top-0 left-0 w-full h-[70vh] min-h-[650px] md:h-[45vh] md:min-h-[450px] bg-white rounded-b-[4rem] shadow-sm -z-10" />
 
       <motion.div 
         className="max-w-7xl mx-auto px-6 pt-32 pb-24"
@@ -47,8 +46,7 @@ export default function TeamsPage() {
             {t('teams_page.title')}
           </h1>
           <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.3)] mb-8"></div>
-          
-          {/* Made sure the description has enough room */}
+
           <p className="text-lg text-slate-600 leading-relaxed italic px-4">
             "{t('teams_page.description')}"
           </p>

@@ -2,9 +2,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
+
 
 export default function EventSlider() {
     const { t } = useTranslation('common');
+
+    // Assuming this card links to our featured_event in the database
+    const featuredId = "featured_event";
 
     return (
         <section id="events" className="py-24 bg-white relative overflow-hidden">
@@ -34,8 +39,12 @@ export default function EventSlider() {
                         
                         <div className='relative z-10 flex flex-col h-full'>
                             <div className="relative aspect-video rounded-3xl overflow-hidden bg-slate-50 border border-slate-100/50 mb-6">
-                                <img src="/game.jpeg" alt="Game Dev" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-                                <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
+                                <img 
+                                    src="/game.jpeg" 
+                                    alt="Game Dev" 
+                                    className="object-cover transition-transform duration-1000 group-hover:scale-110" 
+                                />
+                                <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg z-20">
                                     {t('events.featured_event.status')}
                                 </div>
                             </div>
@@ -54,16 +63,24 @@ export default function EventSlider() {
                             <p className="text-slate-500 text-sm font-light leading-relaxed italic line-clamp-3 mb-6">
                                 "{t('events.featured_event.description')}"
                             </p>
+                            
 
+                            {/* VIEW DETAILS BUTTON*/}
                             <div className="mt-auto pt-5 border-t border-slate-50">
-                                <button className="text-[10px] font-black uppercase tracking-widest text-slate-900 group-hover:text-blue-600 transition-colors flex items-center gap-2">
-                                    {t('events.featured_event.cta')}
-                                </button>
+                                <Link 
+                                    href={`/events/${featuredId}`}
+                                    className="text-[10px] font-black uppercase tracking-widest text-slate-900 group-hover:text-blue-600 transition-colors flex items-center gap-2 cursor-pointer"
+                                >
+                                    {t('events.view_details')}
+                                    <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </Link>
                             </div>
                         </div>
                     </motion.div>
 
-                    {/* Stay Tuned Card */}
+                    {/* Stay Tuned Card (No Changes Needed here, but kept for context) */}
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}

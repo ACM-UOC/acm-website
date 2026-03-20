@@ -1,6 +1,7 @@
 // components/Footer.tsx
 
 "use client";
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
@@ -13,21 +14,27 @@ export default function Footer() {
 
           {/* Column 1 - branding */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-3 group cursor-pointer">
-              <img
-                src="/logo.png"
-                alt="ACM UOC Logo"
-                className="w-12 h-12 object-contain transition-transform group-hover:scale-110"
-              />
-              <div className="flex flex-col">
-                <span className="font-black text-xl tracking-tighter leading-none">
+            {/* Wrap everything in a Link to the Home Page */}
+            <Link href="#home" className="inline-flex items-center space-x-3 group cursor-pointer">
+              <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[5deg]">
+                <img
+                  src="/logo.png"
+                  alt="ACM UOC Logo"
+                  className="w-full h-full object-contain drop-shadow-sm"
+                />
+              </div>
+
+              <div className="flex flex-col justify-center">
+                {/* Using text-2xl to match your updated Navbar branding size */}
+                <span className="font-black text-2xl tracking-tighter leading-none text-white group-hover:text-blue-500 transition-colors">
                   ACM <span className="text-blue-500 italic">UOC</span>
                 </span>
-                <span className="text-[9px] font-mono font-bold text-slate-500 tracking-[0.2em] uppercase mt-1">
+                <span className="text-[9px] font-mono font-bold text-slate-500 tracking-[0.2em] uppercase mt-1 group-hover:text-slate-400 transition-colors">
                   Student Chapter
                 </span>
               </div>
-            </div>
+            </Link>
+
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm font-light italic">
               "{t('footer.description')}"
             </p>
@@ -40,8 +47,8 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3 text-slate-400 text-base font-medium">
               <li>
-                <a href="/about" className="hover:text-blue-500 transition-colors">
-                  {t('nav.about')}
+                <a href="/teams" className="hover:text-blue-500 transition-colors">
+                  {t('nav.team')}
                 </a>
               </li>
               <li>
@@ -50,8 +57,8 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/teams" className="hover:text-blue-500 transition-colors">
-                  {t('nav.team')}
+                <a href="/about" className="hover:text-blue-500 transition-colors">
+                  {t('nav.about')}
                 </a>
               </li>
             </ul>

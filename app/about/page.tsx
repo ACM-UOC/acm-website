@@ -1,5 +1,4 @@
 "use client";
-import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import dynamic from 'next/dynamic';
@@ -23,9 +22,9 @@ export default function AboutPage() {
         <main className="min-h-screen bg-slate-50 relative z-0">
             
 
-            <div className="absolute top-0 left-0 w-full h-[45vh] min-h-[450px] bg-white rounded-b-[4rem] shadow-sm -z-10" />
+            <div className="absolute top-0 left-0 w-full h-[55vh] min-h-[550px] md:h-[45vh] md:min-h-[450px] bg-white rounded-b-[4rem] shadow-sm -z-10" />
 
-            <div className="max-w-7xl mx-auto px-6 pt-32 pb-10">
+            <div className="max-w-7xl mx-auto px-6 pt-32 pb-24">
                 
                 {/* Page Hero Header */}
                 <motion.div 
@@ -35,12 +34,12 @@ export default function AboutPage() {
                     <motion.h2 variants={itemVariants} className="text-blue-600 font-mono tracking-[0.4em] uppercase text-xs font-bold mb-4">
                         {t('about_page.badge')}
                     </motion.h2>
-                    <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter uppercase leading-none mb-8">
+                    <motion.h1 variants={itemVariants} className="text-5xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase leading-none mb-8">
                         {t('about_page.title')}
                     </motion.h1>
                     <motion.div variants={itemVariants} className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.3)] mb-8" />
-                    <motion.p variants={itemVariants} className="text-xl md:text-2xl text-slate-500 font-light leading-relaxed">
-                        {t('about_page.description')}
+                    <motion.p variants={itemVariants} className="text-xl text-slate-600 leading-relaxed italic px-4">
+                        "{t('about_page.description')}"
                     </motion.p>
                 </motion.div>
 

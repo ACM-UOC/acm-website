@@ -18,25 +18,25 @@ export default function LanguageSwitcher() {
     if (!mounted) {
         return (
             <div className="flex items-center ml-4 border-l border-slate-200 pl-4 space-x-2">
-                <button type="button" className="text-xs font-bold text-slate-400">EN</button>
-                <button type="button" className="text-xs font-bold text-slate-400">GR</button>
+                <button type="button" className="cursor-pointer text-[14px] font-bold text-slate-600">EN</button>
+                <button type="button" className="cursor-pointer text-[14px] font-bold text-slate-600">GR</button>
             </div>
         );
     }
 
     return (
-        <div className="flex items-center ml-4 border-l border-slate-200 pl-4 space-x-2">
+        <div className="flex  items-center ml-4 border-l border-slate-200 pl-4 space-x-2">
             <button
                 type="button"
                 onClick={(e) => handleLanguageChange(e, 'en')}
-                className={`text-xs font-bold transition-colors ${i18n.language === 'en' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+                className={`cursor-pointer text-[14px] font-bold transition-colors ${i18n.language === 'en' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
             >
                 EN
             </button>
             <button
                 type="button"
                 onClick={(e) => handleLanguageChange(e, 'gr')}
-                className={`text-xs font-bold transition-colors ${i18n.language === 'gr' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+                className={`cursor-pointer text-[14px] font-bold transition-colors ${i18n.language === 'gr' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
             >
                 GR
             </button>

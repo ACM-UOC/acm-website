@@ -1,16 +1,20 @@
 "use client";
 import { useState, useEffect } from "react";
+import dynamic from 'next/dynamic';
 import '../lib/i18n';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; 
+import { usePathname } from 'next/navigation';
 import LanguageSwitcher from "./LanguageSwitcher";
+const JoinDrawer = dynamic(() => import('./JoinDrawer'), { ssr: false });
 
 export default function Navbar() {
     const { t, i18n } = useTranslation('common');
-    const pathname = usePathname(); 
+    const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("home");
+    const [isJoinDrawerOpen, setIsJoinDrawerOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
 
     const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -23,9 +27,24 @@ export default function Navbar() {
     ];
 
     useEffect(() => {
-       
+        const handleScroll = () => {
+            if (window.scrollY > 20) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
+
+        handleScroll();
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    useEffect(() => {
+
         if (pathname !== "/") {
-            setActiveSection(""); 
+            setActiveSection("");
             return;
         }
 
@@ -45,7 +64,7 @@ export default function Navbar() {
 
         const observer = new IntersectionObserver(observerCallback, observerOptions);
 
- 
+
         navLinks.forEach((link) => {
             if (link.href.startsWith("/#")) {
                 const sectionId = link.href.replace("/", "");
@@ -58,30 +77,35 @@ export default function Navbar() {
         });
 
         return () => observer.disconnect();
-    }, [pathname]); 
+    }, [pathname]);
 
 
     return (
         <>
             {/* main Navbar */}
-            <nav className="sticky top-0 z-[60] bg-white/70 backdrop-blur-md border-b border-slate-200/50 shadow-sm w-full">
+            <nav className={`fixed top-0 left-0 right-0 w-full z-[100] transition-all duration-500 ${isScrolled
+                    ? "bg-white/80 backdrop-blur-lg border-b border-slate-200/50 shadow-sm py-2"
+                    : pathname === "/"
+                        ? "bg-transparent py-4 border-b border-transparent shadow-none"
+                        : "bg-slate-50 py-4 border-b border-transparent shadow-none"
+                }`}>
                 <div className="max-w-[95%] mx-auto px-4 h-12 flex items-center justify-between">
 
                     {/* Logo Section - Now wrapped in Link */}
                     <Link href="/" className="flex items-center space-x-3 group cursor-pointer">
                         <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[5deg]">
                             <img
-                                src="/logo.png" 
+                                src="/logo.png"
                                 alt="ACM UOC Logo"
                                 className="w-full h-full object-contain drop-shadow-sm"
                             />
                         </div>
 
                         <div className="flex flex-col justify-center">
-                            <span className="font-bold text-xl tracking-tighter text-slate-900 leading-none">
+                            <span className="font-bold text-2xl tracking-tighter text-slate-900 leading-none">
                                 ACM <span className="text-blue-600 font-black italic">UOC</span>
                             </span>
-                            <span className="text-[10px] font-mono font-bold text-slate-400 tracking-widest uppercase">
+                            <span className="text-xs font-mono font-bold text-slate-400 tracking-widest uppercase">
                                 Student Chapter
                             </span>
                         </div>
@@ -90,14 +114,14 @@ export default function Navbar() {
                     {/* Desktop Links */}
                     <div className="hidden md:flex items-center space-x-8">
                         {navLinks.map((link) => {
-                            
+
                             let isActive = false;
                             if (pathname === "/") {
-                                
+
                                 if (link.id === "home") isActive = activeSection === "home";
                                 else isActive = activeSection === link.id;
                             } else {
-                               
+
                                 isActive = pathname === link.href;
                             }
 
@@ -105,20 +129,24 @@ export default function Navbar() {
                                 <Link
                                     key={link.id}
                                     href={link.href}
-                                    className={`text-[15px] font-bold transition-all relative group py-2 ${
-                                        isActive ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
-                                    }`}
+                                    className={`text-[17px] font-bold transition-all relative group py-2 ${isActive ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
+                                        }`}
                                 >
                                     {t(`nav.${link.id}`)}
-                                    <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-300 ${
-                                        isActive ? "w-full" : "w-0 group-hover:w-full"
-                                    }`}></span>
+                                    <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"
+                                        }`}></span>
                                 </Link>
                             );
                         })}
 
                         {/* Language Switcher */}
-                       <LanguageSwitcher />
+                        <LanguageSwitcher />
+                        <button
+                            onClick={() => setIsJoinDrawerOpen(true)}
+                            className="cursor-pointer bg-slate-900 text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-600/20 transition-all duration-300"
+                        >
+                            {t('join.button')}
+                        </button>
                     </div>
 
                     {/* Mobile Menu Button*/}
@@ -130,8 +158,11 @@ export default function Navbar() {
                         <span className={`block w-6 h-0.5 bg-slate-900 transition-all duration-300 ${isOpen ? "opacity-0" : ""}`}></span>
                         <span className={`block w-6 h-0.5 bg-slate-900 transition-all duration-300 ${isOpen ? "-rotate-45 -translate-y-2" : ""}`}></span>
                     </button>
+
                 </div>
             </nav>
+
+            <JoinDrawer isOpen={isJoinDrawerOpen} onClose={() => setIsJoinDrawerOpen(false)} />
 
             {/* Mobile Menu  */}
             <div className={`fixed inset-0 z-[100] transition-all duration-500 ease-in-out md:hidden ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
@@ -142,7 +173,7 @@ export default function Navbar() {
 
                     {/* Header  */}
                     <div className="flex items-center justify-between px-6 h-16 border-b border-slate-100 bg-white">
-                        <span className="text-[10px] font-bold text-slate-400 tracking-[0.3em] uppercase italic">Navigation</span>
+                        <span className="text-xs font-bold text-slate-400 tracking-[0.3em] uppercase italic">Navigation</span>
                         <button
                             onClick={() => setIsOpen(false)}
                             className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-900 text-white shadow-md"
@@ -169,6 +200,22 @@ export default function Navbar() {
                                     </span>
                                 </Link>
                             ))}
+                        </div>
+
+                        {/* Join Us button */}
+                        <div className="flex flex-col space-y-4 pt-6 border-t border-slate-100">
+                            <div className="scale-110 origin-left">
+                                <LanguageSwitcher />
+                            </div>
+                            <button
+                                onClick={() => {
+                                    setIsJoinDrawerOpen(true);
+                                    setIsOpen(false); // Close the mobile menu when opening the drawer
+                                }}
+                                className="w-full bg-slate-900 text-white px-6 py-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-blue-600 transition-all duration-300"
+                            >
+                                {t('join.button')}
+                            </button>
                         </div>
 
                         {/* Footer-info */}
