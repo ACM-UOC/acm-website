@@ -1,46 +1,149 @@
 "use client";
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
 
-interface Sponsor {
+export interface SponsorType {
     name: string;
     logo: string;
     url: string;
+    desc?: string;
 }
 
 interface SponsorsProps {
-    items: Sponsor[];
-    label?: string; 
-    variant?: 'grid' | 'row'; 
+    sponsors?: SponsorType[];
+    variant?: 'card' | 'page' | 'sidebar';
 }
 
-export default function Sponsors({ items, label, variant = 'row' }: SponsorsProps) {
-    if (!items || items.length === 0) return null;
+export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) {
+    const { t } = useTranslation('common');
+    
+    // Track which sponsor is currently being hovered/viewed
+    const [activeSponsor, setActiveSponsor] = useState<SponsorType | null>(null);
 
+    // Set the first sponsor as active by default when the component loads
+    useEffect(() => {
+        if (sponsors && sponsors.length > 0) {
+            setActiveSponsor(sponsors[0]);
+        }
+    }, [sponsors]);
+
+    if (!sponsors || sponsors.length === 0) return null;
+
+    const isCard = variant === 'card';
+    const isSidebar = variant === 'sidebar';
+    const isPage = variant === 'page';
+
+
+    // VARIANT: PAGE 
+    if (isPage) {
+        return (
+            <div className="mb-16">
+                <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight mb-8">
+                    {t('event_detail.sponsored_by', 'Proudly Supported By')}
+                </h3>
+                
+                <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm">
+                    {/* 1. The Logo Row */}
+                    <div className="flex flex-wrap items-center gap-8 mb-8 pb-8 border-b border-slate-50">
+                        {sponsors.map((sponsor, idx) => {
+                            const isActive = activeSponsor?.name === sponsor.name;
+                            return (
+                                <button
+                                    key={idx}
+                                    onMouseEnter={() => setActiveSponsor(sponsor)}
+                                    onFocus={() => setActiveSponsor(sponsor)} 
+                                    className={`cursor-pointer relative transition-all duration-500 transform outline-none ${
+                                        isActive 
+                                        ? 'grayscale-0 opacity-100 scale-110' 
+                                        : 'grayscale opacity-40 hover:opacity-70'
+                                    }`}
+                                >
+                                    <img 
+                                        src={sponsor.logo} 
+                                        alt={sponsor.name} 
+                                        className="h-8 md:h-10 w-auto object-contain" 
+                                    />                                   
+                                    {isActive && (
+                                        <motion.div 
+                                            layoutId="active-sponsor-dot"
+                                            className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-blue-600 rounded-full"
+                                        />
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Dynamic Description Box */}
+                    <div className="min-h-[100px] relative">
+                        <AnimatePresence mode="wait">
+                            {activeSponsor && (
+                                <motion.div
+                                    key={activeSponsor.name}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.3, ease: "easeOut" }}
+                                    className="flex flex-col md:flex-row md:items-end justify-between gap-6"
+                                >
+                                    <div className="max-w-2xl">
+                                        <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-2">
+                                            {activeSponsor.name}
+                                        </h4>
+                                        <p className="text-sm text-slate-500 leading-relaxed font-light">
+                                            {activeSponsor.desc || "A proud supporter of ACM UOC and student developer initiatives."}
+                                        </p>
+                                    </div>
+                                    
+                                    <a 
+                                        href={activeSponsor.url} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors group shrink-0"
+                                    >
+                                        Visit Partner
+                                        <svg className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                        </svg>
+                                    </a>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+
+    // VARIANTS: CARD & SIDEBAR 
     return (
-        <div className={`py-6 ${variant === 'grid' ? 'w-full' : 'inline-flex flex-col'}`}>
-            {label && (
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 block mb-4">
-                    {label}
-                </span>
-            )}
+        <div className={`flex flex-col gap-4 ${isCard ? 'mb-4' : ''}`}>
+            <span className={`font-black uppercase tracking-widest text-slate-400 ${isCard ? 'text-[8px]' : 'text-[10px]'}`}>
+                {isCard ? t('events.supported_by', 'Supported By') : t('event_detail.sponsored_by', 'Official Sponsors')}
+            </span>
             
-            <div className={`flex items-center gap-8 ${variant === 'grid' ? 'grid grid-cols-2 md:grid-cols-4' : 'flex-wrap'}`}>
-                {items.map((sponsor, idx) => (
-                    <motion.a
-                        key={idx}
-                        href={sponsor.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1, y: -2 }}
-                        className="block grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+            <div className={`flex ${isSidebar ? 'flex-col gap-6' : 'flex-wrap items-center gap-4'}`}>
+                {sponsors.map((sponsor, idx) => (
+                    <a 
+                        key={idx} 
+                        href={sponsor.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className={`group block grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 transform ${isSidebar ? 'hover:translate-x-2' : 'hover:scale-105'}`}
                     >
                         <img 
                             src={sponsor.logo} 
                             alt={sponsor.name} 
-                            className="h-7 md:h-9 w-auto object-contain max-w-[120px]" 
-                        />
-                    </motion.a>
+                            className={`${isCard ? 'h-5' : 'h-8'} w-auto object-contain mb-2`} 
+                        />                      
+                        {isSidebar && sponsor.desc && (
+                            <p className="text-xs text-slate-500 font-light leading-relaxed group-hover:text-slate-700 transition-colors">
+                                {sponsor.desc}
+                            </p>
+                        )}
+                    </a>
                 ))}
             </div>
         </div>

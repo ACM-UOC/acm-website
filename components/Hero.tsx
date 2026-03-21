@@ -1,6 +1,6 @@
 //components/Hero.tsx
 
-"use clinet";
+"use client";
 
 import { motion } from "framer-motion"
 import { useRef, useMemo } from "react" // useRef for DOM reference, useMemo for performance

@@ -151,7 +151,7 @@ export default function Navbar() {
 
                     {/* Mobile Menu Button*/}
                     <button
-                        className="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none z-[100]"
+                        className="cursor-pointer md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none z-[100]"
                         onClick={toggleMenu}
                     >
                         <span className={`block w-6 h-0.5 bg-slate-900 transition-all duration-300 ${isOpen ? "rotate-45 translate-y-2" : ""}`}></span>
@@ -176,7 +176,7 @@ export default function Navbar() {
                         <span className="text-xs font-bold text-slate-400 tracking-[0.3em] uppercase italic">Navigation</span>
                         <button
                             onClick={() => setIsOpen(false)}
-                            className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-900 text-white shadow-md"
+                            className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-slate-900 text-white shadow-md"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
@@ -192,7 +192,7 @@ export default function Navbar() {
                                     key={item.id}
                                     href={item.href}
                                     onClick={() => setIsOpen(false)}
-                                    className="group flex items-center space-x-4"
+                                    className="cursor-pointer group flex items-center space-x-4"
                                 >
                                     <span className="text-blue-600 font-mono text-[10px] font-bold">0{index + 1}</span>
                                     <span className="text-2xl font-black text-slate-900 uppercase tracking-tight">
@@ -212,7 +212,7 @@ export default function Navbar() {
                                     setIsJoinDrawerOpen(true);
                                     setIsOpen(false); // Close the mobile menu when opening the drawer
                                 }}
-                                className="w-full bg-slate-900 text-white px-6 py-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-blue-600 transition-all duration-300"
+                                className=" cursor-pointer w-full bg-slate-900 text-white px-6 py-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-blue-600 transition-all duration-300"
                             >
                                 {t('join.button')}
                             </button>

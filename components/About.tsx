@@ -1,7 +1,5 @@
-// components/About.tsx
 "use client";
 import { useTranslation } from 'react-i18next';
-import { motion, Variants } from 'framer-motion';
 
 const pillars = [
   {
@@ -33,65 +31,38 @@ const pillars = [
   }
 ];
 
-const aboutVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2, delayChildren: 0.1 }
-  }
-};
-
-const pillarVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
-};
-
 export default function About() {
   const { t } = useTranslation('common');
 
   return (
     <section id="about" className="py-24 bg-white scroll-mt-16 relative overflow-hidden">
-
+      {/* Decorative Background Blob */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50 rounded-full blur-[100px] opacity-50 pointer-events-none" />
 
-      <motion.div className="max-w-6xl mx-auto px-6 relative z-10"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={aboutVariants}
-      >
-
-        {/* Header */}
-        <motion.div  variants={pillarVariants} className="text-center mb-20">
-          <h2 className="text-blue-600 font-mono tracking-[0.4em] uppercase text-xs mb-3">
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        
+        {/* Header - Animation Removed */}
+        <div className="text-center mb-20">
+          <h2 className="text-blue-600 font-mono tracking-[0.4em] uppercase text-xs mb-3 font-bold">
             {t('about.badge')}
           </h2>
 
-          {/* Main Title*/}
           <h3 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tighter">
             {t('about.title')}
           </h3>
-          
 
           <div className="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
 
-          {/* Aim Description*/}
           <p className="mt-8 text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed italic">
             "{t('about.description')}"
           </p>
-        </motion.div>
+        </div>
 
         {/* Pillars Grid */}
-        <div  className="grid md:grid-cols-3 gap-10">
+        <div className="grid md:grid-cols-3 gap-10">
           {pillars.map((pillar) => (
-            <motion.div
-              
+            <div
               key={pillar.id}
-              variants={pillarVariants}
               className="group relative p-10 bg-white rounded-3xl border border-slate-100 shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
             >
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-50 rounded-full group-hover:bg-blue-100 transition-colors duration-500"></div>
@@ -101,28 +72,21 @@ export default function About() {
                   {pillar.icon}
                 </div>
 
-                {/* Pillar Title */}
                 <h4 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
                   {pillar.title}
                 </h4>
 
-                {/* Accent Line */}
                 <div className="w-8 h-1 bg-blue-600 mb-6 group-hover:w-16 transition-all duration-500 rounded-full"></div>
 
                 <p className="text-slate-500 leading-relaxed font-light text-sm italic">
                   "{t(`about.pillars.${pillar.id}.desc`)}"
                 </p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        <motion.div variants={pillarVariants} className="mt-20 pt-10 border-t border-slate-100 text-center">
-          <p className="text-slate-400 font-mono text-[10px] uppercase tracking-[0.3em]">
-            Advancing Computing as a Science & Profession @ UOC
-          </p>
-        </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

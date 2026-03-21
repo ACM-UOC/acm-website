@@ -8,28 +8,10 @@ import { useTranslation } from 'react-i18next';
 import RegisterEvent from '@/components/RegisterEvent';
 import Sponsors from '@/components/Sponsors';
 
-//  MOCK DATABASE 
-const eventDatabase: Record<string, any> = {
-    "event_1": { status: "past", date: "15 OCT 2025", category: "Web Dev", photos: [1, 2, 3, 4] },
-    "event_2": { status: "past", date: "20 SEP 2024", category: "Security", photos: [1, 2] },
-    "event_3": { status: "past", date: "05 MAR 2024", category: "Game Dev", photos: [1, 2, 3] },
-    "featured_event": {
-        status: "upcoming",
-        date: "22 OCT 2026",
-        category: "Workshop",
-        photos: [],
-        agenda: [
-            { time: "10:00 AM", title: "Doors Open & Coffee", desc: "Get your nametags, grab a coffee, and meet the team." },
-            { time: "10:30 AM", title: "Keynote Presentation", desc: "An introduction to the current landscape of the tech industry." },
-            { time: "11:30 AM", title: "Hands-on Workshop", desc: "Open your laptops! We will be building a project from scratch." },
-            { time: "14:00 PM", title: "Networking & Pizza", desc: "Stick around to chat with our speakers and mentors." }
-        ],
-        speakers: [
-            { name: "Dr. Ada Lovelace", role: "Professor of CS", image: "https://i.pravatar.cc/150?u=ada" },
-            { name: "Alan Turing", role: "Senior Engineer @ TechCorp", image: "https://i.pravatar.cc/150?u=alan" }
-        ]
-    }
-};
+import { getEventById } from '@/data/events';
+
+import { getGoogleCalendarUrl } from '@/lib/calendar';
+
 
 export default function EventDetailPage() {
     const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -37,8 +19,11 @@ export default function EventDetailPage() {
     const params = useParams();
     const eventId = params.id as string;
 
-    // Fetch the event data. If the ID doesn't exist in our mock DB, default to a past event.
-    const event = eventDatabase[eventId] || { status: "past", date: "TBD", category: "Event", photos: [] };
+    const event = getEventById(eventId);
+
+    if (!event) {
+        return <div>Event not found</div>;
+    }
 
     return (
         <main className="min-h-screen bg-slate-50 pt-32 pb-24 relative overflow-hidden">
@@ -70,8 +55,53 @@ export default function EventDetailPage() {
                         {t(`events_page.archive.${eventId}.title`, t(`events.${eventId}.title`, "Event Title"))}
                     </h1>
 
-                    <div className="flex items-center gap-3 text-blue-600 font-mono font-bold tracking-widest uppercase text-sm mb-12 border-l-4 border-blue-600 pl-4">
-                        {event.date}
+                    <div className="space-y-4 mb-10 border-l-4 border-blue-600 pl-5">
+
+                        {/* Row 1: Date + Calendar Button */}
+                        <div className="flex flex-wrap items-center gap-4">
+                            <div className="flex items-center gap-2 text-blue-600 font-mono font-bold tracking-widest uppercase text-sm">
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                {event.date}
+                            </div>
+
+                            {event.status === "upcoming" && (
+                                <a
+                                    href={getGoogleCalendarUrl({
+                                        title: t(`events.${eventId}.title`),
+                                        date: event.date,
+                                        description: t(`events.${eventId}.description`)
+                                    })}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 text-slate-500 hover:bg-slate-900 hover:text-white transition-all text-[10px] font-black uppercase tracking-widest border border-slate-200 shadow-sm"
+                                >
+                                    + {t('event_detail.add_to_calendar')}
+                                </a>
+                            )}
+                        </div>
+
+                        {/* Row 2: Location + Maps Button */}
+                        <div className="flex flex-wrap items-center gap-4">
+                            <div className="flex items-center gap-2 text-blue-600 font-bold tracking-tight text-sm">
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                {t('event_detail.location_placeholder')}
+                            </div>
+
+                            <a
+                                href="https://www.google.com/maps/search/?api=1&query=Department+of+Computer+Science+University+of+Crete"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 text-slate-500 hover:bg-slate-900 hover:text-white transition-all text-[10px] font-black uppercase tracking-widest border border-slate-200 shadow-sm"
+                            >
+                                {t('event_detail.view_on_maps')}
+                            </a>
+                        </div>
+
                     </div>
                 </motion.div>
 
@@ -82,7 +112,7 @@ export default function EventDetailPage() {
                         <div className="space-y-16">
 
                             {/* Description */}
-                            <p className="text-xl text-slate-600 leading-relaxed font-light">
+                            <p className="text-lg text-slate-600 leading-relaxed font-light bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
                                 {t(`events.${eventId}.description`, "Join us for an incredible deep dive into the latest technologies. This event is perfect for students of all skill levels looking to expand their knowledge.")}
                             </p>
 
@@ -136,6 +166,8 @@ export default function EventDetailPage() {
                                     </div>
                                 </div>
                             )}
+
+                            <Sponsors sponsors={event.sponsors} variant="page" />
 
                             {/* Call to Action Box */}
                             <div className="bg-white border border-blue-100 rounded-[2.5rem] p-8 md:p-12 shadow-xl relative overflow-hidden mt-12">
@@ -209,6 +241,8 @@ export default function EventDetailPage() {
                                     {t(`events_page.archive.${eventId}.description`, "Event recap description goes here.")}
                                 </p>
                             </div>
+
+                            <Sponsors sponsors={event.sponsors} variant="page" />
 
                             <div>
                                 <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight mb-6 flex items-center gap-3">

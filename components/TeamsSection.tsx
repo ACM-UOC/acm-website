@@ -1,25 +1,8 @@
 "use client";
 import React from 'react';
-import { motion, Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
-
-const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.1 },
-    },
-};
-
-const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.5, ease: "easeOut" }
-    },
-};
 
 export default function TeamSection() {
     const { t } = useTranslation('common');
@@ -31,15 +14,10 @@ export default function TeamSection() {
 
     return (
         <section id="synergy" className="py-24 bg-white overflow-hidden">
-            <motion.div
-                className="max-w-7xl mx-auto px-6"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={containerVariants}
-            >
-                {/* Header */}
-                <motion.div variants={itemVariants} className="mb-16">
+            <div className="max-w-7xl mx-auto px-6">
+                
+                {/* Header*/}
+                <div className="mb-16">
                     <h2 className="text-blue-600 font-mono tracking-[0.4em] uppercase text-[10px] font-bold mb-3">
                         {t('team.badge')}
                     </h2>
@@ -47,18 +25,15 @@ export default function TeamSection() {
                         {t('team.title')}
                     </h3>
                     <div className="w-16 h-1.5 bg-blue-600 mt-6 rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.3)]"></div>
-                </motion.div>
+                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {teamsData.map((team) => (
-                        <motion.div
+                        <div
                             key={team.id}
-                            variants={itemVariants}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
                             className="relative h-64 bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm hover:shadow-2xl transition-all duration-700 overflow-hidden flex flex-col justify-center items-center cursor-default group"
                         >
+                           
                             <motion.div
                                 className="absolute inset-0 bg-gradient-to-br from-blue-50/0 via-blue-50/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                                 whileHover={{
@@ -71,6 +46,7 @@ export default function TeamSection() {
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-blue-100/20 rounded-full blur-2xl scale-0 group-hover:scale-150 transition-transform duration-1000 ease-out pointer-events-none" />
 
                             <div className="relative z-10 flex flex-col items-center gap-5 text-center">
+                                {/* Hover Icon Animation - Kept for interactivity */}
                                 <motion.div
                                     className="text-5xl mb-2"
                                     whileHover={{
@@ -89,12 +65,12 @@ export default function TeamSection() {
                             </div>
 
                             <div className="absolute bottom-8 w-1 h-1 bg-slate-200 rounded-full group-hover:w-12 group-hover:bg-blue-600 transition-all duration-500" />
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
 
-                {/* "View All" Mention */}
-                <motion.div variants={itemVariants} className="mt-16 text-center">
+                {/* "View All" Button */}
+                <div className="mt-16 text-center">
                     <Link href="/teams" className="group inline-flex items-center gap-4 bg-slate-900 text-white px-8 py-4 rounded-full hover:bg-blue-600 transition-all duration-500 shadow-lg hover:shadow-blue-600/20">
                         <span className="text-xs font-black uppercase tracking-[0.2em]">Meet All Our Specialist Teams</span>
                         <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-blue-600 transition-colors">
@@ -103,9 +79,9 @@ export default function TeamSection() {
                             </svg>
                         </div>
                     </Link>
-                </motion.div>
+                </div>
 
-            </motion.div>
+            </div>
         </section>
     );
 }

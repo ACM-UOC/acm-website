@@ -11,7 +11,6 @@ interface JoinDrawerProps {
 export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
     const { t } = useTranslation('common');
 
-    // Prevent scrolling on the main body when the drawer is open
     React.useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
@@ -54,7 +53,7 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                             </div>
                             <button
                                 onClick={onClose}
-                                className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+                                className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
                             >
                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -149,7 +148,7 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                                          
                                     <button
                                         type="submit"
-                                        className="w-full mt-4 bg-blue-600 text-white rounded-xl px-4 py-4 text-sm font-black uppercase tracking-widest hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/20 transition-all active:scale-[0.98]"
+                                        className="cursor-pointer w-full mt-4 bg-blue-600 text-white rounded-xl px-4 py-4 text-sm font-black uppercase tracking-widest hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/20 transition-all active:scale-[0.98]"
                                     >
                                         {t('join.submit')}
                                     </button>
