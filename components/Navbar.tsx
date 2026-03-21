@@ -95,7 +95,7 @@ export default function Navbar() {
                     <Link href="/" className="flex items-center space-x-3 group cursor-pointer">
                         <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[5deg]">
                             <img
-                                src="/logo.png"
+                                src="public/logo.png"
                                 alt="ACM UOC Logo"
                                 className="w-full h-full object-contain drop-shadow-sm"
                             />

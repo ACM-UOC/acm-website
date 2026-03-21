@@ -18,7 +18,7 @@ export default function Footer() {
             <Link href="#home" className="inline-flex items-center space-x-3 group cursor-pointer">
               <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[5deg]">
                 <img
-                  src="/logo.png"
+                  src="public/logo.png"
                   alt="ACM UOC Logo"
                   className="w-full h-full object-contain drop-shadow-sm"
                 />
@@ -101,7 +101,7 @@ export default function Footer() {
             <div className="relative w-14 h-14 flex items-center justify-center">
               <div className="absolute inset-0 bg-blue-500/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <img
-                src="/uoclogo.png"
+                src="public/uoclogo.png"
                 alt="University of Crete Seal"
                 className="relative w-full h-full object-contain opacity-80 brightness-200 grayscale group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-500"
               />

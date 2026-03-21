@@ -46,7 +46,7 @@ export const eventsDatabase: ACMEvent[] = [
         date: "22 OCT 2026",
         year: "2026",
         category: "Workshop",
-        image: "/game.jpeg",
+        image: "public/game.jpeg",
         photos: [],
         sponsors: [GOOGLE, GITHUB],
         speakers: [
@@ -67,7 +67,7 @@ export const eventsDatabase: ACMEvent[] = [
         date: "15 OCT 2025",
         year: "2025",
         category: "Web Dev",
-        image: "/game.jpeg",
+        image: "public/game.jpeg",
         photos: [1, 2, 3, 4],
         sponsors: [REACT],
         speakers: [{ name: "Dan Abramov", role: "React Core Team", image: "https://i.pravatar.cc/150?u=dan" }]
@@ -78,7 +78,7 @@ export const eventsDatabase: ACMEvent[] = [
         date: "20 SEP 2024",
         year: "2024",
         category: "Security",
-        image: "/game.jpeg",
+        image: "public/game.jpeg",
         photos: [1, 2],
         sponsors: [CLOUDFLARE],
         speakers: [{ name: "Troy Hunt", role: "HIBP Creator", image: "https://i.pravatar.cc/150?u=troy" }]
@@ -89,7 +89,7 @@ export const eventsDatabase: ACMEvent[] = [
         date: "05 MAR 2024",
         year: "2024",
         category: "Game Dev",
-        image: "/game.jpeg",
+        image: "public/game.jpeg",
         photos: [1, 2, 3],
         sponsors: [GOOGLE]
     },
@@ -99,7 +99,7 @@ export const eventsDatabase: ACMEvent[] = [
         date: "10 DEC 2023",
         year: "2023",
         category: "Cloud Computing",
-        image: "/game.jpeg",
+        image: "public/game.jpeg",
         photos: [1, 2, 3, 4, 5],
         sponsors: [CLOUDFLARE, VERCEL]
     }

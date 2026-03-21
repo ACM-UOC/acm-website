@@ -41,7 +41,7 @@ export default function About() {
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         
-        {/* Header - Animation Removed */}
+        {/* Header  */}
         <div className="text-center mb-20">
           <h2 className="text-blue-600 font-mono tracking-[0.4em] uppercase text-xs mb-3 font-bold">
             {t('about.badge')}
