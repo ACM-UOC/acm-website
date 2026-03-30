@@ -2,7 +2,7 @@
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 
-const teamIds = ["game_dev", "web_dev", "machine_learning", "security", "acmw"];
+const teamIds = ["game_dev"];
 
 export default function TeamsPage() {
   const { t } = useTranslation('common');

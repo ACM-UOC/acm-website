@@ -3,6 +3,8 @@ import { motion, Variants } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import dynamic from 'next/dynamic';
 
+
+
 const Team = dynamic(() => import('@/components/Team'), { ssr: false });
 
 const containerVariants: Variants = {

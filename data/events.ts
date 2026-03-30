@@ -46,9 +46,9 @@ export const eventsDatabase: ACMEvent[] = [
         date: "22 OCT 2026",
         year: "2026",
         category: "Workshop",
-        image: "public/game.jpeg",
+        image: "game.jpeg",
         photos: [],
-        sponsors: [GOOGLE, GITHUB],
+        sponsors: [],
         speakers: [
             { name: "John Carmack", role: "Legendary Engine Dev", image: "https://i.pravatar.cc/150?u=john" },
             { name: "Unity Expert", role: "Senior Dev @ Unity", image: "https://i.pravatar.cc/150?u=unity" }
@@ -61,7 +61,7 @@ export const eventsDatabase: ACMEvent[] = [
     },
 
     // --- 4 PAST EVENTS ---
-    {
+    /*{
         id: "event_1",
         status: "past",
         date: "15 OCT 2025",
@@ -102,7 +102,7 @@ export const eventsDatabase: ACMEvent[] = [
         image: "public/game.jpeg",
         photos: [1, 2, 3, 4, 5],
         sponsors: [CLOUDFLARE, VERCEL]
-    }
+    }*/
 ];
 // --- HELPER FUNCTIONS ---
 export const getUpcomingEvents = () => eventsDatabase.filter(e => e.status === "upcoming");
