@@ -24,7 +24,10 @@ cp -r ~/.next/standalone/.next ~/website/standalone/
 cp -r ~/.next/standalone/node_modules ~/website/standalone/
 cp ~/.next/standalone/server.js ~/website/standalone/
 cp ~/.next/standalone/package.json ~/website/standalone/
-pm2 restart acm-website
+pm2 stop acm-website
+pkill -f "next-server" || true
+sleep 2
+pm2 start acm-website
 rm -f ~/public_html/_next/static
 ln -s ~/website/standalone/.next/static ~/public_html/_next/static
 rm -rf ~/lscache/*
