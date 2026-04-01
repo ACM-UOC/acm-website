@@ -28,10 +28,10 @@ export default function LanguageSwitcher() {
             </button>
             <button
                 type="button"
-                onClick={() => handleLanguageChange('gr')}
+                onClick={() => handleLanguageChange('el')}
                 aria-label="Switch to Greek"
-                aria-current={locale === 'gr' ? 'true' : undefined}
-                className={`cursor-pointer text-[14px] font-bold transition-colors px-1 py-1 ${locale === 'gr' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+                aria-current={locale === 'el' ? 'true' : undefined}
+                className={`cursor-pointer text-[14px] font-bold transition-colors px-1 py-1 ${locale === 'el' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
             >
                 GR
             </button>

@@ -60,9 +60,9 @@ export default async function About() {
                 <div className="text-blue-600 mb-6 transform group-hover:scale-110 transition-transform duration-500">
                   {pillar.icon}
                 </div>
-                <h4 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
+                <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
                   {t(`about.pillars.${pillar.id}.title`)}
-                </h4>
+                </h3>
                 <div className="w-8 h-1 bg-blue-600 mb-6 group-hover:w-16 transition-all duration-500 rounded-full"></div>
                 <p className="text-slate-500 leading-relaxed font-light text-sm italic">
                   &ldquo;{t(`about.pillars.${pillar.id}.desc`)}&rdquo;

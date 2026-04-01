@@ -187,6 +187,7 @@ export default function Navbar() {
                         <span className="text-xs font-bold text-slate-400 tracking-[0.3em] uppercase italic">{t('nav.menu')}</span>
                         <button
                             onClick={() => setIsOpen(false)}
+                            aria-label="Close menu"
                             className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-slate-900 text-white shadow-md"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -65,9 +65,9 @@ export default async function Team() {
                 </div>
               </div>
               <div className="space-y-2">
-                <h4 className="text-lg font-black text-slate-900 tracking-tight leading-tight">
+                <h3 className="text-lg font-black text-slate-900 tracking-tight leading-tight">
                   {member.name}
-                </h4>
+                </h3>
                 <p className="text-blue-600 font-bold text-[10px] uppercase tracking-widest">
                   {t(`team-members.roles.${member.roleKey}`)}
                   {member.secondRoleKey && (

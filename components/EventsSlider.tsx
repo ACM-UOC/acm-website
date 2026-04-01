@@ -91,14 +91,14 @@ export default function EventSlider() {
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center gap-3 mb-3 text-blue-500 font-mono text-[10px] tracking-widest font-bold uppercase shrink-0">
+                                        <div className="flex items-center gap-3 mb-3 text-blue-700 font-mono text-[10px] tracking-widest font-bold uppercase shrink-0">
                                             <div className="w-1.5 h-1.5 rounded-full bg-blue-600 shadow-[0_0_5px_rgba(37,99,235,0.5)]" />
                                             <span>{event.date}</span>
                                         </div>
 
-                                        <h4 className="text-xl font-bold text-slate-900 mb-3 tracking-tight leading-tight group-hover:text-blue-600 transition-colors shrink-0">
+                                        <h3 className="text-xl font-bold text-slate-900 mb-3 tracking-tight leading-tight group-hover:text-blue-600 transition-colors shrink-0">
                                             {t(`events.${event.id}.title`)}
-                                        </h4>
+                                        </h3>
 
                                         <div className="w-8 h-1 bg-blue-600 mb-4 group-hover:w-16 transition-all duration-500 rounded-full shrink-0" />
 

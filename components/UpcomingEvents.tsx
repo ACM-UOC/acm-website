@@ -49,14 +49,14 @@ export default function UpcomingEventsGrid() {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-3 mb-3 text-blue-500 font-mono text-[10px] tracking-widest font-bold uppercase shrink-0">
+                                <div className="flex items-center gap-3 mb-3 text-blue-700 font-mono text-[10px] tracking-widest font-bold uppercase shrink-0">
                                     <div className="w-1.5 h-1.5 rounded-full bg-blue-600 shadow-[0_0_5px_rgba(37,99,235,0.5)]" />
                                     <span>{event.date}</span>
                                 </div>
 
-                                <h4 className="text-xl font-bold text-slate-900 mb-3 tracking-tight leading-tight group-hover:text-blue-600 transition-colors shrink-0">
+                                <h3 className="text-xl font-bold text-slate-900 mb-3 tracking-tight leading-tight group-hover:text-blue-600 transition-colors shrink-0">
                                     {t(`events.${event.id}.title`)}
-                                </h4>
+                                </h3>
 
                                 <div className="w-8 h-1 bg-blue-600 mb-4 group-hover:w-16 transition-all duration-500 rounded-full shrink-0" />
                                 
@@ -90,10 +90,10 @@ export default function UpcomingEventsGrid() {
                                 <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
                             </svg>
                         </div>
-                        <h4 className="text-xl font-bold text-slate-400 mb-3 tracking-tight uppercase">
+                        <h3 className="text-xl font-bold text-slate-600 mb-3 tracking-tight uppercase">
                             {t('events.stay_tuned.title')}
-                        </h4>
-                        <p className="text-slate-400 text-sm font-light italic max-w-[200px]">
+                        </h3>
+                        <p className="text-slate-500 text-sm font-light italic max-w-[200px]">
                             {t('events.stay_tuned.description')}
                         </p>
                         <div className="mt-8 flex gap-2">

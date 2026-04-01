@@ -47,7 +47,7 @@ const Hero = () => {
         <section
             id="home"
             ref={containerRef}
-            className="relative min-h-screen w-full bg-[#020617] flex items-center justify-center overflow-hidden"
+            className="relative min-h-dvh w-full bg-[#020617] flex items-center justify-center overflow-hidden"
         >
             {/* stage: dark background and a subtle grid*/}
             {/*<div className="absolute inset-0 opacity-[0.03] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:100px_100px]" />*/}
