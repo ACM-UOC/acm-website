@@ -1,15 +1,24 @@
 "use client";
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
+import { m, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
 interface JoinDrawerProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
+const FORMSPREE_JOIN_ID = process.env.NEXT_PUBLIC_FORMSPREE_JOIN_ID ?? '';
+
 export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
-    const { t } = useTranslation('common');
+    const t = useTranslations();
+    const [submitted, setSubmitted] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    const handleClose = () => {
+        setSubmitted(false);
+        onClose();
+    };
 
     React.useEffect(() => {
         if (isOpen) {
@@ -25,7 +34,7 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
             {isOpen && (
                 <>
                     {/* Blurred Backdrop */}
-                    <motion.div
+                    <m.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -34,7 +43,7 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                     />
 
                     {/* Sliding Drawer */}
-                    <motion.div
+                    <m.div
                         initial={{ x: "100%" }}
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
@@ -52,7 +61,7 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                                 </p>
                             </div>
                             <button
-                                onClick={onClose}
+                                onClick={handleClose}
                                 className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
                             >
                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -62,6 +71,22 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                         </div>
 
                         <div className="p-6 flex-grow flex flex-col gap-10">
+
+                            {submitted ? (
+                                <div className="flex flex-col items-center justify-center py-16 text-center flex-grow">
+                                    <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-6">
+                                        <svg className="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight mb-2">
+                                        {t('join.success_title')}
+                                    </h3>
+                                    <p className="text-slate-500 text-sm font-light max-w-xs">
+                                        {t('join.success_desc')}
+                                    </p>
+                                </div>
+                            ) : (<>
 
                             {/* Section: Why Join Us */}
                             <div className="bg-blue-50/50 p-6 rounded-3xl border border-blue-100/50">
@@ -90,13 +115,23 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                                     {t('join.form_title')}
                                 </h3>
 
-                               
+
                                 <form
                                     className="space-y-4"
-                                    onSubmit={(e) => {
-                                        e.preventDefault();                          
-                                        alert("Application submitted successfully!");
-                                        onClose(); 
+                                    onSubmit={async (e) => {
+                                        e.preventDefault();
+                                        if (!FORMSPREE_JOIN_ID) { setSubmitted(true); return; }
+                                        setIsLoading(true);
+                                        try {
+                                            const res = await fetch(`https://formspree.io/f/${FORMSPREE_JOIN_ID}`, {
+                                                method: 'POST',
+                                                headers: { 'Accept': 'application/json' },
+                                                body: new FormData(e.currentTarget),
+                                            });
+                                            if (res.ok) setSubmitted(true);
+                                        } finally {
+                                            setIsLoading(false);
+                                        }
                                     }}
                                 >
                                     <div>
@@ -124,15 +159,14 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                                             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{t('join.year')}</label>
                                             <select
                                                 required
-                                                
                                                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
                                                 defaultValue=""
                                             >
-                                                <option value="" disabled>Select Year</option>
-                                                <option value="1">1st Year</option>
-                                                <option value="2">2nd Year</option>
-                                                <option value="3">3rd Year</option>
-                                                <option value="4+">4th+ Year</option>
+                                                <option value="" disabled>{t('join.year_placeholder')}</option>
+                                                <option value="1">{t('join.year_1')}</option>
+                                                <option value="2">{t('join.year_2')}</option>
+                                                <option value="3">{t('join.year_3')}</option>
+                                                <option value="4+">{t('join.year_4')}</option>
                                             </select>
                                         </div>
                                         <div>
@@ -148,15 +182,18 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                                          
                                     <button
                                         type="submit"
-                                        className="cursor-pointer w-full mt-4 bg-blue-600 text-white rounded-xl px-4 py-4 text-sm font-black uppercase tracking-widest hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/20 transition-all active:scale-[0.98]"
+                                        disabled={isLoading}
+                                        className="cursor-pointer w-full mt-4 bg-blue-600 text-white rounded-xl px-4 py-4 text-sm font-black uppercase tracking-widest hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/20 transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
                                     >
-                                        {t('join.submit')}
+                                        {isLoading ? '...' : t('join.submit')}
                                     </button>
                                 </form>
                             </div>
 
+                            </>)}
+
                         </div>
-                    </motion.div>
+                    </m.div>
                 </>
             )}
         </AnimatePresence>

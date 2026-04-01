@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
@@ -29,7 +29,7 @@ export default function BackToTop() {
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.button
+        <m.button
           initial={{ opacity: 0, scale: 0.5, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.5, y: 20 }}
@@ -55,7 +55,7 @@ export default function BackToTop() {
           
           {/* Subtle Glow Effect */}
           <div className="absolute inset-0 rounded-full bg-blue-600/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-        </motion.button>
+        </m.button>
       )}
     </AnimatePresence>
   );

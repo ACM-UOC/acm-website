@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function Loading() {
     return (
@@ -8,17 +8,17 @@ export default function Loading() {
             <div className="relative flex flex-col items-center">
                 
                 {/* Pulsing ACM Text */}
-                <motion.div
+                <m.div
                     animate={{ opacity: [0.3, 1, 0.3], scale: [0.98, 1, 0.98] }}
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                     className="text-4xl font-black text-slate-900 tracking-tighter mb-8 flex items-center gap-2"
                 >
                     ACM <span className="text-blue-600 italic">UOC</span>
-                </motion.div>
+                </m.div>
 
                 {/* Sleek Sweeping Loading Bar */}
                 <div className="w-48 h-1 bg-slate-200 rounded-full overflow-hidden relative">
-                    <motion.div
+                    <m.div
                         initial={{ x: "-100%" }}
                         animate={{ x: "200%" }}
                         transition={{ 
@@ -32,7 +32,7 @@ export default function Loading() {
 
                 {/* Subtitle */}
                 <p className="mt-6 text-[10px] font-mono font-bold text-slate-400 tracking-[0.4em] uppercase">
-                    Loading Route
+                    ACM UOC
                 </p>
 
             </div>
