@@ -108,9 +108,9 @@ export default function EventsPage() {
                                         </span>
                                     </div>
 
-                                    <h4 className="text-xl font-black text-slate-900 uppercase tracking-tight mb-3 group-hover:text-blue-600 transition-colors">
+                                    <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight mb-3 group-hover:text-blue-600 transition-colors">
                                         {t(`events_page.archive.${event.id}.title`)}
-                                    </h4>
+                                    </h3>
 
                                     <p className="text-slate-500 text-sm font-light leading-relaxed mb-6 flex-grow">
                                         {t(`events_page.archive.${event.id}.description`)}

@@ -60,10 +60,12 @@ export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) 
                                         : 'grayscale opacity-40 hover:opacity-70'
                                     }`}
                                 >
-                                    <img 
-                                        src={sponsor.logo} 
-                                        alt={sponsor.name} 
-                                        className="h-8 md:h-10 w-auto object-contain" 
+                                    <img
+                                        src={sponsor.logo}
+                                        alt={sponsor.name}
+                                        width={120}
+                                        height={40}
+                                        className="h-8 md:h-10 w-auto object-contain"
                                     />                                   
                                     {isActive && (
                                         <m.div 
@@ -134,10 +136,12 @@ export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) 
                         rel="noopener noreferrer" 
                         className={`group block grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 transform ${isSidebar ? 'hover:translate-x-2' : 'hover:scale-105'}`}
                     >
-                        <img 
-                            src={sponsor.logo} 
-                            alt={sponsor.name} 
-                            className={`${isCard ? 'h-5' : 'h-8'} w-auto object-contain mb-2`} 
+                        <img
+                            src={sponsor.logo}
+                            alt={sponsor.name}
+                            width={120}
+                            height={32}
+                            className={`${isCard ? 'h-5' : 'h-8'} w-auto object-contain mb-2`}
                         />                      
                         {isSidebar && sponsor.desc && (
                             <p className="text-xs text-slate-500 font-light leading-relaxed group-hover:text-slate-700 transition-colors">

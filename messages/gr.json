@@ -169,6 +169,10 @@
             "admin": "Πρόεδρος / Admin",
             "vice_chair": "Αντιπρόεδρος",
             "web_dev": "Web Developer",
+            "social": "Social Media",
+            "text": "Περιεχόμενο",
+            "communication": "Επικοινωνίες",
+            "game_dev": "Game Dev Team",
             "advisor": "Ακαδημαϊκός Σύμβουλος"
         }
     },

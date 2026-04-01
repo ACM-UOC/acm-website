@@ -169,6 +169,10 @@
             "admin": "Chair / Admin",
             "vice_chair": "Vice Chair",
             "web_dev": "Web Developer",
+            "social": "Social Media",
+            "text": "Content",
+            "communication": "Communications",
+            "game_dev": "Game Dev Team",
             "advisor": "Faculty Advisor"
         }
     },

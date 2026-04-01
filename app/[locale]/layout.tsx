@@ -34,8 +34,8 @@ export async function generateMetadata({
     return {
         metadataBase: new URL(BASE_URL),
         title: {
-            default: "ACM UOC | Student Chapter at CSD |University of Crete",
-            template: "%s | ACM UOC |CSD",
+            default: "ACM UOC | Student Chapter at CSD | University of Crete",
+            template: "%s | ACM UOC | CSD",
         },
         description: "Official ACM Student Chapter at the Computer Science Department (CSD), University of Crete (UOC). Join our workshops, hackathons, and CS community in Heraklion.",
         icons: { icon: "/logo.png" },

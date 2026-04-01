@@ -128,7 +128,7 @@ const Hero = () => {
                         { value: "2025", label: "Founded" },
                         { value: "40+", label: "Members" },
                         { value: "3+", label: "Events" },
-                        { value: "CSD", label: "Univ. of Crete" },
+                        { value: "CSD", label: "University of Crete" },
                     ].map(({ value, label }) => (
                         <div key={label} className="px-5 sm:px-8 py-4 text-center">
                             <p className="text-white font-black text-lg sm:text-xl tracking-tighter">{value}</p>
