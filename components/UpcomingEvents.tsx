@@ -69,8 +69,9 @@ export default function UpcomingEventsGrid() {
                                 </div>
 
                                 <div className="mt-auto pt-5 border-t border-slate-50 shrink-0">
-                                    <Link 
+                                    <Link
                                         href={`/events/${event.id}`}
+                                        aria-label={`${t('events.view_details')} – ${t(`events.${event.id}.title`)}`}
                                         className="text-[10px] font-black uppercase tracking-widest text-slate-900 group-hover:text-blue-600 transition-colors flex items-center gap-2 cursor-pointer inline-flex"
                                     >
                                         {t('events.view_details')}

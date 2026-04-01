@@ -114,6 +114,7 @@ export default function EventSlider() {
                                         <div className="mt-auto pt-5 border-t border-slate-50 shrink-0 flex items-center gap-3">
                                             <Link
                                                 href={`/events/${event.id}`}
+                                                aria-label={`${t('events.view_details')} – ${t(`events.${event.id}.title`)}`}
                                                 className="text-[10px] font-black uppercase tracking-widest text-slate-900 group-hover:text-blue-600 transition-colors flex items-center gap-2 inline-flex before:absolute before:inset-0 z-10"
                                             >
                                                 {t('events.view_details')}
