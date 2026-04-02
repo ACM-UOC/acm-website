@@ -1,20 +1,26 @@
 "use client";
 import { useState, useEffect } from "react";
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import '../lib/i18n';
-import { useTranslation } from 'react-i18next';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { Link, usePathname } from '@/i18n/navigation';
 import LanguageSwitcher from "./LanguageSwitcher";
 const JoinDrawer = dynamic(() => import('./JoinDrawer'), { ssr: false });
 
 export default function Navbar() {
-    const { t, i18n } = useTranslation('common');
+    const t = useTranslations();
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("home");
     const [isJoinDrawerOpen, setIsJoinDrawerOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [shakingLink, setShakingLink] = useState<string | null>(null);
+    const isDark = !isScrolled && pathname === "/";
+
+    const handleActiveClick = (id: string) => {
+        setShakingLink(id);
+        setTimeout(() => setShakingLink(null), 400);
+    };
 
     const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -94,18 +100,21 @@ export default function Navbar() {
                     {/* Logo Section - Now wrapped in Link */}
                     <Link href="/" className="flex items-center space-x-3 group cursor-pointer">
                         <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[5deg]">
-                            <img
-                                src="logo.png"
+                            <Image
+                                src="/logo.png"
                                 alt="ACM UOC Logo"
-                                className="w-full h-full object-contain drop-shadow-sm"
+                                width={48}
+                                height={48}
+                                priority
+                                className="object-contain drop-shadow-sm"
                             />
                         </div>
 
                         <div className="flex flex-col justify-center">
-                            <span className="font-bold text-2xl tracking-tighter text-slate-900 leading-none">
-                                ACM <span className="text-blue-600 font-black italic">UOC</span>
+                            <span className={`font-bold text-2xl tracking-tighter leading-none transition-colors duration-300 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                                ACM <span className={`font-black italic transition-colors duration-300 ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>UOC</span>
                             </span>
-                            <span className="text-xs font-mono font-bold text-slate-400 tracking-widest uppercase">
+                            <span className={`text-xs font-mono font-bold tracking-widest uppercase transition-colors duration-300 ${isDark ? 'text-slate-300' : 'text-slate-400'}`}>
                                 Student Chapter
                             </span>
                         </div>
@@ -129,12 +138,11 @@ export default function Navbar() {
                                 <Link
                                     key={link.id}
                                     href={link.href}
-                                    className={`text-[17px] font-bold transition-all relative group py-2 ${isActive ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
-                                        }`}
+                                    onClick={() => { if (isActive) handleActiveClick(link.id); }}
+                                    className={`text-[17px] font-bold transition-all relative group py-2 ${isActive ? (isDark ? "text-blue-400" : "text-blue-600") : (isDark ? "text-slate-200 hover:text-white" : "text-slate-600 hover:text-blue-600")} ${shakingLink === link.id ? "animate-shake" : ""}`}
                                 >
                                     {t(`nav.${link.id}`)}
-                                    <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"
-                                        }`}></span>
+                                    <span className={`absolute bottom-0 left-0 h-0.5 transition-all duration-300 ${isDark ? 'bg-blue-400' : 'bg-blue-600'} ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}></span>
                                 </Link>
                             );
                         })}
@@ -143,7 +151,8 @@ export default function Navbar() {
                         <LanguageSwitcher />
                         <button
                             onClick={() => setIsJoinDrawerOpen(true)}
-                            className="cursor-pointer bg-slate-900 text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-600/20 transition-all duration-300"
+                            aria-label={t('join.button')}
+                            className={`cursor-pointer px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 hover:shadow-lg hover:shadow-blue-600/20 ${isDark ? 'bg-white/10 text-white border border-white/20 hover:bg-blue-600 hover:border-transparent backdrop-blur-sm' : 'bg-slate-900 text-white hover:bg-blue-600'}`}
                         >
                             {t('join.button')}
                         </button>
@@ -153,10 +162,12 @@ export default function Navbar() {
                     <button
                         className="cursor-pointer md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none z-[100]"
                         onClick={toggleMenu}
+                        aria-label={isOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={isOpen}
                     >
-                        <span className={`block w-6 h-0.5 bg-slate-900 transition-all duration-300 ${isOpen ? "rotate-45 translate-y-2" : ""}`}></span>
-                        <span className={`block w-6 h-0.5 bg-slate-900 transition-all duration-300 ${isOpen ? "opacity-0" : ""}`}></span>
-                        <span className={`block w-6 h-0.5 bg-slate-900 transition-all duration-300 ${isOpen ? "-rotate-45 -translate-y-2" : ""}`}></span>
+                        <span className={`block w-6 h-0.5 transition-all duration-300 ${isDark ? 'bg-white' : 'bg-slate-900'} ${isOpen ? "rotate-45 translate-y-2" : ""}`}></span>
+                        <span className={`block w-6 h-0.5 transition-all duration-300 ${isDark ? 'bg-white' : 'bg-slate-900'} ${isOpen ? "opacity-0" : ""}`}></span>
+                        <span className={`block w-6 h-0.5 transition-all duration-300 ${isDark ? 'bg-white' : 'bg-slate-900'} ${isOpen ? "-rotate-45 -translate-y-2" : ""}`}></span>
                     </button>
 
                 </div>
@@ -173,9 +184,10 @@ export default function Navbar() {
 
                     {/* Header  */}
                     <div className="flex items-center justify-between px-6 h-16 border-b border-slate-100 bg-white">
-                        <span className="text-xs font-bold text-slate-400 tracking-[0.3em] uppercase italic">Navigation</span>
+                        <span className="text-xs font-bold text-slate-400 tracking-[0.3em] uppercase italic">{t('nav.menu')}</span>
                         <button
                             onClick={() => setIsOpen(false)}
+                            aria-label="Close menu"
                             className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-slate-900 text-white shadow-md"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

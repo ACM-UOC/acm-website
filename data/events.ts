@@ -26,10 +26,11 @@ export interface ACMEvent {
     year: string;
     category: string;
     image: string;
-    photos: number[]; // Array of photo IDs/URLs for the gallery
+    photos: number[];
     sponsors: Sponsor[];
     speakers?: Speaker[];
     agenda?: AgendaItem[];
+    registrationUrl?: string; // External link:Google Form, Eventbrite, etc.
 }
 
 const GOOGLE: Sponsor = { name: "Google", logo: "https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg", url: "https://google.com", desc: "Empowering developers worldwide with open-source tools and cloud infrastructure." };
@@ -43,10 +44,10 @@ export const eventsDatabase: ACMEvent[] = [
     {
         id: "game-dev-workshop",
         status: "upcoming",
-        date: "22 OCT 2026",
+        date: "21 APR 2026",
         year: "2026",
         category: "Workshop",
-        image: "game.jpeg",
+        image: "/game.jpeg",
         photos: [],
         sponsors: [],
         speakers: [
@@ -54,55 +55,35 @@ export const eventsDatabase: ACMEvent[] = [
             { name: "Unity Expert", role: "Senior Dev @ Unity", image: "https://i.pravatar.cc/150?u=unity" }
         ],
         agenda: [
-            { time: "10:00 AM", title: "Introduction to ECS", desc: "Learning the Entity Component System architecture." },
-            { time: "12:00 PM", title: "Physics Engines", desc: "Building custom collision detection from scratch." },
-            { time: "15:00 PM", title: "Networking in Games", desc: "Solving latency issues in multiplayer environments." }
-        ]
+            { time: "10:00", title: "Industry Experts Panel", desc: "Working professionals share their path into the games industry:what studios actually look for and how the field works." },
+            { time: "12:00", title: "The Tools of the Trade", desc: "An overview of the game development stack: engines, version control, asset pipelines, and how modern teams ship games." },
+            { time: "14:00", title: "Hands-On: Your First 3D World", desc: "Guided Unity + C# session where every participant builds and runs their first 3D scene from scratch." },
+        ],
+        registrationUrl: undefined,
+    },
+    {
+        id: "game-jam",
+        status: "upcoming",
+        date: "29 APR 2026",
+        year: "2026",
+        category: "Game Jam",
+        image: "/game.jpeg",
+        photos: [],
+        sponsors: [],
+        registrationUrl: undefined,
     },
 
-    // --- 4 PAST EVENTS ---
-    /*{
-        id: "event_1",
-        status: "past",
-        date: "15 OCT 2025",
-        year: "2025",
-        category: "Web Dev",
-        image: "public/game.jpeg",
-        photos: [1, 2, 3, 4],
-        sponsors: [REACT],
-        speakers: [{ name: "Dan Abramov", role: "React Core Team", image: "https://i.pravatar.cc/150?u=dan" }]
-    },
+    // --- PAST EVENTS ---
     {
-        id: "event_2",
+        id: "careerfair-2024",
         status: "past",
-        date: "20 SEP 2024",
+        date: "2024",
         year: "2024",
-        category: "Security",
-        image: "public/game.jpeg",
-        photos: [1, 2],
-        sponsors: [CLOUDFLARE],
-        speakers: [{ name: "Troy Hunt", role: "HIBP Creator", image: "https://i.pravatar.cc/150?u=troy" }]
-    },
-    {
-        id: "event_3",
-        status: "past",
-        date: "05 MAR 2024",
-        year: "2024",
-        category: "Game Dev",
-        image: "public/game.jpeg",
-        photos: [1, 2, 3],
-        sponsors: [GOOGLE]
-    },
-    {
-        id: "event_4",
-        status: "past",
-        date: "10 DEC 2023",
-        year: "2023",
-        category: "Cloud Computing",
-        image: "public/game.jpeg",
-        photos: [1, 2, 3, 4, 5],
-        sponsors: [CLOUDFLARE, VERCEL]
-    }*/
+        category: "Career Fair",
+        image: "/game.jpeg",
+        photos: [],
+        sponsors: [],
+    }
 ];
 // --- HELPER FUNCTIONS ---
 export const getUpcomingEvents = () => eventsDatabase.filter(e => e.status === "upcoming");

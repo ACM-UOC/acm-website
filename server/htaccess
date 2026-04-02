@@ -1,0 +1,18 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+# Serve real files directly (static assets via symlink)
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Proxy everything else directly to Node.js (no PHP)
+RewriteRule ^(.*)$ http://190.92.158.4:3000/$1 [P,L]
+
+<IfModule LiteSpeed>
+CacheLookup off
+</IfModule>
+
+# Cache static assets
+<FilesMatch "\.(js|css|woff2|woff|ttf|png|jpg|jpeg|svg|ico|webp)$">
+    Header unset Cache-Control
+</FilesMatch>

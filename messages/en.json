@@ -4,31 +4,32 @@
         "about": "About",
         "events": "Events",
         "team": "Teams",
-        "join": "Join Us"
+        "join": "Join Us",
+        "menu": "Navigation"
     },
     "hero": {
-        "title": "Level Up Your",
-        "subtitle": "Coding Journey",
-        "description": "Join the official ACM Student Chapter. We don't just code; we build the future.",
-        "cta_events": "Explore Events →",
-        "cta_join": "Join the Team"
+        "badge": "ACM UOC Student Chapter",
+        "title_before": "From",
+        "title_highlight": "Code",
+        "title_after": "to Community",
+        "tagline": "Translating logic into shared experiences at the heart of Crete."
     },
     "about": {
-        "badge": "Chapter",
-        "title": "An Open Tech Community",
-        "description": "The chapter’s aim is to encourage students to get involved in computer science, and create a team of people that are interested in exploring the broad field of computer science.",
+        "badge": "Who We Are",
+        "title": "ACM UOC Student Chapter",
+        "description": "ACM UOC is the official ACM Student Chapter at the Computer Science Department (CSD), University of Crete. We connect CS students in Heraklion with workshops, hackathons, and technical talksbridging academic theory with real-world practice.",
         "pillars": {
             "chapter": {
                 "title": "ACM Student Chapter",
-                "desc": "Official student chapter of the ACM at the University of Crete, advancing computing as a science and profession."
+                "desc": "Official ACM Student Chapter at the CSD, University of Crete (UOC)advancing computing as a science and profession since 2025."
             },
             "history": {
-                "title": "Est. 2024",
-                "desc": "Built by students to foster a community of researchers, educators, and professionals."
+                "title": "Est. 2025",
+                "desc": "Founded by students of the CSD UOC to foster a community of researchers, educators, and tech professionals in Crete."
             },
             "events": {
-                "title": "Events",
-                "desc": "Organizing a variety of technical workshops, hackathons, and talks to bridge theory and practice."
+                "title": "Events & Workshops",
+                "desc": "Organizing technical workshops, hackathons, and talks at CSD UOC to bridge theory and practice."
             }
         }
     },
@@ -65,7 +66,7 @@
         "teams": {
             "game_dev": {
                 "name": "Game Development",
-                "icon": "🎮",
+                "icon": "🕹️",
                 "description": "Are you into video games? Would you like to participate in the development of an electronic game? Then the Game Dev team is for you!"
             },
             "web_dev": {
@@ -102,31 +103,20 @@
             "description": "We are currently cooking new workshops and seminars."
         },
         "game-dev-workshop": {
-            "title": "Game Development Workshop",
-            "description": "A hands-on workshop introducing Unity and C# basics for building your first 3D world.",
+            "title": "Into Game Development",
+            "description": "A full-day event covering the essentials of game developmentindustry insights from working professionals, the tools of the trade, and a hands-on introduction to Unity and C# where you build your first 3D world.",
             "cta": "Register Now",
-            "status": "New"
+            "status": "Workshop"
         },
-        "ai-symposium": {
-            "title": "AI Ethics & LLMs Symposium",
-            "description": "Exploring the boundaries of Large Language Models and the future of AI research.",
-            "cta": "Save a Spot",
-            "status": "Seminar"
-        },
-        "cybersecurity-ctf": {
-            "title": "Cybersecurity Capture The Flag",
-            "description": "Put your hacking skills to the test in our first competitive CTF event.",
-            "cta": "Enter CTF",
-            "status": "Competition"
-        },
-        "web-dev-hackathon": {
-            "title": "Next.js 24h Hackathon",
-            "description": "Build high-performance web apps in this intense 24-hour coding sprint.",
-            "cta": "Apply Now",
-            "status": "Hackathon"
+        "game-jam": {
+            "title": "Game Jam",
+            "description": "Build a complete game from scratch in one day. Solo or in teamsall skill levels welcome.",
+            "cta": "Join the Jam",
+            "status": "Game Jam"
         }
     },
     "events_page": {
+        "no_events": "No events found for this period.",
         "badge": "Timeline",
         "title": "Our Events",
         "description": "Discover our upcoming sessions and explore the archive of past workshops, hackathons, and tech talks.",
@@ -136,29 +126,11 @@
         "filter_all": "All Years",
         "read_recap": "Read Recap",
         "archive": {
-            "event_1": {
-                "title": "Intro to React Native",
-                "description": "A hands-on workshop where we built a cross-platform mobile app from scratch.",
-                "month": "OCT",
-                "day": "15"
-            },
-            "event_2": {
-                "title": "Cyber Security 101",
-                "description": "Exploring vulnerabilities and penetration testing basics with industry experts.",
-                "month": "SEP",
-                "day": "20"
-            },
-            "event_3": {
-                "title": "Game Jam 2024",
-                "description": "A marathon session where teams built complete indie games in one weekend.",
-                "month": "MAR",
-                "day": "05"
-            },
-            "event_4": {
-                "title": "Cloud Computing Day",
-                "description": "Deep dive into AWS and Vercel infrastructure for scaling applications.",
-                "month": "DEC",
-                "day": "10"
+            "careerfair-2024": {
+                "title": "Career Fair 2024",
+                "description": "Before we were even officially founded, our team organized the CSD Career Fairbringing together students and companies at the University of Crete. Unorganized, scrappy, and entirely student-driven.",
+                "month": "2024",
+                "day": "CSD"
             }
         }
     },
@@ -175,6 +147,7 @@
         "join_prompt_title": "Join us at the event!",
         "join_prompt_desc": "Don't forget to snap some photos and upload them here.",
         "register_btn": "Register Now",
+        "registration_soon": "Registration opening soon",
         "recap_title": "Event Recap",
         "gallery_title": "Photo Gallery",
         "upload_photo": "Upload Photo"
@@ -194,7 +167,12 @@
         "description": "The dedicated students and faculty advisors behind the ACM UOC Student Chapter.",
         "roles": {
             "admin": "Chair / Admin",
+            "vice_chair": "Vice Chair",
             "web_dev": "Web Developer",
+            "social": "Social Media",
+            "text": "Content",
+            "communication": "Communications",
+            "game_dev": "Game Dev Team",
             "advisor": "Faculty Advisor"
         }
     },
@@ -210,7 +188,17 @@
         "name": "Full Name",
         "email": "University Email",
         "year": "Year of Study",
+        "year_placeholder": "Select Year",
+        "year_1": "1st Year",
+        "year_2": "2nd Year",
+        "year_3": "3rd Year",
+        "year_4": "4th+ Year",
         "interests": "Main Interests (e.g., AI, Web, Cyber)",
-        "submit": "Submit Application"
+        "submit": "Submit Application",
+        "success_title": "Application Received",
+        "success_desc": "We'll be in touch soon. Welcome to the community!"
+    },
+    "sponsors": {
+        "visit": "Visit Partner"
     }
 }
