@@ -1,16 +1,29 @@
 "use client";
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
-import Link from 'next/link';
+import { m } from 'framer-motion';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 
 export default function TeamSection() {
-    const { t } = useTranslation('common');
+    const t = useTranslations();
 
     const teamsData = [
-        { id: "game-dev", name: t('team.specialist_teams.game_dev.name'), icon: "🎮" },
-        { id: "more", name: t('team.specialist_teams.more_to_come.name'), icon: "✨" },
+        { id: "game-dev", name: t('team.specialist_teams.game_dev.name') },
+        { id: "more", name: t('team.specialist_teams.more_to_come.name') },
     ];
+
+    const teamIcons: Record<string, React.ReactNode> = {
+        "game-dev": (
+            <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="8" width="20" height="12" rx="5" />
+                <path d="M9 12H7M8 11v2M16 11.5h.01M18 13h.01" />
+            </svg>
+        ),
+        "more": (
+            <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
+        ),
+    };
 
     return (
         <section id="synergy" className="py-24 bg-white overflow-hidden">
@@ -18,12 +31,12 @@ export default function TeamSection() {
                 
                 {/* Header*/}
                 <div className="mb-16">
-                    <h2 className="text-blue-600 font-mono tracking-[0.4em] uppercase text-[10px] font-bold mb-3">
+                    <p className="text-blue-600 font-mono tracking-[0.4em] uppercase text-[10px] font-bold mb-3">
                         {t('team.badge')}
-                    </h2>
-                    <h3 className="text-4xl font-black text-slate-900 tracking-tighter uppercase leading-none">
+                    </p>
+                    <h2 className="text-4xl font-black text-slate-900 tracking-tighter uppercase leading-none">
                         {t('team.title')}
-                    </h3>
+                    </h2>
                     <div className="w-16 h-1.5 bg-blue-600 mt-6 rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.3)]"></div>
                 </div>
 
@@ -34,7 +47,7 @@ export default function TeamSection() {
                             className="relative h-64 bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm hover:shadow-2xl transition-all duration-700 overflow-hidden flex flex-col justify-center items-center cursor-default group"
                         >
                            
-                            <motion.div
+                            <m.div
                                 className="absolute inset-0 bg-gradient-to-br from-blue-50/0 via-blue-50/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                                 whileHover={{
                                     scale: 2,
@@ -47,8 +60,8 @@ export default function TeamSection() {
 
                             <div className="relative z-10 flex flex-col items-center gap-5 text-center">
                                 {/* Hover Icon Animation - Kept for interactivity */}
-                                <motion.div
-                                    className="text-5xl mb-2"
+                                <m.div
+                                    className="text-blue-600 mb-2"
                                     whileHover={{
                                         y: -8,
                                         scale: 1.1,
@@ -56,8 +69,8 @@ export default function TeamSection() {
                                     }}
                                     transition={{ type: "spring", stiffness: 300, damping: 15 }}
                                 >
-                                    {team.icon}
-                                </motion.div>
+                                    {teamIcons[team.id]}
+                                </m.div>
 
                                 <span className="text-lg text-slate-900 tracking-tight uppercase font-black leading-tight group-hover:text-blue-600 transition-colors duration-500">
                                     {team.name}

@@ -1,42 +1,37 @@
 "use client";
-import { useTranslation } from 'react-i18next';
-import { useState, useEffect } from 'react';
+import { useLocale } from 'next-intl';
+import { useRouter, usePathname } from '@/i18n/navigation';
+import { useTransition } from 'react';
 
 export default function LanguageSwitcher() {
-    const { i18n } = useTranslation('common');
-    const [mounted, setMounted] = useState(false);
+    const locale = useLocale();
+    const router = useRouter();
+    const pathname = usePathname();
+    const [isPending, startTransition] = useTransition();
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    const handleLanguageChange = (e: React.MouseEvent, lng: string) => {
-        e.preventDefault(); 
-        i18n.changeLanguage(lng);
+    const handleLanguageChange = (newLocale: string) => {
+        startTransition(() => {
+            router.replace(pathname, { locale: newLocale });
+        });
     };
 
-    if (!mounted) {
-        return (
-            <div className="flex items-center ml-4 border-l border-slate-200 pl-4 space-x-2">
-                <button type="button" className="cursor-pointer text-[14px] font-bold text-slate-600">EN</button>
-                <button type="button" className="cursor-pointer text-[14px] font-bold text-slate-600">GR</button>
-            </div>
-        );
-    }
-
     return (
-        <div className="flex  items-center ml-4 border-l border-slate-200 pl-4 space-x-2">
+        <div className={`flex items-center ml-4 border-l border-slate-200 pl-4 space-x-2 ${isPending ? 'opacity-50' : ''}`}>
             <button
                 type="button"
-                onClick={(e) => handleLanguageChange(e, 'en')}
-                className={`cursor-pointer text-[14px] font-bold transition-colors ${i18n.language === 'en' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+                onClick={() => handleLanguageChange('en')}
+                aria-label="Switch to English"
+                aria-current={locale === 'en' ? 'true' : undefined}
+                className={`cursor-pointer text-[14px] font-bold transition-colors px-1 py-1 ${locale === 'en' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
             >
                 EN
             </button>
             <button
                 type="button"
-                onClick={(e) => handleLanguageChange(e, 'gr')}
-                className={`cursor-pointer text-[14px] font-bold transition-colors ${i18n.language === 'gr' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+                onClick={() => handleLanguageChange('el')}
+                aria-label="Switch to Greek"
+                aria-current={locale === 'el' ? 'true' : undefined}
+                className={`cursor-pointer text-[14px] font-bold transition-colors px-1 py-1 ${locale === 'el' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
             >
                 GR
             </button>

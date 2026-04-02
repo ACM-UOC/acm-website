@@ -1,48 +1,41 @@
 "use client";
 import React, { useState } from 'react';
-import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
+import { m, AnimatePresence, Variants } from 'framer-motion';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import { getPastEvents, getAllYears } from '@/data/events';
-const EventSlider = dynamic(() => import('@/components/EventsSlider'), { ssr: false });
+import EventSlider from '@/components/EventsSlider';
 
 const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
 };
 
-
-
 export default function EventsPage() {
-    const { t } = useTranslation('common');
+    const t = useTranslations();
     const [activeYear, setActiveYear] = useState<string>("All");
-
 
     const pastEvents = getPastEvents();
     const dynamicYears = getAllYears();
-
     const years = ["All", ...dynamicYears];
 
-    // FILTER  DATA
     const filteredEvents = activeYear === "All"
         ? pastEvents
         : pastEvents.filter(e => e.year === activeYear);
 
     return (
         <main className="min-h-screen bg-slate-50 relative z-0">
-            <div className="absolute top-0 left-0 w-full  h-[45vh] min-h-[450px] bg-white rounded-b-[4rem] shadow-sm -z-10" />
+            <div className="absolute top-0 left-0 w-full h-[45vh] min-h-[450px] bg-white rounded-b-[4rem] shadow-sm -z-10" />
 
             <div className="max-w-7xl mx-auto px-6 pt-32 pb-24">
 
-                {/* Page Hero Header */}
-                <motion.div
+                <m.div
                     initial="hidden" animate="visible" variants={containerVariants}
                     className="text-center max-w-3xl mx-auto mb-32"
                 >
-                    <h2 className="text-blue-600 font-mono tracking-[0.4em] uppercase text-xs font-bold mb-4">
+                    <p className="text-blue-600 font-mono tracking-[0.4em] uppercase text-xs font-bold mb-4">
                         {t('events_page.badge')}
-                    </h2>
+                    </p>
                     <h1 className="text-5xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase leading-none mb-8">
                         {t('events_page.title')}
                     </h1>
@@ -50,28 +43,23 @@ export default function EventsPage() {
                     <p className="text-lg text-slate-600 leading-relaxed italic px-4">
                         "{t('events_page.description')}"
                     </p>
-                </motion.div>
+                </m.div>
 
-                {/* Upcoming Events Slider */}
                 <div className="mb-32">
                     <EventSlider />
                 </div>
 
-                {/* Past Events Archive */}
                 <div>
-                    {/* Past Events Archive Header */}
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-16">
-
                         <div className="relative">
-                            <h2 className="text-blue-600 font-mono tracking-[0.4em] uppercase text-xs mb-3">
+                            <p className="text-blue-600 font-mono tracking-[0.4em] uppercase text-xs mb-3">
                                 {t('events_page.archive_badge')}
-                            </h2>
-                            <h3 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">
+                            </p>
+                            <h2 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">
                                 {t('events_page.archive_title')}
-                            </h3>
+                            </h2>
                             <div className="w-16 h-1.5 bg-blue-600 mt-6 rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.2)]"></div>
                         </div>
-
 
                         <div className="flex flex-wrap gap-2 pb-1">
                             {years.map(year => (
@@ -90,19 +78,22 @@ export default function EventsPage() {
                     </div>
 
                     <AnimatePresence mode="wait">
-                        <motion.div
-
+                        <m.div
                             key={activeYear}
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                            className={filteredEvents.length === 0 ? "flex justify-center py-24" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"}
                         >
-
-                            {filteredEvents.map((event) => (                              
+                            {filteredEvents.length === 0 && (
+                                <div className="text-center">
+                                    <p className="text-slate-300 text-6xl mb-6">📭</p>
+                                    <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">{t('events_page.no_events')}</p>
+                                </div>
+                            )}
+                            {filteredEvents.map((event) => (
                                 <div key={event.id} className="group bg-white rounded-3xl border border-slate-100 p-6 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col h-full relative">
-
                                     <div className="flex justify-between items-start mb-6">
                                         <div className="bg-blue-50 rounded-2xl p-3 text-center min-w-[70px] group-hover:bg-blue-600 transition-colors duration-500">
                                             <span className="block text-2xl font-black text-blue-600 group-hover:text-white leading-none mb-1">
@@ -117,14 +108,14 @@ export default function EventsPage() {
                                         </span>
                                     </div>
 
-                                    <h4 className="text-xl font-black text-slate-900 uppercase tracking-tight mb-3 group-hover:text-blue-600 transition-colors">
+                                    <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight mb-3 group-hover:text-blue-600 transition-colors">
                                         {t(`events_page.archive.${event.id}.title`)}
-                                    </h4>
+                                    </h3>
 
                                     <p className="text-slate-500 text-sm font-light leading-relaxed mb-6 flex-grow">
                                         {t(`events_page.archive.${event.id}.description`)}
                                     </p>
-                                 
+
                                     <div className="pt-4 border-t border-slate-50 flex items-center gap-2 text-sm font-bold text-slate-400 group-hover:text-blue-600 transition-colors">
                                         <Link
                                             href={`/events/${event.id}`}
@@ -138,11 +129,10 @@ export default function EventsPage() {
                                     </div>
                                 </div>
                             ))}
-                        </motion.div>
+                        </m.div>
                     </AnimatePresence>
                 </div>
             </div>
         </main>
-
     );
 }

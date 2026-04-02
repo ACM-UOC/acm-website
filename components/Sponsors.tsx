@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
+import { m, AnimatePresence } from 'framer-motion';
 
 export interface SponsorType {
     name: string;
@@ -16,7 +16,7 @@ interface SponsorsProps {
 }
 
 export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) {
-    const { t } = useTranslation('common');
+    const t = useTranslations();
     
     // Track which sponsor is currently being hovered/viewed
     const [activeSponsor, setActiveSponsor] = useState<SponsorType | null>(null);
@@ -40,32 +40,35 @@ export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) 
         return (
             <div className="mb-16">
                 <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight mb-8">
-                    {t('event_detail.sponsored_by', 'Proudly Supported By')}
+                    {t('event_detail.sponsored_by')}
                 </h3>
                 
                 <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm">
                     {/* 1. The Logo Row */}
                     <div className="flex flex-wrap items-center gap-8 mb-8 pb-8 border-b border-slate-50">
-                        {sponsors.map((sponsor, idx) => {
+                        {sponsors.map((sponsor) => {
                             const isActive = activeSponsor?.name === sponsor.name;
                             return (
                                 <button
-                                    key={idx}
+                                    key={sponsor.name}
+                                    aria-label={`${sponsor.name}${isActive ? ' (active)' : ''}`}
                                     onMouseEnter={() => setActiveSponsor(sponsor)}
-                                    onFocus={() => setActiveSponsor(sponsor)} 
+                                    onFocus={() => setActiveSponsor(sponsor)}
                                     className={`cursor-pointer relative transition-all duration-500 transform outline-none ${
                                         isActive 
                                         ? 'grayscale-0 opacity-100 scale-110' 
                                         : 'grayscale opacity-40 hover:opacity-70'
                                     }`}
                                 >
-                                    <img 
-                                        src={sponsor.logo} 
-                                        alt={sponsor.name} 
-                                        className="h-8 md:h-10 w-auto object-contain" 
+                                    <img
+                                        src={sponsor.logo}
+                                        alt={sponsor.name}
+                                        width={120}
+                                        height={40}
+                                        className="h-8 md:h-10 w-auto object-contain"
                                     />                                   
                                     {isActive && (
-                                        <motion.div 
+                                        <m.div 
                                             layoutId="active-sponsor-dot"
                                             className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-blue-600 rounded-full"
                                         />
@@ -79,7 +82,7 @@ export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) 
                     <div className="min-h-[100px] relative">
                         <AnimatePresence mode="wait">
                             {activeSponsor && (
-                                <motion.div
+                                <m.div
                                     key={activeSponsor.name}
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -102,12 +105,12 @@ export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) 
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors group shrink-0"
                                     >
-                                        Visit Partner
+                                        {t('sponsors.visit')}
                                         <svg className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                         </svg>
                                     </a>
-                                </motion.div>
+                                </m.div>
                             )}
                         </AnimatePresence>
                     </div>
@@ -121,22 +124,24 @@ export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) 
     return (
         <div className={`flex flex-col gap-4 ${isCard ? 'mb-4' : ''}`}>
             <span className={`font-black uppercase tracking-widest text-slate-400 ${isCard ? 'text-[8px]' : 'text-[10px]'}`}>
-                {isCard ? t('events.supported_by', 'Supported By') : t('event_detail.sponsored_by', 'Official Sponsors')}
+                {isCard ? t('events.supported_by') : t('event_detail.sponsored_by')}
             </span>
             
             <div className={`flex ${isSidebar ? 'flex-col gap-6' : 'flex-wrap items-center gap-4'}`}>
-                {sponsors.map((sponsor, idx) => (
-                    <a 
-                        key={idx} 
-                        href={sponsor.url} 
+                {sponsors.map((sponsor) => (
+                    <a
+                        key={sponsor.name}
+                        href={sponsor.url}
                         target="_blank" 
                         rel="noopener noreferrer" 
                         className={`group block grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 transform ${isSidebar ? 'hover:translate-x-2' : 'hover:scale-105'}`}
                     >
-                        <img 
-                            src={sponsor.logo} 
-                            alt={sponsor.name} 
-                            className={`${isCard ? 'h-5' : 'h-8'} w-auto object-contain mb-2`} 
+                        <img
+                            src={sponsor.logo}
+                            alt={sponsor.name}
+                            width={120}
+                            height={32}
+                            className={`${isCard ? 'h-5' : 'h-8'} w-auto object-contain mb-2`}
                         />                      
                         {isSidebar && sponsor.desc && (
                             <p className="text-xs text-slate-500 font-light leading-relaxed group-hover:text-slate-700 transition-colors">
