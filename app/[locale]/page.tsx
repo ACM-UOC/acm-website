@@ -14,7 +14,7 @@ export async function generateMetadata({
     const { locale } = await params;
     const localePath = locale === 'en' ? '' : `/${locale}`;
     return {
-        title: "ACM UOC | Student Chapter at CSD |University of Crete",
+        title: "ACM UOC | Student Chapter at CSD | University of Crete",
         description: "Official ACM Student Chapter at the Computer Science Department (CSD), University of Crete (UOC). Workshops, hackathons, and tech talks in Heraklion, Crete.",
         alternates: {
             canonical: `${BASE_URL}${localePath}`,
