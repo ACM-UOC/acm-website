@@ -28,7 +28,12 @@ const jsonLd = {
     '@type': 'Organization',
     name: 'ACM UOC Student Chapter',
     url: 'https://csd.acm.org',
-    logo: 'https://csd.acm.org/logo.png',
+    logo: {
+        '@type': 'ImageObject',
+        url: 'https://csd.acm.org/logo.png',
+        width: 499,
+        height: 499,
+    },
     description: 'Official ACM Student Chapter at the University of Crete, Computer Science Department.',
     parentOrganization: {
         '@type': 'Organization',
@@ -37,11 +42,11 @@ const jsonLd = {
     },
     memberOf: {
         '@type': 'EducationalOrganization',
-        name: 'University of Crete |Computer Science Department',
+        name: 'University of Crete, Computer Science Department',
         url: 'https://www.csd.uoc.gr',
     },
     sameAs: [
-        'https://www.instagram.com/acm_uoc',
+        'https://www.instagram.com/acmuoc',
     ],
 };
 
