@@ -184,7 +184,7 @@ export default function Navbar() {
 
                     {/* Header  */}
                     <div className="flex items-center justify-between px-6 h-16 border-b border-slate-100 bg-white">
-                        <span className="text-xs font-bold text-slate-400 tracking-[0.3em] uppercase italic">{t('nav.menu')}</span>
+                        <span className="text-xs font-bold text-slate-600 tracking-[0.3em] uppercase italic">{t('nav.menu')}</span>
                         <button
                             onClick={() => setIsOpen(false)}
                             aria-label="Close menu"
@@ -232,7 +232,7 @@ export default function Navbar() {
 
                         {/* Footer-info */}
                         <div className="pt-4 border-t border-slate-50">
-                            <p className="text-slate-400 text-[9px] font-bold tracking-[0.2em] uppercase">
+                            <p className="text-slate-600 text-[9px] font-bold tracking-[0.2em] uppercase">
                                 ACM Student Chapter @ UOC
                             </p>
                         </div>

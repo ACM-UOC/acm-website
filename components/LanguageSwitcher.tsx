@@ -22,7 +22,7 @@ export default function LanguageSwitcher() {
                 onClick={() => handleLanguageChange('en')}
                 aria-label="Switch to English"
                 aria-current={locale === 'en' ? 'true' : undefined}
-                className={`cursor-pointer text-[14px] font-bold transition-colors px-1 py-1 ${locale === 'en' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+                className={`cursor-pointer text-[14px] font-bold transition-colors px-1 py-1 ${locale === 'en' ? 'text-blue-600' : 'text-slate-600 hover:text-slate-800'}`}
             >
                 EN
             </button>
@@ -31,7 +31,7 @@ export default function LanguageSwitcher() {
                 onClick={() => handleLanguageChange('el')}
                 aria-label="Switch to Greek"
                 aria-current={locale === 'el' ? 'true' : undefined}
-                className={`cursor-pointer text-[14px] font-bold transition-colors px-1 py-1 ${locale === 'el' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+                className={`cursor-pointer text-[14px] font-bold transition-colors px-1 py-1 ${locale === 'el' ? 'text-blue-600' : 'text-slate-600 hover:text-slate-800'}`}
             >
                 GR
             </button>
