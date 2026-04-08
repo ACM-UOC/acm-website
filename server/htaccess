@@ -12,7 +12,12 @@ RewriteRule ^(.*)$ http://190.92.158.4:3000/$1 [P,L]
 CacheLookup off
 </IfModule>
 
-# Cache static assets
-<FilesMatch "\.(js|css|woff2|woff|ttf|png|jpg|jpeg|svg|ico|webp)$">
-    Header unset Cache-Control
+# Long-lived cache for hashed Next.js static assets (filenames change on deploy)
+<FilesMatch "\.(js|css|woff2|woff|ttf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+
+# Shorter cache for images (not content-hashed)
+<FilesMatch "\.(png|jpg|jpeg|svg|ico|webp)$">
+    Header set Cache-Control "public, max-age=604800"
 </FilesMatch>

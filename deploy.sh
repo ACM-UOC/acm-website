@@ -1,35 +1,33 @@
 #!/bin/bash
 set -e
 
-SERVER="csdhosting@190.92.158.4"
+SSH_HOST="uochosting@uoc.acm.org"
 SSH_OPTS="-o MACs=hmac-sha2-256"
 
-echo "Building..."
+# build the site
 npx next build
-cp -r public .next/standalone/
-cp -r .next/static .next/standalone/.next/
-zip -r standalone.zip .next/standalone
 
-echo "Uploading..."
-scp $SSH_OPTS standalone.zip $SERVER:~/standalone.zip
-scp $SSH_OPTS server/htaccess $SERVER:~/public_html/.htaccess
+# create folder structure
+rm -rf ./website
+cp -r .next/standalone website
+cp -r .next/static website/.next
+cp -r public website
 
-echo "Deploying..."
-ssh $SSH_OPTS $SERVER << 'ENDSSH'
-rm -rf ~/.next/standalone
-unzip -o standalone.zip -d ~
-cp -r ~/.next/standalone/public ~/website/standalone/
-rm -rf ~/website/standalone/.next
-cp -r ~/.next/standalone/.next ~/website/standalone/
-cp -r ~/.next/standalone/node_modules ~/website/standalone/
-cp ~/.next/standalone/server.js ~/website/standalone/
-cp ~/.next/standalone/package.json ~/website/standalone/
-pm2 stop acm-website
-pkill -f "next-server" || true
-sleep 2
-pm2 start acm-website
-rm -f ~/public_html/_next/static
-ln -s ~/website/standalone/.next/static ~/public_html/_next/static
-rm -rf ~/lscache/*
-echo "Done."
+zip -r website.zip website
+
+# upload
+scp $SSH_OPTS website.zip $SSH_HOST:~/
+scp $SSH_OPTS server/htaccess $SSH_HOST:~/public_html/.htaccess
+
+# deploy in the server
+ssh $SSH_OPTS $SSH_HOST << 'ENDSSH'
+rm -rf ~/website
+unzip website.zip
+
+pkill -u uochosting -x node || true
+pkill -u uochosting -f "next-server" || true
+sleep 1
+
+pm2 delete acm-website
+pm2 start ~/website/server.js --name acm-website
 ENDSSH

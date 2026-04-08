@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
             userAgent: '*',
             allow: '/',
         },
-        sitemap: 'https://csd.acm.org/sitemap.xml',
-        host: 'https://csd.acm.org',
+        sitemap: 'https://uoc.acm.org/sitemap.xml',
+        host: 'https://uoc.acm.org',
     };
 }

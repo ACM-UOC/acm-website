@@ -4,7 +4,7 @@ import About from '@/components/About';
 import TeamsSection from '@/components/TeamsSection';
 import UpcomingEvents from '@/components/UpcomingEvents';
 
-const BASE_URL = 'https://csd.acm.org';
+const BASE_URL = 'https://uoc.acm.org';
 
 export async function generateMetadata({
     params,
@@ -27,8 +27,8 @@ const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'ACM UOC Student Chapter',
-    url: 'https://csd.acm.org',
-    logo: 'https://csd.acm.org/logo.png',
+    url: 'https://uoc.acm.org',
+    logo: 'https://uoc.acm.org/logo.png',
     description: 'Official ACM Student Chapter at the University of Crete, Computer Science Department.',
     parentOrganization: {
         '@type': 'Organization',
@@ -37,11 +37,11 @@ const jsonLd = {
     },
     memberOf: {
         '@type': 'EducationalOrganization',
-        name: 'University of Crete |Computer Science Department',
+        name: 'University of Crete, Computer Science Department',
         url: 'https://www.csd.uoc.gr',
     },
     sameAs: [
-        'https://www.instagram.com/acm_uoc',
+        'https://www.instagram.com/acmuoc',
     ],
 };
 

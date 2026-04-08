@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import Team from '@/components/Team';
 
-const BASE_URL = 'https://csd.acm.org';
+const BASE_URL = 'https://uoc.acm.org';
 
 export async function generateMetadata({
     params,
