@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import Team from '@/components/Team';
-
-const BASE_URL = 'https://uoc.acm.org';
+import { getAbsoluteUrl, getLanguageAlternates } from '@/lib/site';
 
 export async function generateMetadata({
     params,
@@ -10,13 +9,12 @@ export async function generateMetadata({
     params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
     const { locale } = await params;
-    const localePath = locale === 'en' ? '' : `/${locale}`;
     return {
         title: "About ACM UOC",
         description: "Learn about ACM UOC,the official ACM Student Chapter at the Computer Science Department (CSD), University of Crete. Our mission, vision, and team.",
         alternates: {
-            canonical: `${BASE_URL}${localePath}/about`,
-            languages: { 'en': `${BASE_URL}/about`, 'el': `${BASE_URL}/gr/about` },
+            canonical: getAbsoluteUrl(locale, '/about'),
+            languages: getLanguageAlternates('/about'),
         },
     };
 }

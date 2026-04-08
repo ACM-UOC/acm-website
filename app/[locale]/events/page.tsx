@@ -41,7 +41,7 @@ export default function EventsPage() {
                     </h1>
                     <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.3)] mb-8" />
                     <p className="text-lg text-slate-600 leading-relaxed italic px-4">
-                        "{t('events_page.description')}"
+                        &ldquo;{t('events_page.description')}&rdquo;
                     </p>
                 </m.div>
 

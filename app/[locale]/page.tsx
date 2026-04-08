@@ -3,8 +3,7 @@ import Hero from '@/components/Hero';
 import About from '@/components/About';
 import TeamsSection from '@/components/TeamsSection';
 import UpcomingEvents from '@/components/UpcomingEvents';
-
-const BASE_URL = 'https://uoc.acm.org';
+import { getAbsoluteUrl, getLanguageAlternates } from '@/lib/site';
 
 export async function generateMetadata({
     params,
@@ -12,13 +11,12 @@ export async function generateMetadata({
     params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
     const { locale } = await params;
-    const localePath = locale === 'en' ? '' : `/${locale}`;
     return {
         title: "ACM UOC | Student Chapter at CSD | University of Crete",
         description: "Official ACM Student Chapter at the Computer Science Department (CSD), University of Crete (UOC). Workshops, hackathons, and tech talks in Heraklion, Crete.",
         alternates: {
-            canonical: `${BASE_URL}${localePath}`,
-            languages: { 'en': BASE_URL, 'el': `${BASE_URL}/gr` },
+            canonical: getAbsoluteUrl(locale),
+            languages: getLanguageAlternates(),
         },
     };
 }

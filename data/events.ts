@@ -33,12 +33,6 @@ export interface ACMEvent {
     registrationUrl?: string; // External link:Google Form, Eventbrite, etc.
 }
 
-const GOOGLE: Sponsor = { name: "Google", logo: "https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg", url: "https://google.com", desc: "Empowering developers worldwide with open-source tools and cloud infrastructure." };
-const GITHUB: Sponsor = { name: "GitHub", logo: "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg", url: "https://github.com", desc: "The world's leading AI-powered developer platform to build, scale, and deliver secure software." };
-const REACT: Sponsor = { name: "React", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg", url: "https://react.dev", desc: "The library for web and native user interfaces." };
-const CLOUDFLARE: Sponsor = { name: "Cloudflare", logo: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Cloudflare_Logo.svg", url: "https://cloudflare.com", desc: "A global network built for the cloud." };
-const VERCEL: Sponsor = { name: "Vercel", logo: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Vercel_logo_black.svg", url: "https://vercel.com", desc: "The platform for frontend developers, providing the speed and reliability needed to innovate." };
-
 export const eventsDatabase: ACMEvent[] = [
     // --- 4 UPCOMING EVENTS ---
     {

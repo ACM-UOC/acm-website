@@ -7,6 +7,13 @@ import { Link, usePathname } from '@/i18n/navigation';
 import LanguageSwitcher from "./LanguageSwitcher";
 const JoinDrawer = dynamic(() => import('./JoinDrawer'), { ssr: false });
 
+const navLinks = [
+    { id: "home", href: "/" },
+    { id: "team", href: "/teams" },
+    { id: "events", href: "/events" },
+    { id: "about", href: "/about" },
+];
+
 export default function Navbar() {
     const t = useTranslations();
     const pathname = usePathname();
@@ -15,6 +22,7 @@ export default function Navbar() {
     const [isJoinDrawerOpen, setIsJoinDrawerOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [shakingLink, setShakingLink] = useState<string | null>(null);
+    const currentActiveSection = pathname === "/" ? activeSection : "";
     const isDark = !isScrolled && pathname === "/";
 
     const handleActiveClick = (id: string) => {
@@ -23,14 +31,6 @@ export default function Navbar() {
     };
 
     const toggleMenu = () => setIsOpen(!isOpen);
-
-
-    const navLinks = [
-        { id: "home", href: "/" },
-        { id: "team", href: "/teams" },
-        { id: "events", href: "/events" },
-        { id: "about", href: "/about" },
-    ];
 
     useEffect(() => {
         const handleScroll = () => {
@@ -48,9 +48,7 @@ export default function Navbar() {
     }, []);
 
     useEffect(() => {
-
         if (pathname !== "/") {
-            setActiveSection("");
             return;
         }
 
@@ -114,7 +112,7 @@ export default function Navbar() {
                             <span className={`font-bold text-2xl tracking-tighter leading-none transition-colors duration-300 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                                 ACM <span className={`font-black italic transition-colors duration-300 ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>UOC</span>
                             </span>
-                            <span className={`text-xs font-mono font-bold tracking-widest uppercase transition-colors duration-300 ${isDark ? 'text-slate-300' : 'text-slate-400'}`}>
+                            <span className={`text-xs font-mono font-bold tracking-widest uppercase transition-colors duration-300 ${isDark ? 'text-slate-300' : 'text-slate-500'}`}>
                                 Student Chapter
                             </span>
                         </div>
@@ -127,8 +125,8 @@ export default function Navbar() {
                             let isActive = false;
                             if (pathname === "/") {
 
-                                if (link.id === "home") isActive = activeSection === "home";
-                                else isActive = activeSection === link.id;
+                                if (link.id === "home") isActive = currentActiveSection === "home";
+                                else isActive = currentActiveSection === link.id;
                             } else {
 
                                 isActive = pathname === link.href;
@@ -150,6 +148,7 @@ export default function Navbar() {
                         {/* Language Switcher */}
                         <LanguageSwitcher />
                         <button
+                            type="button"
                             onClick={() => setIsJoinDrawerOpen(true)}
                             aria-label={t('join.button')}
                             className={`cursor-pointer px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 hover:shadow-lg hover:shadow-blue-600/20 ${isDark ? 'bg-white/10 text-white border border-white/20 hover:bg-blue-600 hover:border-transparent backdrop-blur-sm' : 'bg-slate-900 text-white hover:bg-blue-600'}`}
@@ -160,6 +159,7 @@ export default function Navbar() {
 
                     {/* Mobile Menu Button*/}
                     <button
+                        type="button"
                         className="cursor-pointer md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none z-[100]"
                         onClick={toggleMenu}
                         aria-label={isOpen ? "Close menu" : "Open menu"}
@@ -186,6 +186,7 @@ export default function Navbar() {
                     <div className="flex items-center justify-between px-6 h-16 border-b border-slate-100 bg-white">
                         <span className="text-xs font-bold text-slate-600 tracking-[0.3em] uppercase italic">{t('nav.menu')}</span>
                         <button
+                            type="button"
                             onClick={() => setIsOpen(false)}
                             aria-label="Close menu"
                             className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-slate-900 text-white shadow-md"
@@ -220,6 +221,7 @@ export default function Navbar() {
                                 <LanguageSwitcher />
                             </div>
                             <button
+                                type="button"
                                 onClick={() => {
                                     setIsJoinDrawerOpen(true);
                                     setIsOpen(false); // Close the mobile menu when opening the drawer

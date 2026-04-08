@@ -3,7 +3,6 @@
 "use client";
 
 import { m } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
 import { useTranslations } from "next-intl"
 
 type NetworkItem = {
@@ -16,37 +15,44 @@ type NetworkItem = {
     duration: number;
 };
 
-const generateNetwork = (): NetworkItem[] =>
-    Array.from({ length: 20 }).map((_, i) => {
-        const targetX = Math.random() > 0.5 ? (5 + Math.random() * 20) : (55 + Math.random() * 20);
-        const targetY = Math.random() > 0.5 ? (5 + Math.random() * 20) : (55 + Math.random() * 20);
-        const cpX = 40 + (Math.random() - 0.5) * 100;
-        const cpY = 40 + (Math.random() - 0.5) * 100;
+const createRandom = (seed: number) => {
+    let current = seed;
+
+    return () => {
+        current = (current * 1664525 + 1013904223) % 4294967296;
+        return current / 4294967296;
+    };
+};
+
+const generateNetwork = (): NetworkItem[] => {
+    const random = createRandom(20260408);
+
+    return Array.from({ length: 20 }).map((_, i) => {
+        const targetX = random() > 0.5 ? (5 + random() * 20) : (55 + random() * 20);
+        const targetY = random() > 0.5 ? (5 + random() * 20) : (55 + random() * 20);
+        const cpX = 40 + (random() - 0.5) * 100;
+        const cpY = 40 + (random() - 0.5) * 100;
+
         return {
             id: i,
             targetX,
             targetY,
             path: `M 40 40 Q ${cpX} ${cpY} ${targetX} ${targetY}`,
-            size: Math.random() > 0.6 ? 5 + Math.random() * 3 : 2 + Math.random() * 2,
-            delay: Math.random() * 2,
-            duration: 2.5 + Math.random() * 2,
+            size: random() > 0.6 ? 5 + random() * 3 : 2 + random() * 2,
+            delay: random() * 2,
+            duration: 2.5 + random() * 2,
         };
     });
+};
+
+const network = generateNetwork();
 
 const Hero = () => {
     const t = useTranslations('hero');
-    const containerRef = useRef(null);
-    const [network, setNetwork] = useState<NetworkItem[]>([]);
-
-    useEffect(() => {
-        setNetwork(generateNetwork());
-    }, []);
-
 
     return (
         <section
             id="home"
-            ref={containerRef}
             className="relative min-h-dvh w-full bg-[#020617] flex items-center justify-center overflow-hidden"
         >
             {/* stage: dark background and a subtle grid*/}
@@ -144,4 +150,3 @@ const Hero = () => {
 }
 
 export default Hero;
-

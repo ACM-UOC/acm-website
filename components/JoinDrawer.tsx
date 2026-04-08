@@ -61,6 +61,7 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                                 </p>
                             </div>
                             <button
+                                type="button"
                                 onClick={handleClose}
                                 className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
                             >
@@ -135,20 +136,26 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                                     }}
                                 >
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{t('join.name')}</label>
+                                        <label htmlFor="join-name" className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{t('join.name')}</label>
                                         <input
+                                            id="join-name"
+                                            name="name"
                                             type="text"
-                                            required                                            
+                                            autoComplete="name"
+                                            required
                                             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
                                             placeholder="Ada Lovelace"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{t('join.email')}</label>
+                                        <label htmlFor="join-email" className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{t('join.email')}</label>
                                         <input
+                                            id="join-email"
+                                            name="email"
                                             type="email"
-                                            required 
-                                            pattern=".*@.*\.uoc\.gr$" 
+                                            autoComplete="email"
+                                            required
+                                            pattern=".*@.*\.uoc\.gr$"
                                             title="Please enter a valid University of Crete email (ending in uoc.gr)"
                                             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
                                             placeholder="csdXXXX@csd.uoc.gr"
@@ -156,8 +163,10 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{t('join.year')}</label>
+                                            <label htmlFor="join-year" className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{t('join.year')}</label>
                                             <select
+                                                id="join-year"
+                                                name="year"
                                                 required
                                                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
                                                 defaultValue=""
@@ -170,9 +179,12 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{t('join.interests')}</label>
+                                            <label htmlFor="join-interests" className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{t('join.interests')}</label>
                                             <input
+                                                id="join-interests"
+                                                name="interests"
                                                 type="text"
+                                                autoComplete="off"
                                                 required
                                                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
                                                 placeholder="Web, AI..."

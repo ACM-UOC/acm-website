@@ -10,10 +10,8 @@ export default async function Footer() {
     <footer id="contact" className="bg-slate-950 text-white pt-12 pb-8 border-t border-slate-900">
       <div className="max-w-[95%] mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-
-          {/* Column 1 - branding */}
           <div className="space-y-6">
-            <Link href="#home" className="inline-flex items-center space-x-3 group cursor-pointer">
+            <Link href="/" className="inline-flex items-center space-x-3 group cursor-pointer">
               <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[5deg] relative">
                 <Image
                   src="/logo.png"
@@ -38,7 +36,6 @@ export default async function Footer() {
             </p>
           </div>
 
-          {/* Column 2 - links */}
           <div>
             <h3 className="font-bold text-lg mb-5 text-slate-100">
               {t('footer.quick_links')}
@@ -50,7 +47,6 @@ export default async function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 - social */}
           <div>
             <h3 className="font-bold text-lg mb-5 text-slate-100">{t('footer.connect')}</h3>
             <div className="flex space-x-4">
@@ -60,7 +56,6 @@ export default async function Footer() {
             </div>
           </div>
 
-          {/* Column 4 - contact */}
           <div>
             <h3 className="font-bold text-lg mb-5 text-slate-100">{t('footer.contact_us')}</h3>
             <a href="mailto:acm@csd.uoc.gr" className="text-blue-400 text-lg font-bold hover:text-blue-300 transition-colors">
@@ -69,10 +64,9 @@ export default async function Footer() {
           </div>
         </div>
 
-        {/* Sub-footer */}
         <div className="pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-400 text-sm">
-            © {currentYear} ACM Student Chapter UOC. {t('footer.rights')}
+            &copy; {currentYear} ACM Student Chapter UOC. {t('footer.rights')}
           </p>
           <div className="flex items-center gap-5 group cursor-pointer">
             <div className="text-right hidden sm:block">

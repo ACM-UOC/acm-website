@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { m, AnimatePresence } from 'framer-motion';
 
@@ -17,22 +18,27 @@ interface SponsorsProps {
 
 export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) {
     const t = useTranslations();
-    
-    // Track which sponsor is currently being hovered/viewed
-    const [activeSponsor, setActiveSponsor] = useState<SponsorType | null>(null);
-
-    // Set the first sponsor as active by default when the component loads
-    useEffect(() => {
-        if (sponsors && sponsors.length > 0) {
-            setActiveSponsor(sponsors[0]);
-        }
-    }, [sponsors]);
+    const [activeSponsorName, setActiveSponsorName] = useState<string | null>(null);
 
     if (!sponsors || sponsors.length === 0) return null;
 
     const isCard = variant === 'card';
     const isSidebar = variant === 'sidebar';
     const isPage = variant === 'page';
+    const activeSponsor = sponsors.find((sponsor) => sponsor.name === activeSponsorName) ?? sponsors[0];
+
+    const renderLogo = (sponsor: SponsorType, className: string) => (
+        <div className={className}>
+            <Image
+                src={sponsor.logo}
+                alt={sponsor.name}
+                fill
+                sizes="120px"
+                unoptimized={sponsor.logo.endsWith('.svg')}
+                className="object-contain"
+            />
+        </div>
+    );
 
 
     // VARIANT: PAGE 
@@ -50,23 +56,18 @@ export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) 
                             const isActive = activeSponsor?.name === sponsor.name;
                             return (
                                 <button
+                                    type="button"
                                     key={sponsor.name}
                                     aria-label={`${sponsor.name}${isActive ? ' (active)' : ''}`}
-                                    onMouseEnter={() => setActiveSponsor(sponsor)}
-                                    onFocus={() => setActiveSponsor(sponsor)}
+                                    onMouseEnter={() => setActiveSponsorName(sponsor.name)}
+                                    onFocus={() => setActiveSponsorName(sponsor.name)}
                                     className={`cursor-pointer relative transition-all duration-500 transform outline-none ${
                                         isActive 
                                         ? 'grayscale-0 opacity-100 scale-110' 
                                         : 'grayscale opacity-40 hover:opacity-70'
                                     }`}
                                 >
-                                    <img
-                                        src={sponsor.logo}
-                                        alt={sponsor.name}
-                                        width={120}
-                                        height={40}
-                                        className="h-8 md:h-10 w-auto object-contain"
-                                    />                                   
+                                    {renderLogo(sponsor, "relative h-8 w-[120px] md:h-10")}
                                     {isActive && (
                                         <m.div 
                                             layoutId="active-sponsor-dot"
@@ -103,7 +104,7 @@ export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) 
                                         href={activeSponsor.url} 
                                         target="_blank" 
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors group shrink-0"
+                                        className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-blue-600 transition-colors group shrink-0"
                                     >
                                         {t('sponsors.visit')}
                                         <svg className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -123,7 +124,7 @@ export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) 
     // VARIANTS: CARD & SIDEBAR 
     return (
         <div className={`flex flex-col gap-4 ${isCard ? 'mb-4' : ''}`}>
-            <span className={`font-black uppercase tracking-widest text-slate-400 ${isCard ? 'text-[8px]' : 'text-[10px]'}`}>
+            <span className={`font-black uppercase tracking-widest text-slate-500 ${isCard ? 'text-[8px]' : 'text-[10px]'}`}>
                 {isCard ? t('events.supported_by') : t('event_detail.sponsored_by')}
             </span>
             
@@ -136,13 +137,7 @@ export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) 
                         rel="noopener noreferrer" 
                         className={`group block grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 transform ${isSidebar ? 'hover:translate-x-2' : 'hover:scale-105'}`}
                     >
-                        <img
-                            src={sponsor.logo}
-                            alt={sponsor.name}
-                            width={120}
-                            height={32}
-                            className={`${isCard ? 'h-5' : 'h-8'} w-auto object-contain mb-2`}
-                        />                      
+                        {renderLogo(sponsor, `relative ${isCard ? 'h-5' : 'h-8'} w-[120px] mb-2`)}
                         {isSidebar && sponsor.desc && (
                             <p className="text-xs text-slate-500 font-light leading-relaxed group-hover:text-slate-700 transition-colors">
                                 {sponsor.desc}

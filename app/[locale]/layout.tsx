@@ -10,6 +10,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import MotionProvider from "@/components/MotionProvider";
+import { BASE_URL, getAbsoluteUrl, getLanguageAlternates } from "@/lib/site";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -21,15 +22,12 @@ const geistMono = Geist_Mono({
     subsets: ["latin"],
 });
 
-const BASE_URL = 'https://uoc.acm.org';
-
 export async function generateMetadata({
     params,
 }: {
     params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
     const { locale } = await params;
-    const localePath = locale === 'en' ? '' : `/${locale}`;
 
     return {
         metadataBase: new URL(BASE_URL),
@@ -41,19 +39,15 @@ export async function generateMetadata({
         icons: { icon: "/logo.png" },
         keywords: ["ACM", "UOC", "Computer Science", "Student Chapter", "University of Crete", "Tech Community", "Heraklion", "CSD", "Programming"],
         alternates: {
-            canonical: `${BASE_URL}${localePath}`,
-            languages: {
-                'en': BASE_URL,
-                'el': `${BASE_URL}/gr`,
-                'x-default': BASE_URL,
-            },
+            canonical: getAbsoluteUrl(locale),
+            languages: getLanguageAlternates(),
         },
         openGraph: {
             title: "ACM UOC | Student Chapter",
             description: "Official ACM Student Chapter at the University of Crete, Computer Science Department.",
-            url: `${BASE_URL}${localePath}`,
+            url: getAbsoluteUrl(locale),
             siteName: "ACM UOC",
-            images: [{ url: "/logo.png", alt: "ACM UOC Student Chapter" }],
+            images: [{ url: "/acm_logo.jpg", alt: "ACM UOC Student Chapter" }],
             type: "website",
             locale: locale === 'en' ? 'en_US' : 'el_GR',
         },
@@ -61,7 +55,7 @@ export async function generateMetadata({
             card: "summary_large_image",
             title: "ACM UOC | Student Chapter",
             description: "Official ACM Student Chapter at the University of Crete, Computer Science Department.",
-            images: ["/logo.png"],
+            images: ["/acm_logo.jpg"],
         },
     };
 }

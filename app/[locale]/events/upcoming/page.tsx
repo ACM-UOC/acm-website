@@ -65,7 +65,7 @@ export default function AllUpcomingEventsPage() {
                                     <div className="w-8 h-1 bg-blue-600 mb-4 group-hover:w-16 transition-all duration-500 rounded-full shrink-0" />
 
                                     <p className="text-slate-500 text-sm font-light leading-relaxed italic mb-6 shrink-0">
-                                        "{t(`events.${event.id}.description`)}"
+                                        &ldquo;{t(`events.${event.id}.description`)}&rdquo;
                                     </p>
 
                                     <div className="mb-2 shrink-0 relative z-20">
