@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const BASE_URL = 'https://csd.acm.org';
+const BASE_URL = 'https://uoc.acm.org';
 
 // With localePrefix: 'as-needed', English has no prefix, Greek gets /gr/
 const localePrefix = (locale: string) => locale === 'en' ? '' : `/${locale}`;

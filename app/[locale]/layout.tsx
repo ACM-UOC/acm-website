@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
     subsets: ["latin"],
 });
 
-const BASE_URL = 'https://csd.acm.org';
+const BASE_URL = 'https://uoc.acm.org';
 
 export async function generateMetadata({
     params,
@@ -53,7 +53,7 @@ export async function generateMetadata({
             description: "Official ACM Student Chapter at the University of Crete, Computer Science Department.",
             url: `${BASE_URL}${localePath}`,
             siteName: "ACM UOC",
-            images: [{ url: "/social-preview.jpg", width: 1200, height: 630, alt: "ACM UOC Student Chapter Preview Card" }],
+            images: [{ url: "/logo.png", alt: "ACM UOC Student Chapter" }],
             type: "website",
             locale: locale === 'en' ? 'en_US' : 'el_GR',
         },
@@ -61,7 +61,7 @@ export async function generateMetadata({
             card: "summary_large_image",
             title: "ACM UOC | Student Chapter",
             description: "Official ACM Student Chapter at the University of Crete, Computer Science Department.",
-            images: ["/social-preview.jpg"],
+            images: ["/logo.png"],
         },
     };
 }

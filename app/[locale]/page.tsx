@@ -4,7 +4,7 @@ import About from '@/components/About';
 import TeamsSection from '@/components/TeamsSection';
 import UpcomingEvents from '@/components/UpcomingEvents';
 
-const BASE_URL = 'https://csd.acm.org';
+const BASE_URL = 'https://uoc.acm.org';
 
 export async function generateMetadata({
     params,
@@ -27,10 +27,10 @@ const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'ACM UOC Student Chapter',
-    url: 'https://csd.acm.org',
+    url: 'https://uoc.acm.org',
     logo: {
         '@type': 'ImageObject',
-        url: 'https://csd.acm.org/logo.png',
+        url: 'https://uoc.acm.org/logo.png',
         width: 499,
         height: 499,
     },
