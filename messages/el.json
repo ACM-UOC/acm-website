@@ -173,7 +173,10 @@
             "text": "Περιεχόμενο",
             "communication": "Επικοινωνίες",
             "game_dev": "Game Dev Team",
-            "advisor": "Ακαδημαϊκός Σύμβουλος"
+            "advisor": "Ακαδημαϊκός Σύμβουλος",
+            "treasurer": "Ταμίας",
+            "secretary": "Γραμματέας",
+            "graphic": "Γραφικά"
         }
     },
     "join": {

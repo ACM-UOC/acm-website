@@ -1,3 +1,4 @@
+import { parseDb } from '@/lib/db_parser';
 import { getTranslations } from 'next-intl/server';
 
 interface TeamMember {
@@ -8,69 +9,39 @@ interface TeamMember {
   linkedin?: string;
 }
 
-var team: TeamMember[] = [];
+async function TeamParser(): Promise<TeamMember[]> {
+  const allMembers = await parseDb('https://data.uoc.acm.org/wp-json/wp/v2/members?acf_format=standard&_fields=id,acf');
 
-const TeamMemberId: number[] = [];
+  const result = allMembers.map((member) => {
+    const {firstname_en, lastname_en, firstname_gr, lastname_gr, role, link_linkedin} = member.acf;
 
-async function TeamParser() {
-  // TODO: here have a while function up until you get a 400 meaning there is no more pages
-  let page = 1;
-  let allMembers: any[] = [];
-  
-  console.log("Team Parser has been called");
-  
-  while (true) {
-    const data_url=`https://data.uoc.acm.org/wp-json/wp/v2/members?acf_format=standard&_fields=id,acf&per_page=100&page=${page}`
-    const res = await fetch(data_url);
-
-    if(!res.ok || res.status === 400) {
-      console.log(`found the last page ${page}`);
-      break;
-    }
-
-    const data = await res.json();
-    
-    if (data.length === 0) break;
-
-    allMembers = allMembers.concat(data);
-    console.log(data);
-
-    page++;
-  }
-
-  const teamFetched: TeamMember[] = [];
-
-  allMembers.forEach((member) => {
-    if (member.id in TeamMemberId) return;
-    
-    const firstname = member.acf.firstname_en;
-    const lastname = member.acf.lastname_en;
-    const role1 = member.acf.role[0];
-    // FIXME: to only be applied if defined
-    const role2 = member.acf.role[1] || '';
-
-    console.log(role1);
-    console.log(role2);
-
-    console.log(`NAME: ${firstname} ${lastname}`);
-
-    // MAYBE: just check with ids in order to see if any new additions have occurred and only then pull?
-    // or just reload site, is just easier
-    teamFetched.push({
-      name: `${firstname} ${lastname}`,
-      roleKey: `${role1}`,
-      secondRoleKey: `${role2}`,
-      linkedin: `${member.acf.link_linkedin}`
-    });
-
+    return {
+      name: `${firstname_en} ${lastname_en}`,
+      roleKey: role?.[0] || '',
+      secondRoleKey: role?.[1] || '',
+      linkedin: link_linkedin
+    };
   });
 
-  return teamFetched;
+  const sortedRoles = ["admin", "vice_chair", "treasurer", "secretary", "advisor"];
+  const getRank = (role: string) => {
+    const index = sortedRoles.indexOf(role);
+    return (index === -1) ? Infinity : index;
+  }
+
+  result.sort((a,b) => {
+    let a_min = Math.min(getRank(a.roleKey), getRank(a.secondRoleKey));
+    let b_min = Math.min(getRank(b.roleKey), getRank(b.secondRoleKey));
+  
+    return a_min - b_min;
+  });
+
+  return result;
 }
 
 export default async function Team() {
   const t = await getTranslations();
-  team = await TeamParser();
+  const team = await TeamParser();
 
   return (
     <section id="team" className="py-24 bg-transparent scroll-mt-16">
