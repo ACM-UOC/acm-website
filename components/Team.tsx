@@ -8,34 +8,69 @@ interface TeamMember {
   linkedin?: string;
 }
 
-const team: TeamMember[] = [
-  // Chair
-  { name: "Nikos Kanakousakis", roleKey: "admin", secondRoleKey: "web_dev", linkedin: "https://www.linkedin.com/in/nikos-kanakousakis-277487334/" },
-  // Vice Chair
-  { name: "Vasiliki Tsiouvra", roleKey: "vice_chair", linkedin: "https://www.linkedin.com/in/vasiliki-tsiourva-350467375" },
-  // Web Dev (alphabetical by surname)
-  { name: "Kostas Anagnostakis", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/κωνσταντίνος-αναγνωστάκης-13bb04253" },
-  { name: "Pavlos Grigoriadis", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/pavlos-grigoriadis/" },
-  { name: "John Grigoriadis", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/γιάννης-γρηγοριάδης" },
-  { name: "Tzeortziana Komoritsan", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/entisa-tzeortziana-komoritsan-887467374" },
-  { name: "Eleni Manassaki", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/eleni-manassaki" },
-  { name: "Christina Papachristoudi", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/christina-papachristoudi/" },
-  { name: "Spyros Siachamis", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/spyridon-siachamis-578793290" },
-  // Game Dev Team
-  { name: "Mihalis Karapiperakis", roleKey: "game_dev", linkedin: "https://www.linkedin.com/in/mihalis-karapiperakis/" },
-  // Social (alphabetical by surname)
-  { name: "Anastasia Samara", roleKey: "social" },
-  { name: "Argyro Sxoinaraki", roleKey: "social" },
-  // Content (alphabetical by surname)
-  { name: "Dimitris Aspetakis", roleKey: "text", staticRole: "Faculty Advisor", linkedin: "https://www.linkedin.com/in/aspe/" },
-  // Communications (alphabetical by surname)
-  { name: "Manos Akoumianakis", roleKey: "communication", linkedin: "https://www.linkedin.com/in/akoumianakism/" },
-  { name: "Nikos Chronis", roleKey: "communication", linkedin: "https://www.linkedin.com/in/nikolaos-chronis-4a4773373" },
-  { name: "Michalis Kouroupakis", roleKey: "communication" },
-];
+var team: TeamMember[] = [];
+
+const TeamMemberId: number[] = [];
+
+async function TeamParser() {
+  // TODO: here have a while function up until you get a 400 meaning there is no more pages
+  let page = 1;
+  let allMembers: any[] = [];
+  
+  console.log("Team Parser has been called");
+  
+  while (true) {
+    const data_url=`https://data.uoc.acm.org/wp-json/wp/v2/members?acf_format=standard&_fields=id,acf&per_page=100&page=${page}`
+    const res = await fetch(data_url);
+
+    if(!res.ok || res.status === 400) {
+      console.log(`found the last page ${page}`);
+      break;
+    }
+
+    const data = await res.json();
+    
+    if (data.length === 0) break;
+
+    allMembers = allMembers.concat(data);
+    console.log(data);
+
+    page++;
+  }
+
+  const teamFetched: TeamMember[] = [];
+
+  allMembers.forEach((member) => {
+    if (member.id in TeamMemberId) return;
+    
+    const firstname = member.acf.firstname_en;
+    const lastname = member.acf.lastname_en;
+    const role1 = member.acf.role[0];
+    // FIXME: to only be applied if defined
+    const role2 = member.acf.role[1] || '';
+
+    console.log(role1);
+    console.log(role2);
+
+    console.log(`NAME: ${firstname} ${lastname}`);
+
+    // MAYBE: just check with ids in order to see if any new additions have occurred and only then pull?
+    // or just reload site, is just easier
+    teamFetched.push({
+      name: `${firstname} ${lastname}`,
+      roleKey: `${role1}`,
+      secondRoleKey: `${role2}`,
+      linkedin: `${member.acf.link_linkedin}`
+    });
+
+  });
+
+  return teamFetched;
+}
 
 export default async function Team() {
   const t = await getTranslations();
+  team = await TeamParser();
 
   return (
     <section id="team" className="py-24 bg-transparent scroll-mt-16">

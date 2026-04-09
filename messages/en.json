@@ -173,7 +173,10 @@
             "text": "Content",
             "communication": "Communications",
             "game_dev": "Game Dev Team",
-            "advisor": "Faculty Advisor"
+            "advisor": "Faculty Advisor",
+            "treasurer": "Treasurer",
+            "secretary": "Secretary",
+            "graphic": "Graphics"
         }
     },
     "join": {
