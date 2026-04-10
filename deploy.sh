@@ -1,11 +1,24 @@
 #!/bin/bash
 set -e
 
-SSH_HOST="uochosting@uoc.acm.org"
-SSH_OPTS="-o MACs=hmac-sha2-256"
+SSH_HOST="${SSH_HOST:-uochosting@uoc.acm.org}"
+SSH_OPTS="${SSH_OPTS:--o MACs=hmac-sha2-256}"
+SKIP_BUILD=false
+
+if [[ "${1:-}" == "--skip-build" ]] || [[ "${SKIP_BUILD:-0}" == "1" ]]; then
+  SKIP_BUILD=true
+fi
 
 # build the site
-npx next build
+if [[ "$SKIP_BUILD" == "true" ]]; then
+  echo "Skipping build..."
+  if [[ ! -d ".next/standalone" ]] || [[ ! -d ".next/static" ]]; then
+    echo "Error: .next build artifacts not found. Run build first."
+    exit 1
+  fi
+else
+  npx next build
+fi
 
 # create folder structure
 rm -rf ./website
