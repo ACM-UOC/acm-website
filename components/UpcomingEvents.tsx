@@ -92,7 +92,7 @@ export default async function UpcomingEventsGrid() {
                     ))}
 
                     <div className="group bg-slate-50/50 rounded-[2.5rem] border border-dashed border-slate-200 p-7 transition-all duration-500 flex flex-col h-full min-h-[400px] items-center justify-center text-center">
-                        <div className="w-20 h-20 rounded-full bg-white shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 text-blue-300">
+                        <div className="w-20 h-20 rounded-full bg-white shadow-sm flex items-center justify-center mb-6 text-blue-300">
                             <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
                             </svg>

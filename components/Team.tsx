@@ -5,7 +5,6 @@ interface TeamMember {
   name: string;
   roleKey: string;
   secondRoleKey?: string;
-  staticRole?: string;
   linkedin?: string;
 }
 
@@ -75,11 +74,10 @@ export default async function Team() {
                   {member.name}
                 </h3>
                 <p className="text-blue-600 font-bold text-[10px] uppercase tracking-widest">
-                  {!member.staticRole && t(`team-members.roles.${member.roleKey}`)}
+                  {t(`team-members.roles.${member.roleKey}`)}
                   {member.secondRoleKey && (
                     <><br />{t(`team-members.roles.${member.secondRoleKey}`)}</>
                   )}
-                  {member.staticRole && member.staticRole}
                 </p>
                 {member.linkedin && (
                   <a href={member.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on LinkedIn`} className="inline-block mt-2 text-slate-400 hover:text-blue-600 transition-colors">
