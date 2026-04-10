@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { EmblaCarouselType } from 'embla-carousel';
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoScroll from 'embla-carousel-auto-scroll';
@@ -15,6 +15,22 @@ export default function EventSlider() {
     const upcomingEvents = getUpcomingEvents();
     const t = useTranslations();
     const [scrollProgress, setScrollProgress] = useState(0);
+    const shouldLoop = upcomingEvents.length > 3;
+    const emblaOptions = useMemo(() => ({ loop: shouldLoop }), [shouldLoop]);
+    const emblaPlugins = useMemo(
+        () =>
+            shouldLoop
+                ? [
+                      AutoScroll({
+                          playOnInit: true,
+                          speed: 1,
+                          stopOnInteraction: false,
+                          stopOnMouseEnter: true,
+                      }),
+                  ]
+                : [],
+        [shouldLoop]
+    );
     const getEventImageClassName = (eventId: string) => {
         if (eventId === "game-dev-workshop") {
             return "object-cover object-center transition-transform duration-1000 group-hover:scale-105";
@@ -25,14 +41,7 @@ export default function EventSlider() {
         return "object-cover object-center transition-transform duration-1000 group-hover:scale-110";
     };
 
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-        AutoScroll({
-            playOnInit: true,
-            speed: 1,
-            stopOnInteraction: false,
-            stopOnMouseEnter: true
-        })
-    ]);
+    const [emblaRef, emblaApi] = useEmblaCarousel(emblaOptions, emblaPlugins);
 
     const onScroll = useCallback((api: EmblaCarouselType) => {
         const progress = Math.max(0, Math.min(1, api.scrollProgress()));
@@ -43,6 +52,9 @@ export default function EventSlider() {
         if (!emblaApi) return;
         emblaApi.on('scroll', onScroll);
         onScroll(emblaApi);
+        return () => {
+            emblaApi.off('scroll', onScroll);
+        };
     }, [emblaApi, onScroll]);
 
     return (
@@ -74,7 +86,7 @@ export default function EventSlider() {
                 ref={emblaRef}
             >
                 <div className="flex items-stretch">
-                    {upcomingEvents.map((event) => (
+                    {upcomingEvents.map((event, idx) => (
                         <div key={event.id} className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 pl-8">
                             <div className="block h-full">
                                 <div className="group bg-white rounded-[2.5rem] border border-slate-100 p-7 shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden relative flex flex-col h-full min-h-[500px] cursor-pointer">
@@ -86,7 +98,11 @@ export default function EventSlider() {
                                                 src={event.image}
                                                 alt={t(`events.${event.id}.title`)}
                                                 fill
-                                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                                quality={70}
+                                                sizes="(max-width: 640px) 88vw, (max-width: 1024px) 42vw, 360px"
+                                                priority={idx === 0}
+                                                loading={idx === 0 ? 'eager' : 'lazy'}
+                                                fetchPriority={idx === 0 ? 'high' : 'low'}
                                                 className={getEventImageClassName(event.id)}
                                             />
                                             <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg z-20">

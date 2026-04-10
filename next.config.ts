@@ -37,6 +37,8 @@ const nextConfig: NextConfig = {
         return [{ source: '/(.*)', headers: securityHeaders }];
     },
     images: {
+        formats: ['image/avif', 'image/webp'],
+        minimumCacheTTL: 60 * 60 * 24 * 30,
         remotePatterns: [
             { protocol: 'https', hostname: 'i.pravatar.cc' },
             { protocol: 'https', hostname: 'www.gstatic.com' },

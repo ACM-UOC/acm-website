@@ -1,14 +1,13 @@
-"use client";
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 
 import Sponsors from '@/components/Sponsors';
 import { getUpcomingEvents } from '@/data/events';
 
-export default function UpcomingEventsGrid() {
+export default async function UpcomingEventsGrid() {
     const upcomingEvents = getUpcomingEvents();
-    const t = useTranslations();
+    const t = await getTranslations();
     const getEventImageClassName = (eventId: string) => {
         if (eventId === "game-dev-workshop") {
             return "object-cover object-center transition-transform duration-1000 group-hover:scale-105";
@@ -46,7 +45,10 @@ export default function UpcomingEventsGrid() {
                                         src={event.image}
                                         alt={t(`events.${event.id}.title`)}
                                         fill
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        quality={70}
+                                        sizes="(max-width: 768px) 90vw, (max-width: 1200px) 44vw, 360px"
+                                        loading="lazy"
+                                        fetchPriority="low"
                                         className={getEventImageClassName(event.id)}
                                     />
                                     <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg z-20">
