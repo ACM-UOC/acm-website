@@ -63,8 +63,8 @@ export default async function Footer() {
           {/* Column 4 - contact */}
           <div>
             <h3 className="font-bold text-lg mb-5 text-slate-100">{t('footer.contact_us')}</h3>
-            <a href="mailto:acm@csd.uoc.gr" className="text-blue-400 text-lg font-bold hover:text-blue-300 transition-colors">
-              acm@csd.uoc.gr
+            <a href="mailto:acmuoc@csd.uoc.gr" className="text-blue-400 text-lg font-bold hover:text-blue-300 transition-colors">
+              acmuoc@csd.uoc.gr
             </a>
           </div>
         </div>

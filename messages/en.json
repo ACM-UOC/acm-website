@@ -1,7 +1,7 @@
 {
     "nav": {
         "home": "Home",
-        "about": "About",
+        "about": "About Us",
         "events": "Events",
         "team": "Teams",
         "join": "Join Us",
@@ -50,7 +50,7 @@
         }
     },
     "footer": {
-        "description": "Official Student at CSD UOC. Bridging the gap between theory and practice.",
+        "description": "Official Student Chapter at UOC. Bridging the gap between theory and practice.",
         "quick_links": "Quick Links",
         "connect": "Follow us",
         "contact_us": "Contact Us",
@@ -66,8 +66,9 @@
         "teams": {
             "game_dev": {
                 "name": "Game Development",
-                "icon": "🕹️",
-                "description": "Are you into video games? Would you like to participate in the development of an electronic game? Then the Game Dev team is for you!"
+                "icon": "https://cdn.discordapp.com/icons/1465718762836721816/f9a65d6bc4911a832316c8d9befca2b1.webp?size=100&quality=lossless",
+                "description": "Ever wanted to build your own universe? From the first line of code to the final boss battle, we're the team making it happen. Come hang out, get creative, and let's build something legendary together.",
+                "url": "https://discord.com/invite/yznUNmNQ"
             },
             "web_dev": {
                 "name": "Web Development",
@@ -110,7 +111,7 @@
         },
         "game-jam": {
             "title": "Game Jam",
-            "description": "Build a complete game from scratch in one day. Solo or in teams, all skill levels are welcome.",
+            "description": "This jam is all about making something fun, creative, and playable in a short amount of time. Whether you're a programmer, artist, designer, writer, musician, or complete beginner, you're welcome to join. You can work solo or in a team, build around the jam theme, and submit your project before the deadline. Most importantly: have fun, experiment, and make something you're proud of.",
             "cta": "Join the Jam",
             "status": "Game Jam"
         }
@@ -162,7 +163,7 @@
         "vision_text": "We envision a vibrant student ecosystem where knowledge is freely shared. Whether you are writing your first line of code or you are an advanced developer, our chapter is here to support your journey and help you thrive in the tech industry."
     },
     "team-members": {
-        "badge": "Leadership",
+        "badge": "Members",
         "title": "Meet The Team",
         "description": "The dedicated students and faculty advisors behind the ACM UOC Student Chapter.",
         "roles": {

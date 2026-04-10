@@ -172,9 +172,9 @@ export default function EventDetailPage() {
                                         <h3 className="text-2xl font-black text-slate-900 tracking-tight uppercase mb-3">
                                             {t('event_detail.join_prompt_title')}
                                         </h3>
-                                        <p className="text-slate-500 text-sm leading-relaxed mb-6">
+                                        {/* <p className="text-slate-500 text-sm leading-relaxed mb-6">
                                             {t('event_detail.join_prompt_desc')}
-                                        </p>
+                                        </p> */}
                                         {event.registrationUrl ? (
                                             <a
                                                 href={event.registrationUrl}

@@ -1,7 +1,7 @@
 {
     "nav": {
         "home": "Home",
-        "about": "About",
+        "about": "About Us",
         "events": "Events",
         "team": "Team",
         "join": "Join Us"
@@ -58,7 +58,7 @@
         }
     },
     "footer": {
-        "description": "Official Student at CSD UOC. Bridging the gap between theory and practice.",
+        "description": "Official Student Chapter at UOC. Bridging the gap between theory and practice.",
         "quick_links": "Quick Links",
         "connect": "Connect",
         "contact_us": "Contact Us",

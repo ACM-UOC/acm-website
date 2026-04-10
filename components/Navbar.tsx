@@ -149,16 +149,18 @@ export default function Navbar() {
 
                         {/* Language Switcher */}
                         <LanguageSwitcher />
-                        <button
+
+                        {/* Join Button */}
+                        {/* <button
                             onClick={() => setIsJoinDrawerOpen(true)}
                             aria-label={t('join.button')}
                             className={`cursor-pointer px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 hover:shadow-lg hover:shadow-blue-600/20 ${isDark ? 'bg-white/10 text-white border border-white/20 hover:bg-blue-600 hover:border-transparent backdrop-blur-sm' : 'bg-slate-900 text-white hover:bg-blue-600'}`}
                         >
                             {t('join.button')}
-                        </button>
+                        </button> */}
                     </div>
 
-                    {/* Mobile Menu Button*/}
+                    {/* Mobile Menu Button */}
                     <button
                         className="cursor-pointer md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none z-[100]"
                         onClick={toggleMenu}
@@ -214,12 +216,13 @@ export default function Navbar() {
                             ))}
                         </div>
 
-                        {/* Join Us button */}
                         <div className="flex flex-col space-y-4 pt-6 border-t border-slate-100">
+                            {/* Language Switcher */}
                             <div className="scale-110 origin-left">
                                 <LanguageSwitcher />
                             </div>
-                            <button
+                            {/* - Join Us button */}
+                            {/* <button
                                 onClick={() => {
                                     setIsJoinDrawerOpen(true);
                                     setIsOpen(false); // Close the mobile menu when opening the drawer
@@ -227,7 +230,7 @@ export default function Navbar() {
                                 className=" cursor-pointer w-full bg-slate-900 text-white px-6 py-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-blue-600 transition-all duration-300"
                             >
                                 {t('join.button')}
-                            </button>
+                            </button> */}
                         </div>
 
                         {/* Footer-info */}
