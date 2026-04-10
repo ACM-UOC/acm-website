@@ -17,11 +17,11 @@
     "about": {
         "badge": "Who We Are",
         "title": "ACM UOC Student Chapter",
-        "description": "ACM UOC is the official ACM Student Chapter at the Computer Science Department (CSD), University of Crete. We connect CS students in Heraklion with workshops, hackathons, and technical talksbridging academic theory with real-world practice.",
+        "description": "ACM UOC is the official ACM Student Chapter at the Computer Science Department (CSD), University of Crete. We connect CS students in Heraklion with workshops, hackathons, and technical talks bridging academic theory with real-world practice.",
         "pillars": {
             "chapter": {
                 "title": "ACM Student Chapter",
-                "desc": "Official ACM Student Chapter at the CSD, University of Crete (UOC)advancing computing as a science and profession since 2025."
+                "desc": "Official ACM Student Chapter at the CSD, University of Crete (UOC) advancing computing as a science and profession since 2025."
             },
             "history": {
                 "title": "Est. 2025",
@@ -104,13 +104,13 @@
         },
         "game-dev-workshop": {
             "title": "Into Game Development",
-            "description": "A full-day event covering the essentials of game developmentindustry insights from working professionals, the tools of the trade, and a hands-on introduction to Unity and C# where you build your first 3D world.",
+            "description": "A full-day event covering the essentials of game development industry insights from working professionals, the tools of the trade, and a hands-on introduction to Unity and C# where you build your first 3D world.",
             "cta": "Register Now",
             "status": "Workshop"
         },
         "game-jam": {
             "title": "Game Jam",
-            "description": "Build a complete game from scratch in one day. Solo or in teamsall skill levels welcome.",
+            "description": "Build a complete game from scratch in one day. Solo or in teams, all skill levels are welcome.",
             "cta": "Join the Jam",
             "status": "Game Jam"
         }
@@ -128,7 +128,7 @@
         "archive": {
             "careerfair-2024": {
                 "title": "Career Fair 2024",
-                "description": "Before we were even officially founded, our team organized the CSD Career Fairbringing together students and companies at the University of Crete. Unorganized, scrappy, and entirely student-driven.",
+                "description": "Before we were even officially founded, our team organized the CSD Career Fair bringing together students and companies at the University of Crete. Unorganized, scrappy, and entirely student-driven.",
                 "month": "2024",
                 "day": "CSD"
             }
