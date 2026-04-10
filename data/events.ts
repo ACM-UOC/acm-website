@@ -41,7 +41,7 @@ export const eventsDatabase: ACMEvent[] = [
         date: "21 APR 2026",
         year: "2026",
         category: "Workshop",
-        image: "/gamejam/GameJamPoster.png",
+        image: "/gamejam/GameJamPoster-preview.jpg",
         photos: [],
         sponsors: [],
         // speakers: [
