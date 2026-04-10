@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { Link } from '@/i18n/navigation';
 
 const teamIds = ["game_dev"];
 
@@ -44,7 +43,7 @@ export default async function TeamsPage() {
                     </h1>
                     <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.3)] mb-8"></div>
                     <p className="text-lg text-slate-600 leading-relaxed italic px-4">
-                        "{t('teams_page.description')}"
+                        &ldquo;{t('teams_page.description')}&rdquo;
                     </p>
                 </div>
 
@@ -72,12 +71,14 @@ export default async function TeamsPage() {
                                 </p>
 
                                 <div className="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
-                                    <Link
-                                        href={`/teams/${id}`}
+                                    <a
+                                        href="https://discord.gg/vhSJn3BebK"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-blue-600 transition-colors before:absolute before:inset-0"
                                     >
                                         {t('teams_page.explore_cta')}
-                                    </Link>
+                                    </a>
 
                                     <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors text-slate-400 relative z-20">
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

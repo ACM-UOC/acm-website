@@ -10,6 +10,15 @@ import { getUpcomingEvents } from '@/data/events';
 export default function AllUpcomingEventsPage() {
     const t = useTranslations();
     const allUpcomingEvents = getUpcomingEvents();
+    const getEventImageClassName = (eventId: string) => {
+        if (eventId === "game-dev-workshop") {
+            return "object-cover object-[50%_10%] transition-transform duration-1000 group-hover:scale-105";
+        }
+        if (eventId === "game-jam") {
+            return "object-cover object-center transition-transform duration-1000 group-hover:scale-105";
+        }
+        return "object-cover object-center transition-transform duration-1000 group-hover:scale-110";
+    };
 
     return (
         <main className="min-h-screen bg-slate-50 pt-32 pb-24 relative overflow-hidden">
@@ -47,7 +56,7 @@ export default function AllUpcomingEventsPage() {
 
                                 <div className='relative z-10 flex flex-col h-full'>
                                     <div className="relative aspect-video rounded-3xl overflow-hidden bg-slate-50 border border-slate-100/50 mb-6 shrink-0">
-                                        <Image src={event.image} alt={t(`events.${event.id}.title`)} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover transition-transform duration-1000 group-hover:scale-110" />
+                                        <Image src={event.image} alt={t(`events.${event.id}.title`)} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className={getEventImageClassName(event.id)} />
                                         <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg z-20">
                                             {t(`events.${event.id}.status`)}
                                         </div>

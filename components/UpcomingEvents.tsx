@@ -9,6 +9,15 @@ import { getUpcomingEvents } from '@/data/events';
 export default function UpcomingEventsGrid() {
     const upcomingEvents = getUpcomingEvents();
     const t = useTranslations();
+    const getEventImageClassName = (eventId: string) => {
+        if (eventId === "game-dev-workshop") {
+            return "object-cover object-[50%_10%] transition-transform duration-1000 group-hover:scale-105";
+        }
+        if (eventId === "game-jam") {
+            return "object-cover object-center transition-transform duration-1000 group-hover:scale-105";
+        }
+        return "object-cover object-center transition-transform duration-1000 group-hover:scale-110";
+    };
 
     return (
         <section id="events" className="py-24 bg-white relative overflow-hidden">
@@ -38,7 +47,7 @@ export default function UpcomingEventsGrid() {
                                         alt={t(`events.${event.id}.title`)}
                                         fill
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                                        className={getEventImageClassName(event.id)}
                                     />
                                     <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg z-20">
                                         {t(`events.${event.id}.status`)}

@@ -41,7 +41,7 @@ export const eventsDatabase: ACMEvent[] = [
         date: "21 APR 2026",
         year: "2026",
         category: "Workshop",
-        image: "/game.jpeg",
+        image: "/gamejam/GameJamPoster.png",
         photos: [],
         sponsors: [],
         // speakers: [
@@ -58,10 +58,10 @@ export const eventsDatabase: ACMEvent[] = [
     {
         id: "game-jam",
         status: "upcoming",
-        date: "29 APR 2026",
+        date: "29-30 APR 2026",
         year: "2026",
         category: "Game Jam",
-        image: "/game.jpeg",
+        image: "/gamejam/1.png",
         photos: [],
         sponsors: [],
         registrationUrl: "https://itch.io/jam/csd-jam",

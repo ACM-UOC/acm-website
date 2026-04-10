@@ -62,7 +62,7 @@
         "badge": "CSD Collaboration",
         "title": "Our Specialist Teams",
         "description": "The subgroups of ACM UOC Student Chapter aim to engage members in specialized fields of Computer Science. Under the guidance of experienced coordinators, the teams operate in a highly collaborative environment with the ultimate goal of acquiring and exchanging knowledge and experiences.",
-        "explore_cta": "Explore Team",
+        "explore_cta": "Join the Discord",
         "teams": {
             "game_dev": {
                 "name": "Game Development",
@@ -110,7 +110,8 @@
         },
         "game-jam": {
             "title": "Game Jam",
-            "description": "Build a complete game from scratch in one day. Solo or in teams, all skill levels are welcome.",
+            "description": "Build a game in 2 days. Join solo or in a team of up to 5.",
+            "details": "We are thrilled to announce the very first CSD Game Jam!\n\nA special initiative that brings together programmers, artists, designers, writers, musicians, and every new creator who wants to test their skills in game development and build something truly their own.\n\n🚀 Build a game in 2 days\n🤝 Join solo or in a team of up to 5 people\n🕹 The theme is revealed at the start of the jam\n🎨 Restriction: Retro Graphics\n\n🗓 April 29-30, 2026\n📍 Hybrid event - onsite at the Department of Computer Science, University of Crete, or online from anywhere\n\nThe CSD Game Jam is organized by Ikarus, the Game Development team of the University of Crete, as part of the ACM Student Chapter of the University of Crete - an effort that highlights the talent, creativity, and momentum of the new generation of game developers in Greece.\n\nIn parallel, a workshop will take place on April 21, 2026, giving participants the opportunity to gain valuable knowledge and prepare better for the game jam experience.\n\nRegister and join the game!",
             "cta": "Join the Jam",
             "status": "Game Jam"
         }
