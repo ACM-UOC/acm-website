@@ -59,7 +59,7 @@ export const eventsDatabase: ACMEvent[] = [
         //     // { time: "12:00", title: "The Tools of the Trade", desc: "An overview of the game development stack: engines, version control, asset pipelines, and how modern teams ship games." },
         //     // { time: "14:00", title: "Hands-On: Your First 3D World", desc: "Guided Unity + C# session where every participant builds and runs their first 3D scene from scratch." },
         // ],
-        registrationUrl: undefined,
+        registrationUrl: "https://itch.io/jam/csd-jam",
     },
     {
         id: "game-jam",
@@ -70,7 +70,7 @@ export const eventsDatabase: ACMEvent[] = [
         image: "/game.jpeg",
         photos: [],
         sponsors: [],
-        registrationUrl: undefined,
+        registrationUrl: "https://itch.io/jam/csd-jam",
     },
 
     // --- PAST EVENTS ---
