@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { getAbsoluteUrl, getLanguageAlternates } from '@/lib/site';
 
 const teamIds = ["game_dev"];
+
+const BASE_URL = 'https://uoc.acm.org';
 
 export async function generateMetadata({
     params,
@@ -11,12 +12,16 @@ export async function generateMetadata({
     params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
     const { locale } = await params;
+    const localePath = locale === 'en' ? '' : `/${locale}`;
     return {
         title: "ACM UOC Teams",
         description: "Meet the specialist teams of ACM UOC at CSD,Game Dev, Web Dev, Machine Learning, Cybersecurity, and more at the University of Crete.",
         alternates: {
-            canonical: getAbsoluteUrl(locale, '/teams'),
-            languages: getLanguageAlternates('/teams'),
+            canonical: `${BASE_URL}${localePath}/teams`,
+            languages: {
+                'en': `${BASE_URL}/teams`,
+                'el': `${BASE_URL}/gr/teams`,
+            },
         },
     };
 }
@@ -39,7 +44,7 @@ export default async function TeamsPage() {
                     </h1>
                     <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.3)] mb-8"></div>
                     <p className="text-lg text-slate-600 leading-relaxed italic px-4">
-                        &ldquo;{t('teams_page.description')}&rdquo;
+                        "{t('teams_page.description')}"
                     </p>
                 </div>
 

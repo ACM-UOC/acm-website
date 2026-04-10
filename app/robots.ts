@@ -7,5 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
         },
         sitemap: 'https://uoc.acm.org/sitemap.xml',
+        host: 'https://uoc.acm.org',
     };
 }

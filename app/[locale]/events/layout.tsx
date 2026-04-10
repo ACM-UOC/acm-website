@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { getAbsoluteUrl, getLanguageAlternates } from '@/lib/site';
+
+const BASE_URL = 'https://uoc.acm.org';
 
 export async function generateMetadata({
     params,
@@ -7,12 +8,16 @@ export async function generateMetadata({
     params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
     const { locale } = await params;
+    const localePath = locale === 'en' ? '' : `/${locale}`;
     return {
         title: "Events",
         description: "Upcoming workshops, hackathons, and tech talks by ACM UOC at the Computer Science Department (CSD), University of Crete.",
         alternates: {
-            canonical: getAbsoluteUrl(locale, '/events'),
-            languages: getLanguageAlternates('/events'),
+            canonical: `${BASE_URL}${localePath}/events`,
+            languages: {
+                'en': `${BASE_URL}/events`,
+                'el': `${BASE_URL}/gr/events`,
+            },
         },
     };
 }

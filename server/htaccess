@@ -12,10 +12,6 @@ RewriteRule ^(.*)$ http://190.92.158.4:3000/$1 [P,L]
 CacheLookup off
 </IfModule>
 
-<IfModule mod_headers.c>
-Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
-</IfModule>
-
 # Long-lived cache for hashed Next.js static assets (filenames change on deploy)
 <FilesMatch "\.(js|css|woff2|woff|ttf)$">
     Header set Cache-Control "public, max-age=31536000, immutable"

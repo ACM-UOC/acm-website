@@ -1,3 +1,4 @@
+import { parseDb } from '@/lib/db_parser';
 import { getTranslations } from 'next-intl/server';
 
 interface TeamMember {
@@ -8,34 +9,39 @@ interface TeamMember {
   linkedin?: string;
 }
 
-const team: TeamMember[] = [
-  // Chair
-  { name: "Nikos Kanakousakis", roleKey: "admin", secondRoleKey: "web_dev", linkedin: "https://www.linkedin.com/in/nikos-kanakousakis-277487334/" },
-  // Vice Chair
-  { name: "Vasiliki Tsiouvra", roleKey: "vice_chair", linkedin: "https://www.linkedin.com/in/vasiliki-tsiourva-350467375" },
-  // Web Dev (alphabetical by surname)
-  { name: "Kostas Anagnostakis", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/κωνσταντίνος-αναγνωστάκης-13bb04253" },
-  { name: "Pavlos Grigoriadis", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/pavlos-grigoriadis/" },
-  { name: "John Grigoriadis", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/γιάννης-γρηγοριάδης" },
-  { name: "Tzeortziana Komoritsan", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/entisa-tzeortziana-komoritsan-887467374" },
-  { name: "Eleni Manassaki", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/eleni-manassaki" },
-  { name: "Christina Papachristoudi", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/christina-papachristoudi/" },
-  { name: "Spyros Siachamis", roleKey: "web_dev", linkedin: "https://www.linkedin.com/in/spyridon-siachamis-578793290" },
-  // Game Dev Team
-  { name: "Mihalis Karapiperakis", roleKey: "game_dev", linkedin: "https://www.linkedin.com/in/mihalis-karapiperakis/" },
-  // Social (alphabetical by surname)
-  { name: "Anastasia Samara", roleKey: "social" },
-  { name: "Argyro Sxoinaraki", roleKey: "social" },
-  // Content (alphabetical by surname)
-  { name: "Dimitris Aspetakis", roleKey: "text", staticRole: "Faculty Advisor", linkedin: "https://www.linkedin.com/in/aspe/" },
-  // Communications (alphabetical by surname)
-  { name: "Manos Akoumianakis", roleKey: "communication", linkedin: "https://www.linkedin.com/in/akoumianakism/" },
-  { name: "Nikos Chronis", roleKey: "communication", linkedin: "https://www.linkedin.com/in/nikolaos-chronis-4a4773373" },
-  { name: "Michalis Kouroupakis", roleKey: "communication" },
-];
+async function TeamParser(): Promise<TeamMember[]> {
+  const allMembers = await parseDb('https://data.uoc.acm.org/wp-json/wp/v2/members?acf_format=standard&_fields=id,acf');
+
+  const result = allMembers.map((member) => {
+    const {firstname_en, lastname_en, firstname_gr, lastname_gr, role, link_linkedin} = member.acf;
+
+    return {
+      name: `${firstname_en} ${lastname_en}`,
+      roleKey: role?.[0] || '',
+      secondRoleKey: role?.[1] || '',
+      linkedin: link_linkedin
+    };
+  });
+
+  const sortedRoles = ["admin", "vice_chair", "treasurer", "secretary", "advisor"];
+  const getRank = (role: string) => {
+    const index = sortedRoles.indexOf(role);
+    return (index === -1) ? Infinity : index;
+  }
+
+  result.sort((a,b) => {
+    let a_min = Math.min(getRank(a.roleKey), getRank(a.secondRoleKey));
+    let b_min = Math.min(getRank(b.roleKey), getRank(b.secondRoleKey));
+  
+    return a_min - b_min;
+  });
+
+  return result;
+}
 
 export default async function Team() {
   const t = await getTranslations();
+  const team = await TeamParser();
 
   return (
     <section id="team" className="py-24 bg-transparent scroll-mt-16">

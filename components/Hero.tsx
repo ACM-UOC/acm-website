@@ -127,7 +127,7 @@ const Hero = () => {
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none opacity-50" />
 
-            {/* Stats strip */}
+            {/* Stats strip 
             <div className="absolute bottom-8 left-0 right-0 z-30 flex justify-center px-6">
                 <div className="flex items-stretch divide-x divide-white/10 bg-slate-900/70 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
                     {[
@@ -143,6 +143,7 @@ const Hero = () => {
                     ))}
                 </div>
             </div>
+            */}
 
         </section>
     )
