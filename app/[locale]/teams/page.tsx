@@ -4,7 +4,7 @@ import { Link } from '@/i18n/navigation';
 
 const teamIds = ["game_dev"];
 
-const BASE_URL = 'https://csd.acm.org';
+const BASE_URL = 'https://uoc.acm.org';
 
 export async function generateMetadata({
     params,

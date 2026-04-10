@@ -40,7 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
-standalone.zip
+# build folders
+website/
+website.zip
 
 .vscode/

@@ -50,16 +50,16 @@ export const eventsDatabase: ACMEvent[] = [
         image: "/game.jpeg",
         photos: [],
         sponsors: [],
-        speakers: [
-            { name: "John Carmack", role: "Legendary Engine Dev", image: "https://i.pravatar.cc/150?u=john" },
-            { name: "Unity Expert", role: "Senior Dev @ Unity", image: "https://i.pravatar.cc/150?u=unity" }
-        ],
-        agenda: [
-            { time: "10:00", title: "Industry Experts Panel", desc: "Working professionals share their path into the games industry:what studios actually look for and how the field works." },
-            { time: "12:00", title: "The Tools of the Trade", desc: "An overview of the game development stack: engines, version control, asset pipelines, and how modern teams ship games." },
-            { time: "14:00", title: "Hands-On: Your First 3D World", desc: "Guided Unity + C# session where every participant builds and runs their first 3D scene from scratch." },
-        ],
-        registrationUrl: undefined,
+        // speakers: [
+        //     // { name: "John Carmack", role: "Legendary Engine Dev", image: "https://i.pravatar.cc/150?u=john" },
+        //     // { name: "Unity Expert", role: "Senior Dev @ Unity", image: "https://i.pravatar.cc/150?u=unity" }
+        // ],
+        // agenda: [
+        //     // { time: "10:00", title: "Industry Experts Panel", desc: "Working professionals share their path into the games industry:what studios actually look for and how the field works." },
+        //     // { time: "12:00", title: "The Tools of the Trade", desc: "An overview of the game development stack: engines, version control, asset pipelines, and how modern teams ship games." },
+        //     // { time: "14:00", title: "Hands-On: Your First 3D World", desc: "Guided Unity + C# session where every participant builds and runs their first 3D scene from scratch." },
+        // ],
+        registrationUrl: "https://itch.io/jam/csd-jam",
     },
     {
         id: "game-jam",
@@ -70,7 +70,7 @@ export const eventsDatabase: ACMEvent[] = [
         image: "/game.jpeg",
         photos: [],
         sponsors: [],
-        registrationUrl: undefined,
+        registrationUrl: "https://itch.io/jam/csd-jam",
     },
 
     // --- PAST EVENTS ---
