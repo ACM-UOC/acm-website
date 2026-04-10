@@ -12,7 +12,7 @@ export default function AllUpcomingEventsPage() {
     const allUpcomingEvents = getUpcomingEvents();
     const getEventImageClassName = (eventId: string) => {
         if (eventId === "game-dev-workshop") {
-            return "object-cover object-[50%_10%] transition-transform duration-1000 group-hover:scale-105";
+            return "object-cover object-center transition-transform duration-1000 group-hover:scale-105";
         }
         if (eventId === "game-jam") {
             return "object-cover object-center transition-transform duration-1000 group-hover:scale-105";
