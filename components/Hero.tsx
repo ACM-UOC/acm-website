@@ -15,6 +15,8 @@ type NetworkItem = {
     duration: number;
 };
 
+// Seeded PRNG instead of Math.random() — keeps the network identical on every render
+// (no hydration mismatch, no client-side recomputation, better perceived performance)
 const createRandom = (seed: number) => {
     let current = seed;
 

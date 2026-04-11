@@ -1,7 +1,16 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 
 const teamIds = ["game_dev"];
+const teamIcons: Record<string, React.ReactNode> = {
+    "game_dev": (
+        <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="#155DFC" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="8" width="20" height="12" rx="5" />
+            <path d="M9 12H7M8 11v2M16 11.5h.01M18 13h.01" />
+        </svg>
+    ),
+};
 
 const BASE_URL = 'https://uoc.acm.org';
 
@@ -57,7 +66,7 @@ export default async function TeamsPage() {
 
                             <div className="relative z-10 flex flex-col h-full">
                                 <div className="text-5xl mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 origin-left">
-                                    {t(`teams_page.teams.${id}.icon`)}
+                                    {teamIcons[id]}
                                 </div>
 
                                 <h2 className="text-2xl font-black text-slate-900 tracking-tight uppercase mb-4 group-hover:text-blue-600 transition-colors">
@@ -71,14 +80,13 @@ export default async function TeamsPage() {
                                 </p>
 
                                 <div className="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
-                                    <a
-                                        href="https://discord.gg/vhSJn3BebK"
+                                    <Link
+                                        href={t(`teams_page.teams.${id}.url`)}
                                         target="_blank"
-                                        rel="noopener noreferrer"
                                         className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-blue-600 transition-colors before:absolute before:inset-0"
                                     >
                                         {t('teams_page.explore_cta')}
-                                    </a>
+                                    </Link>
 
                                     <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors text-slate-400 relative z-20">
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

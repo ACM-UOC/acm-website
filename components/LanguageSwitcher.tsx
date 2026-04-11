@@ -16,13 +16,13 @@ export default function LanguageSwitcher() {
     };
 
     return (
-        <div className={`flex items-center ml-4 border-l border-slate-200 pl-4 gap-1 ${isPending ? 'opacity-50' : ''}`}>
+        <div className={`flex items-center ml-4 border-l border-slate-200 pl-4 space-x-2 ${isPending ? 'opacity-50' : ''}`}>
             <button
                 type="button"
                 onClick={() => handleLanguageChange('en')}
                 aria-label="Switch to English"
-                aria-pressed={locale === 'en'}
-                className={`cursor-pointer min-h-11 min-w-11 rounded-full text-[14px] font-bold transition-colors px-3 py-2 ${locale === 'en' ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'}`}
+                aria-current={locale === 'en' ? 'true' : undefined}
+                className={`cursor-pointer text-[14px] font-bold transition-colors px-1 py-1 ${locale === 'en' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
             >
                 EN
             </button>
@@ -30,8 +30,8 @@ export default function LanguageSwitcher() {
                 type="button"
                 onClick={() => handleLanguageChange('el')}
                 aria-label="Switch to Greek"
-                aria-pressed={locale === 'el'}
-                className={`cursor-pointer min-h-11 min-w-11 rounded-full text-[14px] font-bold transition-colors px-3 py-2 ${locale === 'el' ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'}`}
+                aria-current={locale === 'el' ? 'true' : undefined}
+                className={`cursor-pointer text-[14px] font-bold transition-colors px-1 py-1 ${locale === 'el' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
             >
                 GR
             </button>

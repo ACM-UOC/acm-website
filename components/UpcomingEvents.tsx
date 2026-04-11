@@ -1,3 +1,5 @@
+// Kept as a server component intentionally — avoids shipping JS to the client for static
+// event data, and preserves per-image loading/priority/quality optimizations below.
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';

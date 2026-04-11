@@ -7,13 +7,6 @@ import { Link, usePathname } from '@/i18n/navigation';
 import LanguageSwitcher from "./LanguageSwitcher";
 const JoinDrawer = dynamic(() => import('./JoinDrawer'), { ssr: false });
 
-const navLinks = [
-    { id: "home", href: "/" },
-    { id: "team", href: "/teams" },
-    { id: "events", href: "/events" },
-    { id: "about", href: "/about" },
-];
-
 export default function Navbar() {
     const t = useTranslations();
     const pathname = usePathname();
@@ -22,8 +15,14 @@ export default function Navbar() {
     const [isJoinDrawerOpen, setIsJoinDrawerOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [shakingLink, setShakingLink] = useState<string | null>(null);
-    const currentActiveSection = pathname === "/" ? activeSection : "";
     const isDark = !isScrolled && pathname === "/";
+
+    const navLinks = [
+        { id: "home", href: "/" },
+        { id: "team", href: "/teams" },
+        { id: "events", href: "/events" },
+        { id: "about", href: "/about" },
+    ];
 
     const handleActiveClick = (id: string) => {
         setShakingLink(id);
@@ -49,6 +48,7 @@ export default function Navbar() {
 
     useEffect(() => {
         if (pathname !== "/") {
+            setActiveSection("");
             return;
         }
 
@@ -125,8 +125,8 @@ export default function Navbar() {
                             let isActive = false;
                             if (pathname === "/") {
 
-                                if (link.id === "home") isActive = currentActiveSection === "home";
-                                else isActive = currentActiveSection === link.id;
+                                if (link.id === "home") isActive = activeSection === "home";
+                                else isActive = activeSection === link.id;
                             } else {
 
                                 isActive = pathname === link.href;
@@ -147,6 +147,7 @@ export default function Navbar() {
 
                         {/* Language Switcher */}
                         <LanguageSwitcher />
+                        {/* Join Button — temporarily hidden
                         <button
                             type="button"
                             onClick={() => setIsJoinDrawerOpen(true)}
@@ -154,7 +155,7 @@ export default function Navbar() {
                             className={`cursor-pointer px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 hover:shadow-lg hover:shadow-blue-600/20 ${isDark ? 'bg-white/10 text-white border border-white/20 hover:bg-blue-600 hover:border-transparent backdrop-blur-sm' : 'bg-slate-900 text-white hover:bg-blue-600'}`}
                         >
                             {t('join.button')}
-                        </button>
+                        </button> */}
                     </div>
 
                     {/* Mobile Menu Button*/}
@@ -215,21 +216,22 @@ export default function Navbar() {
                             ))}
                         </div>
 
-                        {/* Join Us button */}
                         <div className="flex flex-col space-y-4 pt-6 border-t border-slate-100">
+                            {/* Language Switcher */}
                             <div className="scale-110 origin-left">
                                 <LanguageSwitcher />
                             </div>
+                            {/* Join Us button — temporarily hidden
                             <button
                                 type="button"
                                 onClick={() => {
                                     setIsJoinDrawerOpen(true);
-                                    setIsOpen(false); // Close the mobile menu when opening the drawer
+                                    setIsOpen(false);
                                 }}
-                                className=" cursor-pointer w-full bg-slate-900 text-white px-6 py-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-blue-600 transition-all duration-300"
+                                className="cursor-pointer w-full bg-slate-900 text-white px-6 py-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-blue-600 transition-all duration-300"
                             >
                                 {t('join.button')}
-                            </button>
+                            </button> */}
                         </div>
 
                         {/* Footer-info */}

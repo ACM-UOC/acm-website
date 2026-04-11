@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { m, AnimatePresence, Variants } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
@@ -41,7 +41,7 @@ export default function EventsPage() {
                     </h1>
                     <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.3)] mb-8" />
                     <p className="text-lg text-slate-600 leading-relaxed italic px-4">
-                        &ldquo;{t('events_page.description')}&rdquo;
+                        "{t('events_page.description')}"
                     </p>
                 </m.div>
 

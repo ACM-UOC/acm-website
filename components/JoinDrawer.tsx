@@ -61,7 +61,6 @@ export default function JoinDrawer({ isOpen, onClose }: JoinDrawerProps) {
                                 </p>
                             </div>
                             <button
-                                type="button"
                                 onClick={handleClose}
                                 className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
                             >

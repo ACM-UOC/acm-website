@@ -11,7 +11,7 @@ export default async function Footer() {
       <div className="max-w-[95%] mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           <div className="space-y-6">
-            <Link href="/" className="inline-flex items-center space-x-3 group cursor-pointer">
+            <Link href="#home" className="inline-flex items-center space-x-3 group cursor-pointer">
               <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[5deg] relative">
                 <Image
                   src="/logo.png"
@@ -66,7 +66,7 @@ export default async function Footer() {
 
         <div className="pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-400 text-sm">
-            &copy; {currentYear} ACM Student Chapter UOC. {t('footer.rights')}
+            © {currentYear} ACM Student Chapter UOC. {t('footer.rights')}
           </p>
           <div className="flex items-center gap-5 group cursor-pointer">
             <div className="text-right hidden sm:block">

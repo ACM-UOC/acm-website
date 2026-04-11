@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { m, AnimatePresence } from 'framer-motion';
@@ -27,6 +27,8 @@ export default function Sponsors({ sponsors, variant = 'card' }: SponsorsProps) 
     const isPage = variant === 'page';
     const activeSponsor = sponsors.find((sponsor) => sponsor.name === activeSponsorName) ?? sponsors[0];
 
+    // Using next/image instead of <img> for automatic format conversion (WebP/AVIF),
+    // lazy loading, and CDN caching — avoids layout shift and reduces bandwidth on sponsor logos.
     const renderLogo = (sponsor: SponsorType, className: string) => (
         <div className={className}>
             <Image
