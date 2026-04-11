@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { parseDb } from '@/lib/db_parser';
 import { getTranslations } from 'next-intl/server';
 
@@ -9,43 +10,93 @@ interface TeamMember {
 }
 
 async function TeamParser(): Promise<TeamMember[]> {
-  const allMembers = await parseDb('https://data.uoc.acm.org/wp-json/wp/v2/members?acf_format=standard&_fields=id,acf');
+  try {
+    const allMembers = await parseDb("members");
 
-  const result = allMembers.map((member) => {
-    const {firstname_en, lastname_en, firstname_gr, lastname_gr, role, link_linkedin} = member.acf;
+    const result = allMembers.map((member: any) => {
+      const { firstname_en, lastname_en, firstname_gr, lastname_gr, role, link_linkedin } = member.acf;
 
-    return {
-      name: `${firstname_en} ${lastname_en}`,
-      roleKey: role?.[0] || '',
-      secondRoleKey: role?.[1] || '',
-      linkedin: link_linkedin
+      return {
+        name: `${firstname_en} ${lastname_en}`,
+        roleKey: role?.[0] || '',
+        secondRoleKey: role?.[1] || '',
+        linkedin: link_linkedin,
+      };
+    });
+
+    const sortedRoles = ["admin", "vice_chair", "treasurer", "secretary", "advisor"];
+    const getRank = (role: string) => {
+      const index = sortedRoles.indexOf(role);
+      return index === -1 ? Infinity : index;
     };
-  });
 
-  const sortedRoles = ["admin", "vice_chair", "treasurer", "secretary", "advisor"];
-  const getRank = (role: string) => {
-    const index = sortedRoles.indexOf(role);
-    return (index === -1) ? Infinity : index;
+    result.sort((a, b) => {
+      let a_min = Math.min(getRank(a.roleKey), getRank(a.secondRoleKey));
+      let b_min = Math.min(getRank(b.roleKey), getRank(b.secondRoleKey));
+      return a_min - b_min;
+    });
+
+    return result;
+  } catch (error) {
+    console.error("Failed to fetch team members:", error);
+    return [];
+  }
+}
+
+async function TeamList() {
+  const t = await getTranslations();
+  const team = await TeamParser();
+
+  if (team.length === 0) {
+    return (
+      <p className="text-slate-500 text-center italic mt-8">
+        Team members are currently unavailable. Please check back later.
+      </p>
+    );
   }
 
-  result.sort((a,b) => {
-    let a_min = Math.min(getRank(a.roleKey), getRank(a.secondRoleKey));
-    let b_min = Math.min(getRank(b.roleKey), getRank(b.secondRoleKey));
-  
-    return a_min - b_min;
-  });
-
-  return result;
+  return (
+    <div className="flex flex-wrap justify-center gap-12 lg:gap-16">
+      {team.map((member) => (
+        <div key={member.name} className="group flex flex-col items-center w-48">
+          <div className="relative mb-6">
+            <div className="absolute -inset-2 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
+            <div className="relative w-32 h-32 md:w-40 md:h-40 bg-white rounded-full flex items-center justify-center border-4 border-slate-50 shadow-xl overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
+              <span className="text-slate-400 font-bold text-5xl group-hover:text-blue-600 transition-colors">
+                {member.name[0]}
+              </span>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-black text-slate-900 tracking-tight leading-tight">
+              {member.name}
+            </h3>
+            <p className="text-blue-600 font-bold text-[10px] uppercase tracking-widest">
+              {t(`team-members.roles.${member.roleKey}`)}
+              {member.secondRoleKey && (
+                <><br />{t(`team-members.roles.${member.secondRoleKey}`)}</>
+              )}
+            </p>
+            {member.linkedin && (
+              <a href={member.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on LinkedIn`} className="inline-block mt-2 text-slate-400 hover:text-blue-600 transition-colors">
+                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+              </a>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default async function Team() {
   const t = await getTranslations();
-  const team = await TeamParser();
 
   return (
     <section id="team" className="py-24 bg-transparent scroll-mt-16">
       <div className="max-w-6xl mx-auto px-6 text-center">
-
         <div className="mb-20">
           <p className="text-blue-600 font-mono tracking-[0.4em] uppercase text-xs font-bold mb-4">
             {t('team-members.badge')}
@@ -58,38 +109,10 @@ export default async function Team() {
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-12 lg:gap-16">
-          {team.map((member) => (
-            <div key={member.name} className="group flex flex-col items-center w-48">
-              <div className="relative mb-6">
-                <div className="absolute -inset-2 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
-                <div className="relative w-32 h-32 md:w-40 md:h-40 bg-white rounded-full flex items-center justify-center border-4 border-slate-50 shadow-xl overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
-                  <span className="text-slate-400 font-bold text-5xl group-hover:text-blue-600 transition-colors">
-                    {member.name[0]}
-                  </span>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-black text-slate-900 tracking-tight leading-tight">
-                  {member.name}
-                </h3>
-                <p className="text-blue-600 font-bold text-[10px] uppercase tracking-widest">
-                  {t(`team-members.roles.${member.roleKey}`)}
-                  {member.secondRoleKey && (
-                    <><br />{t(`team-members.roles.${member.secondRoleKey}`)}</>
-                  )}
-                </p>
-                {member.linkedin && (
-                  <a href={member.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on LinkedIn`} className="inline-block mt-2 text-slate-400 hover:text-blue-600 transition-colors">
-                    <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                    </svg>
-                  </a>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Handle slow DB query */}
+        <Suspense fallback={<div className="animate-pulse text-slate-400">Loading team members...</div>}>
+          <TeamList />
+        </Suspense>
 
       </div>
     </section>

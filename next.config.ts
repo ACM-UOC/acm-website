@@ -37,6 +37,7 @@ const nextConfig: NextConfig = {
         return [{ source: '/(.*)', headers: securityHeaders }];
     },
     images: {
+        qualities: [70, 75],
         formats: ['image/avif', 'image/webp'],
         minimumCacheTTL: 60 * 60 * 24 * 30,
         remotePatterns: [

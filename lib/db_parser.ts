@@ -1,9 +1,15 @@
-export async function parseDb(url: string): Promise<any[]> {
+const db_url: string = "https://data.uoc.acm.org/wp-json/wp/v2/";
+
+const createURL = (table_name: string, page: number) : string => {
+    return `${db_url}${table_name}?acf_format=standard&_fields=id,acf,&per_page=100&page=${page}`;
+}
+
+export async function parseDb(table_name: string): Promise<any[]> {
     let page = 1;
     let allResults: any[] = [];
 
     while(true) {
-        const data_url = `${url}&per_page=100&page=${page}`;
+        const data_url = createURL(table_name, page);
         const res = await fetch(data_url);
 
         // Found the last page
