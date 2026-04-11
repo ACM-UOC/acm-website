@@ -17,20 +17,19 @@ export default function Navbar() {
     const [shakingLink, setShakingLink] = useState<string | null>(null);
     const isDark = !isScrolled && pathname === "/";
 
-    const handleActiveClick = (id: string) => {
-        setShakingLink(id);
-        setTimeout(() => setShakingLink(null), 400);
-    };
-
-    const toggleMenu = () => setIsOpen(!isOpen);
-
-
     const navLinks = [
         { id: "home", href: "/" },
         { id: "team", href: "/teams" },
         { id: "events", href: "/events" },
         { id: "about", href: "/about" },
     ];
+
+    const handleActiveClick = (id: string) => {
+        setShakingLink(id);
+        setTimeout(() => setShakingLink(null), 400);
+    };
+
+    const toggleMenu = () => setIsOpen(!isOpen);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -48,7 +47,6 @@ export default function Navbar() {
     }, []);
 
     useEffect(() => {
-
         if (pathname !== "/") {
             setActiveSection("");
             return;
@@ -114,7 +112,7 @@ export default function Navbar() {
                             <span className={`font-bold text-2xl tracking-tighter leading-none transition-colors duration-300 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                                 ACM <span className={`font-black italic transition-colors duration-300 ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>UOC</span>
                             </span>
-                            <span className={`text-xs font-mono font-bold tracking-widest uppercase transition-colors duration-300 ${isDark ? 'text-slate-300' : 'text-slate-400'}`}>
+                            <span className={`text-xs font-mono font-bold tracking-widest uppercase transition-colors duration-300 ${isDark ? 'text-slate-300' : 'text-slate-500'}`}>
                                 Student Chapter
                             </span>
                         </div>
@@ -149,9 +147,9 @@ export default function Navbar() {
 
                         {/* Language Switcher */}
                         <LanguageSwitcher />
-
-                        {/* Join Button */}
-                        {/* <button
+                        {/* Join Button — temporarily hidden
+                        <button
+                            type="button"
                             onClick={() => setIsJoinDrawerOpen(true)}
                             aria-label={t('join.button')}
                             className={`cursor-pointer px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 hover:shadow-lg hover:shadow-blue-600/20 ${isDark ? 'bg-white/10 text-white border border-white/20 hover:bg-blue-600 hover:border-transparent backdrop-blur-sm' : 'bg-slate-900 text-white hover:bg-blue-600'}`}
@@ -186,8 +184,9 @@ export default function Navbar() {
 
                     {/* Header  */}
                     <div className="flex items-center justify-between px-6 h-16 border-b border-slate-100 bg-white">
-                        <span className="text-xs font-bold text-slate-400 tracking-[0.3em] uppercase italic">{t('nav.menu')}</span>
+                        <span className="text-xs font-bold text-slate-600 tracking-[0.3em] uppercase italic">{t('nav.menu')}</span>
                         <button
+                            type="button"
                             onClick={() => setIsOpen(false)}
                             aria-label="Close menu"
                             className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-slate-900 text-white shadow-md"
@@ -221,13 +220,14 @@ export default function Navbar() {
                             <div className="scale-110 origin-left">
                                 <LanguageSwitcher />
                             </div>
-                            {/* - Join Us button */}
-                            {/* <button
+                            {/* Join Us button — temporarily hidden
+                            <button
+                                type="button"
                                 onClick={() => {
                                     setIsJoinDrawerOpen(true);
-                                    setIsOpen(false); // Close the mobile menu when opening the drawer
+                                    setIsOpen(false);
                                 }}
-                                className=" cursor-pointer w-full bg-slate-900 text-white px-6 py-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-blue-600 transition-all duration-300"
+                                className="cursor-pointer w-full bg-slate-900 text-white px-6 py-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-blue-600 transition-all duration-300"
                             >
                                 {t('join.button')}
                             </button> */}
@@ -235,7 +235,7 @@ export default function Navbar() {
 
                         {/* Footer-info */}
                         <div className="pt-4 border-t border-slate-50">
-                            <p className="text-slate-400 text-[9px] font-bold tracking-[0.2em] uppercase">
+                            <p className="text-slate-600 text-[9px] font-bold tracking-[0.2em] uppercase">
                                 ACM Student Chapter @ UOC
                             </p>
                         </div>

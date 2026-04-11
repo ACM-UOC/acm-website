@@ -1,15 +1,21 @@
-"use client";
-import React from 'react';
-import { m } from 'framer-motion';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import Sponsors from '@/components/Sponsors';
 import { getUpcomingEvents } from '@/data/events';
 
-export default function AllUpcomingEventsPage() {
-    const t = useTranslations();
+export default async function AllUpcomingEventsPage() {
+    const t = await getTranslations();
     const allUpcomingEvents = getUpcomingEvents();
+    const getEventImageClassName = (eventId: string) => {
+        if (eventId === "game-dev-workshop") {
+            return "object-cover object-center transition-transform duration-1000 group-hover:scale-105";
+        }
+        if (eventId === "game-jam") {
+            return "object-cover object-center transition-transform duration-1000 group-hover:scale-105";
+        }
+        return "object-cover object-center transition-transform duration-1000 group-hover:scale-110";
+    };
 
     return (
         <main className="min-h-screen bg-slate-50 pt-32 pb-24 relative overflow-hidden">
@@ -24,22 +30,19 @@ export default function AllUpcomingEventsPage() {
                     {t('event_detail.back')}
                 </Link>
 
-                <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+                <div>
                     <p className="text-blue-600 font-mono tracking-[0.4em] uppercase text-xs font-bold mb-4">
                         {t('events.badge')}
                     </p>
                     <h1 className="text-5xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase leading-none mb-16">
                         {t('events.upcoming_title')}
                     </h1>
-                </m.div>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
                     {allUpcomingEvents.map((event, idx) => (
-                        <m.div
+                        <div
                             key={event.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: idx * 0.1 }}
                             className="block h-full"
                         >
                             <div className="group bg-white rounded-[2.5rem] border border-slate-100 p-7 shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden relative flex flex-col h-full cursor-pointer">
@@ -47,7 +50,17 @@ export default function AllUpcomingEventsPage() {
 
                                 <div className='relative z-10 flex flex-col h-full'>
                                     <div className="relative aspect-video rounded-3xl overflow-hidden bg-slate-50 border border-slate-100/50 mb-6 shrink-0">
-                                        <Image src={event.image} alt={t(`events.${event.id}.title`)} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover transition-transform duration-1000 group-hover:scale-110" />
+                                        <Image
+                                            src={event.image}
+                                            alt={t(`events.${event.id}.title`)}
+                                            fill
+                                            quality={70}
+                                            sizes="(max-width: 768px) 90vw, (max-width: 1200px) 44vw, 360px"
+                                            priority={idx === 0}
+                                            loading={idx === 0 ? 'eager' : 'lazy'}
+                                            fetchPriority={idx === 0 ? 'high' : 'low'}
+                                            className={getEventImageClassName(event.id)}
+                                        />
                                         <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg z-20">
                                             {t(`events.${event.id}.status`)}
                                         </div>
@@ -65,7 +78,7 @@ export default function AllUpcomingEventsPage() {
                                     <div className="w-8 h-1 bg-blue-600 mb-4 group-hover:w-16 transition-all duration-500 rounded-full shrink-0" />
 
                                     <p className="text-slate-500 text-sm font-light leading-relaxed italic mb-6 shrink-0">
-                                        "{t(`events.${event.id}.description`)}"
+                                        &ldquo;{t(`events.${event.id}.description`)}&rdquo;
                                     </p>
 
                                     <div className="mb-2 shrink-0 relative z-20">
@@ -85,7 +98,7 @@ export default function AllUpcomingEventsPage() {
                                     </div>
                                 </div>
                             </div>
-                        </m.div>
+                        </div>
                     ))}
                 </div>
             </div>

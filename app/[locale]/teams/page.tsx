@@ -52,7 +52,7 @@ export default async function TeamsPage() {
                     </h1>
                     <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.3)] mb-8"></div>
                     <p className="text-lg text-slate-600 leading-relaxed italic px-4">
-                        "{t('teams_page.description')}"
+                        &ldquo;{t('teams_page.description')}&rdquo;
                     </p>
                 </div>
 

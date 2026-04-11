@@ -1,20 +1,28 @@
-"use client";
+// Kept as a server component intentionally — avoids shipping JS to the client for static
+// event data, and preserves per-image loading/priority/quality optimizations below.
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 
 import Sponsors from '@/components/Sponsors';
 import { getUpcomingEvents } from '@/data/events';
 
-export default function UpcomingEventsGrid() {
+export default async function UpcomingEventsGrid() {
     const upcomingEvents = getUpcomingEvents();
-    const t = useTranslations();
+    const t = await getTranslations();
+    const getEventImageClassName = (eventId: string) => {
+        if (eventId === "game-dev-workshop") {
+            return "object-cover object-center transition-transform duration-1000 group-hover:scale-105";
+        }
+        if (eventId === "game-jam") {
+            return "object-cover object-center transition-transform duration-1000 group-hover:scale-105";
+        }
+        return "object-cover object-center transition-transform duration-1000 group-hover:scale-110";
+    };
 
     return (
         <section id="events" className="py-24 bg-white relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-6">
-                
-                {/* Header */}
                 <div className="mb-16">
                     <p className="text-blue-600 font-mono tracking-[0.4em] uppercase text-xs mb-3 font-bold">
                         {t('events.badge')}
@@ -26,23 +34,24 @@ export default function UpcomingEventsGrid() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-                    
                     {upcomingEvents.map((event) => (
-                        
-                        <div 
+                        <div
                             key={event.id}
                             className="group bg-white rounded-[2.5rem] border border-slate-100 p-7 shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden relative flex flex-col h-full"
                         >
                             <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-50 rounded-full group-hover:bg-blue-100/60 blur-2xl transition-colors duration-500 pointer-events-none" />
-                            
-                            <div className='relative z-10 flex flex-col h-full'>
+
+                            <div className="relative z-10 flex flex-col h-full">
                                 <div className="relative aspect-video rounded-3xl overflow-hidden bg-slate-50 border border-slate-100/50 mb-6 shrink-0">
                                     <Image
                                         src={event.image}
                                         alt={t(`events.${event.id}.title`)}
                                         fill
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                                        quality={70}
+                                        sizes="(max-width: 768px) 90vw, (max-width: 1200px) 44vw, 360px"
+                                        loading="lazy"
+                                        fetchPriority="low"
+                                        className={getEventImageClassName(event.id)}
                                     />
                                     <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg z-20">
                                         {t(`events.${event.id}.status`)}
@@ -59,11 +68,11 @@ export default function UpcomingEventsGrid() {
                                 </h3>
 
                                 <div className="w-8 h-1 bg-blue-600 mb-4 group-hover:w-16 transition-all duration-500 rounded-full shrink-0" />
-                                
+
                                 <p className="text-slate-500 text-sm font-light leading-relaxed italic mb-6 shrink-0">
-                                    "{t(`events.${event.id}.description`)}"
+                                    &ldquo;{t(`events.${event.id}.description`)}&rdquo;
                                 </p>
-                                                                            
+
                                 <div className="mb-4 shrink-0 relative z-20">
                                     <Sponsors sponsors={event.sponsors} variant="card" />
                                 </div>
@@ -71,7 +80,7 @@ export default function UpcomingEventsGrid() {
                                 <div className="mt-auto pt-5 border-t border-slate-50 shrink-0">
                                     <Link
                                         href={`/events/${event.id}`}
-                                        aria-label={`${t('events.view_details')} – ${t(`events.${event.id}.title`)}`}
+                                        aria-label={`${t('events.view_details')} - ${t(`events.${event.id}.title`)}`}
                                         className="text-[10px] font-black uppercase tracking-widest text-slate-900 group-hover:text-blue-600 transition-colors flex items-center gap-2 cursor-pointer inline-flex"
                                     >
                                         {t('events.view_details')}
@@ -98,12 +107,11 @@ export default function UpcomingEventsGrid() {
                             {t('events.stay_tuned.description')}
                         </p>
                         <div className="mt-8 flex gap-2">
-                             <div className="w-2 h-2 rounded-full bg-blue-200 animate-pulse" />
-                             <div className="w-2 h-2 rounded-full bg-blue-200 animate-pulse delay-75" />
-                             <div className="w-2 h-2 rounded-full bg-blue-200 animate-pulse delay-150" />
+                            <div className="w-2 h-2 rounded-full bg-blue-200 animate-pulse" />
+                            <div className="w-2 h-2 rounded-full bg-blue-200 animate-pulse delay-75" />
+                            <div className="w-2 h-2 rounded-full bg-blue-200 animate-pulse delay-150" />
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>

@@ -39,6 +39,9 @@ const REACT: Sponsor = { name: "React", logo: "https://upload.wikimedia.org/wiki
 const CLOUDFLARE: Sponsor = { name: "Cloudflare", logo: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Cloudflare_Logo.svg", url: "https://cloudflare.com", desc: "A global network built for the cloud." };
 const VERCEL: Sponsor = { name: "Vercel", logo: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Vercel_logo_black.svg", url: "https://vercel.com", desc: "The platform for frontend developers, providing the speed and reliability needed to innovate." };
 
+// Suppress unused warnings until sponsors are assigned to events
+void GOOGLE, GITHUB, REACT, CLOUDFLARE, VERCEL;
+
 export const eventsDatabase: ACMEvent[] = [
     // --- 4 UPCOMING EVENTS ---
     {
@@ -47,7 +50,7 @@ export const eventsDatabase: ACMEvent[] = [
         date: "21 APR 2026",
         year: "2026",
         category: "Workshop",
-        image: "/game.jpeg",
+        image: "/gamejam/1-cut.png",
         photos: [],
         sponsors: [],
         // speakers: [
@@ -64,7 +67,7 @@ export const eventsDatabase: ACMEvent[] = [
     {
         id: "game-jam",
         status: "upcoming",
-        date: "29 APR 2026",
+        date: "29-30 APR 2026",
         year: "2026",
         category: "Game Jam",
         image: "/game-jam-banner.jpg",
@@ -80,7 +83,7 @@ export const eventsDatabase: ACMEvent[] = [
         date: "2024",
         year: "2024",
         category: "Career Fair",
-        image: "/game.jpeg",
+        image: "/careerfair-2024.png",
         photos: [],
         sponsors: [],
     }

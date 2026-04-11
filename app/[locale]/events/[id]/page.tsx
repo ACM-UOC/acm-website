@@ -17,6 +17,10 @@ export default function EventDetailPage() {
     const eventId = Array.isArray(rawId) ? rawId[0] : rawId ?? '';
 
     const event = getEventById(eventId);
+    const eventDetailsKey =
+        event?.status === "upcoming" && t.has(`events.${eventId}.details`)
+            ? `events.${eventId}.details`
+            : `events.${eventId}.description`;
 
     if (!event) {
         return (
@@ -114,8 +118,8 @@ export default function EventDetailPage() {
                 <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
                     {event.status === "upcoming" ? (
                         <div className="space-y-16">
-                            <p className="text-lg text-slate-600 leading-relaxed font-light bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-                                {t(`events.${eventId}.description`)}
+                            <p className="text-lg text-slate-600 leading-relaxed font-light whitespace-pre-line bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+                                {t(eventDetailsKey)}
                             </p>
 
                             {event.speakers && (
