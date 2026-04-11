@@ -168,17 +168,15 @@
         "title": "Meet The Team",
         "description": "The dedicated students and faculty advisors behind the ACM UOC Student Chapter.",
         "roles": {
-            "admin": "Chair / Admin",
+            "chair": "Chair",
             "vice_chair": "Vice Chair",
             "web_dev": "Web Developer",
-            "social": "Social Media",
-            "text": "Content",
-            "communication": "Communications",
-            "game_dev": "Game Dev Team",
-            "advisor": "Faculty Advisor",
+            "social": "Social Media Manager",
+            "text": "Content Creator",
+            "communication": "Outreach & Communications",
             "treasurer": "Treasurer",
             "secretary": "Secretary",
-            "graphic": "Graphics"
+            "graphic": "Graphics Designer"
         }
     },
     "join": {

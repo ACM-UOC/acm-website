@@ -1,38 +1,41 @@
 import { Suspense } from 'react';
 import { parseDb } from '@/lib/db_parser';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
+import Image from 'next/image';
 
 interface TeamMember {
   name: string;
-  roleKey: string;
-  secondRoleKey?: string;
+  name_gr: string;
+  roles: Array<string>;
+  image: string;
   linkedin?: string;
 }
 
 async function TeamParser(): Promise<TeamMember[]> {
   try {
-    const allMembers = await parseDb("members");
+    const allMembers = await parseDb("members", 60*60*24);
 
     const result = allMembers.map((member: any) => {
-      const { firstname_en, lastname_en, firstname_gr, lastname_gr, role, link_linkedin } = member.acf;
+      const { firstname_en, lastname_en, firstname_gr, lastname_gr, role, image, link_linkedin } = member.acf;
 
       return {
         name: `${firstname_en} ${lastname_en}`,
-        roleKey: role?.[0] || '',
-        secondRoleKey: role?.[1] || '',
+        name_gr: `${firstname_gr} ${lastname_gr}`,
+        roles: role,
         linkedin: link_linkedin,
+        image: (image===false) ? '' : image,
       };
     });
 
-    const sortedRoles = ["admin", "vice_chair", "treasurer", "secretary", "advisor"];
+    const sortedRoles = ["chair", "vice_chair", "treasurer", "secretary"];
     const getRank = (role: string) => {
       const index = sortedRoles.indexOf(role);
       return index === -1 ? Infinity : index;
     };
 
     result.sort((a, b) => {
-      let a_min = Math.min(getRank(a.roleKey), getRank(a.secondRoleKey));
-      let b_min = Math.min(getRank(b.roleKey), getRank(b.secondRoleKey));
+      let a_min = Math.min(...a.roles.map(getRank));
+      let b_min = Math.min(...b.roles.map(getRank));
       return a_min - b_min;
     });
 
@@ -44,6 +47,7 @@ async function TeamParser(): Promise<TeamMember[]> {
 }
 
 async function TeamList() {
+  const locale = await getLocale();
   const t = await getTranslations();
   const team = await TeamParser();
 
@@ -60,22 +64,35 @@ async function TeamList() {
       {team.map((member) => (
         <div key={member.name} className="group flex flex-col items-center w-48">
           <div className="relative mb-6">
-            <div className="absolute -inset-2 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
-            <div className="relative w-32 h-32 md:w-40 md:h-40 bg-white rounded-full flex items-center justify-center border-4 border-slate-50 shadow-xl overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
-              <span className="text-slate-400 font-bold text-5xl group-hover:text-blue-600 transition-colors">
-                {member.name[0]}
-              </span>
+            <div className="absolute -inset-2 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-full opacity-0 blur-sm"></div>
+            <div className="relative w-32 h-32 md:w-40 md:h-40 bg-white rounded-full flex items-center justify-center border-4 border-slate-50 shadow-xl overflow-hidden">
+              {member.image!=='' ? (
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  fill
+                  quality={70}
+                  sizes="(max-width: 768px) 128px, 160px"
+                  className="object-cover"
+                />
+              ) : (
+                <span className="text-slate-400 font-bold text-5xl">
+                  {locale==='el' ? (member.name_gr[0]) : (member.name[0])}
+                </span>
+              )}
             </div>
           </div>
           <div className="space-y-2">
             <h3 className="text-lg font-black text-slate-900 tracking-tight leading-tight">
-              {member.name}
+              {locale==='el' ? (member.name_gr) : (member.name)}
             </h3>
             <p className="text-blue-600 font-bold text-[10px] uppercase tracking-widest">
-              {t(`team-members.roles.${member.roleKey}`)}
-              {member.secondRoleKey && (
-                <><br />{t(`team-members.roles.${member.secondRoleKey}`)}</>
-              )}
+              {member.roles.map((role, index) => (
+                <span key={role}>
+                  {index>0 && <br />}
+                  {t(`team-members.roles.${role}`)}
+                </span>
+              ))}
             </p>
             {member.linkedin && (
               <a href={member.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on LinkedIn`} className="inline-block mt-2 text-slate-400 hover:text-blue-600 transition-colors">

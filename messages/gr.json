@@ -168,17 +168,15 @@
         "title": "Η Ομαδα Μας",
         "description": "Οι αφοσιωμένοι φοιτητές και ακαδημαϊκοί σύμβουλοι πίσω από το ACM UOC Student Chapter.",
         "roles": {
-            "admin": "Πρόεδρος / Admin",
+            "chair": "Πρόεδρος",
             "vice_chair": "Αντιπρόεδρος",
             "web_dev": "Web Developer",
             "social": "Social Media",
-            "text": "Περιεχόμενο",
-            "communication": "Επικοινωνίες",
-            "game_dev": "Game Dev Team",
-            "advisor": "Ακαδημαϊκός Σύμβουλος",
+            "text": "Υπεύθυνος Περιεχομένου",
+            "communication": "Επικοινωνία & Εξωστρέφεια",
             "treasurer": "Ταμίας",
             "secretary": "Γραμματέας",
-            "graphic": "Γραφικά"
+            "graphic": "Υπεύθυνος Γραφικών"
         }
     },
     "join": {

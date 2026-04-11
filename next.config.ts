@@ -44,6 +44,7 @@ const nextConfig: NextConfig = {
             { protocol: 'https', hostname: 'i.pravatar.cc' },
             { protocol: 'https', hostname: 'www.gstatic.com' },
             { protocol: 'https', hostname: 'upload.wikimedia.org' },
+            { protocol: 'https', hostname: 'data.uoc.acm.org' },
         ],
     },
 };
