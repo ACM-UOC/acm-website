@@ -7,7 +7,15 @@ import { Link } from '@/i18n/navigation';
 import Sponsors from '@/components/Sponsors';
 import { getUpcomingEvents } from '@/data/events';
 
+//TODO: delete later
+import { getEvents } from '@/lib/db_parser';
+
 export default async function UpcomingEventsGrid() {
+
+    //TODO: delete later
+
+    const events = getEvents()
+
     const upcomingEvents = getUpcomingEvents();
     const t = await getTranslations();
     const getEventImageClassName = (eventId: string) => {

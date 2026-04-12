@@ -33,6 +33,27 @@ export interface ACMEvent {
     registrationUrl?: string; // External link:Google Form, Eventbrite, etc.
 }
 
+
+export interface Event {
+    title_en: string;
+    title_gr: string;
+    status: "upcoming" | "past";
+    type: string;
+    date: string;
+    time: string;
+    description_en: string;
+    description_gr: string;
+    details_en: string;
+    details_gr: string;
+    registrationUrl?: string; // External link:Google Form, Eventbrite, etc.
+    image: string;
+    speakers?: string;
+    // speakers?: Speaker[];
+    // sponsors: Sponsor[];
+    // agenda?: AgendaItem[];
+    // photos: number[];
+}
+
 const GOOGLE: Sponsor = { name: "Google", logo: "https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg", url: "https://google.com", desc: "Empowering developers worldwide with open-source tools and cloud infrastructure." };
 const GITHUB: Sponsor = { name: "GitHub", logo: "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg", url: "https://github.com", desc: "The world's leading AI-powered developer platform to build, scale, and deliver secure software." };
 const REACT: Sponsor = { name: "React", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg", url: "https://react.dev", desc: "The library for web and native user interfaces." };

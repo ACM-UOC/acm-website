@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { parseDb } from '@/lib/db_parser';
+import { fetchFromDb } from '@/lib/db_parser';
 import { getLocale, getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 
@@ -13,7 +13,7 @@ interface TeamMember {
 
 async function TeamParser(): Promise<TeamMember[]> {
   try {
-    const allMembers = await parseDb("members", 60*60*24);
+    const allMembers = await fetchFromDb("members", 60*60*24);
 
     const result = allMembers.map((member: any) => {
       const { firstname_en, lastname_en, firstname_gr, lastname_gr, role, image, link_linkedin } = member.acf;
