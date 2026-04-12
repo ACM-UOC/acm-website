@@ -36,11 +36,13 @@ export default function TeamSection() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {teamsData.map((team) => (
-                        <div
+                        <Link
+                            href={t(`teams_page.teams.game_dev.url`)}
+                            target='_blank'
                             key={team.id}
-                            className="relative h-64 bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm hover:shadow-2xl transition-all duration-700 overflow-hidden flex flex-col justify-center items-center cursor-default group"
+                            className="relative h-64 bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm hover:shadow-2xl transition-all duration-700 overflow-hidden flex flex-col justify-center items-center cursor-default group cursor-pointer"
                         >
-                           
+
                             <m.div
                                 className="absolute inset-0 bg-gradient-to-br from-blue-50/0 via-blue-50/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                                 whileHover={{
@@ -72,7 +74,7 @@ export default function TeamSection() {
                             </div>
 
                             <div className="absolute bottom-8 w-1 h-1 bg-slate-200 rounded-full group-hover:w-12 group-hover:bg-blue-600 transition-all duration-500" />
-                        </div>
+                        </Link>
                     ))}
 
                     {/* Stay Tuned Card */}
