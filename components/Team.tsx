@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
-import { fetchFromDb } from '@/lib/db_parser';
+import { getAcmMembers } from '@/lib/db_parser';
 import { getLocale, getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 
-interface TeamMember {
+export interface TeamMember {
   name: string;
   name_gr: string;
   roles: Array<string>;
@@ -11,44 +11,10 @@ interface TeamMember {
   linkedin?: string;
 }
 
-async function TeamParser(): Promise<TeamMember[]> {
-  try {
-    const allMembers = await fetchFromDb("members", 60*60*24);
-
-    const result = allMembers.map((member: any) => {
-      const { firstname_en, lastname_en, firstname_gr, lastname_gr, role, image, link_linkedin } = member.acf;
-
-      return {
-        name: `${firstname_en} ${lastname_en}`,
-        name_gr: `${firstname_gr} ${lastname_gr}`,
-        roles: role,
-        linkedin: link_linkedin,
-        image: (image===false) ? '' : image,
-      };
-    });
-
-    const sortedRoles = ["chair", "vice_chair", "treasurer", "secretary"];
-    const getRank = (role: string) => {
-      const index = sortedRoles.indexOf(role);
-      return index === -1 ? Infinity : index;
-    };
-
-    result.sort((a, b) => {
-      let a_min = Math.min(...a.roles.map(getRank));
-      let b_min = Math.min(...b.roles.map(getRank));
-      return a_min - b_min;
-    });
-
-    return result;
-  } catch (error) {
-    return [];
-  }
-}
-
 async function TeamList() {
   const locale = await getLocale();
   const t = await getTranslations();
-  const team = await TeamParser();
+  const team = await getAcmMembers();
 
   if (team.length === 0) {
     return (

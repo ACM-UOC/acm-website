@@ -1,5 +1,5 @@
 import { Event } from "@/data/events";
-import { map } from "framer-motion/client";
+import { TeamMember } from "@/components/Team";
 
 const db_url: string = "https://data.uoc.acm.org/wp-json/wp/v2/";
 
@@ -7,7 +7,7 @@ const createURL = (table_name: string, page: number) : string => {
     return `${db_url}${table_name}?acf_format=standard&_fields=id,acf,&per_page=100&page=${page}`;
 }
 
-export async function fetchFromDb(table_name: string, revalidate_after: number): Promise<any[]> {
+async function fetchFromDb(table_name: string, revalidate_after: number): Promise<any[]> {
     let page = 1;
     let allResults: any[] = [];
 
@@ -72,3 +72,37 @@ export async function getEvents(): Promise<Event[]>  {
 // export const getPastEvents = () => eventsDatabase.filter(e => e.status === "past");
 // export const getEventById = (id: string) => eventsDatabase.find(e => e.id === id) || null;
 // export const getAllYears = () => Array.from(new Set(getPastEvents().map(e => e.year)));
+
+export async function getAcmMembers(): Promise<TeamMember[]> {
+  try {
+    const allMembers = await fetchFromDb("members", 60*60*24);
+
+    const result = allMembers.map((member: any) => {
+      const acf = member.acf;
+
+      return {
+        name: `${acf.firstname_en} ${acf.lastname_en}`,
+        name_gr: `${acf.firstname_gr} ${acf.lastname_gr}`,
+        roles: acf.role,
+        linkedin: acf.link_linkedin,
+        image: (acf.image===false) ? '' : acf.image,
+      };
+    });
+
+    const sortedRoles = ["chair", "vice_chair", "treasurer", "secretary"];
+    const getRank = (role: string) => {
+      const index = sortedRoles.indexOf(role);
+      return index === -1 ? Infinity : index;
+    };
+
+    result.sort((a, b) => {
+      let a_min = Math.min(...a.roles.map(getRank));
+      let b_min = Math.min(...b.roles.map(getRank));
+      return a_min - b_min;
+    });
+
+    return result;
+  } catch (error) {
+    return [];
+  }
+}
