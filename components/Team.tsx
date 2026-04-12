@@ -41,7 +41,6 @@ async function TeamParser(): Promise<TeamMember[]> {
 
     return result;
   } catch (error) {
-    console.error("Failed to fetch team members:", error);
     return [];
   }
 }
