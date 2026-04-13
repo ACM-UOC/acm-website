@@ -1,16 +1,15 @@
 // "use client";
-import { m } from 'framer-motion';
-// import { useTranslations } from 'next-intl';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import Image from 'next/image';
-// import { useParams } from 'next/navigation';
 import { getEvents } from '@/lib/db_parser';
+import EventDetails from '@/components/EventDetails';
 
-import Sponsors from '@/components/Sponsors';
-
-import { getEventById, type Speaker, type AgendaItem } from '@/data/events';
 import { getGoogleCalendarUrl } from '@/lib/calendar';
+
+// import Image from 'next/image';
+// import Sponsors from '@/components/Sponsors';
+// import { getEventById, type Speaker, type AgendaItem } from '@/data/events';
+
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -20,18 +19,12 @@ interface PageProps {
 export default async function EventDetailPage({ params }: PageProps) {
     const t = await getTranslations();
     const locale = await getLocale();
-    // const t = useTranslations();
-    // const params = useParams();
     const { id } = await params;
     const eventId = Number(id);
-    console.log(eventId)
-    // const rawId = params.id;
-    // const eventId = Number(Array.isArray(rawId) ? rawId[0] : rawId ?? '');
 
-    // const event = getEventById(eventId);
     const events = await getEvents();
     const event = events.find(e => e.id === eventId) || null;
-    const hasDetails: Boolean = (event?.details_en !== '') ? true : false;
+    const hasDetails: boolean = (event?.details_en !== '') ? true : false;
 
     if (!event) {
         return (
@@ -44,7 +37,7 @@ export default async function EventDetailPage({ params }: PageProps) {
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
-                        Back to Events
+                        {t('event_detail.back')}
                     </Link>
                 </div>
             </main>
@@ -64,8 +57,7 @@ export default async function EventDetailPage({ params }: PageProps) {
                     {t('event_detail.back')}
                 </Link>
 
-                {/*<m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>*/}
-                <div>
+                <EventDetails>
                     <div className="flex items-center gap-3 mb-6">
                         <span className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase ${event.status === 'upcoming' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'bg-slate-200 text-slate-500'}`}>
                             {event.status === 'upcoming' ? t('event_detail.upcoming_badge') : t('event_detail.past_badge')}
@@ -123,11 +115,9 @@ export default async function EventDetailPage({ params }: PageProps) {
                             </a>
                         </div>
                     </div>
-                  </div>
-                {/*</m.div>*/}
+                  </EventDetails>
 
-                {/*<m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>*/}
-                <div>
+                <EventDetails>
                     {event.status === "upcoming" ? (
                         <div className="space-y-16">
                             <p className="text-lg text-slate-600 leading-relaxed font-light whitespace-pre-line bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
@@ -244,8 +234,7 @@ export default async function EventDetailPage({ params }: PageProps) {
                             </div>*/}
                         </div>
                     )}
-                {/*  TODO: This was m.div */}
-                </div>
+                </EventDetails>
             </div>
 
         </main>
