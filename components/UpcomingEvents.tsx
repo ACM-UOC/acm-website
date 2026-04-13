@@ -13,10 +13,6 @@ async function EventList() {
   const events = await getEvents();
   const upcomingEvents = events.filter(x => x.status === "upcoming");
 
-  console.log(events);
-  console.log('\n\n========================================================\n');
-  console.log(upcomingEvents);
-
   return (
     <>
     {upcomingEvents.map((event) => (

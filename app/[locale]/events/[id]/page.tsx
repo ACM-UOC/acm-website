@@ -1,26 +1,37 @@
-"use client";
+// "use client";
 import { m } from 'framer-motion';
-import { useTranslations } from 'next-intl';
+// import { useTranslations } from 'next-intl';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+// import { useParams } from 'next/navigation';
+import { getEvents } from '@/lib/db_parser';
 
 import Sponsors from '@/components/Sponsors';
 
 import { getEventById, type Speaker, type AgendaItem } from '@/data/events';
 import { getGoogleCalendarUrl } from '@/lib/calendar';
 
-export default function EventDetailPage() {
-    const t = useTranslations();
-    const params = useParams();
-    const rawId = params.id;
-    const eventId = Array.isArray(rawId) ? rawId[0] : rawId ?? '';
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
 
-    const event = getEventById(eventId);
-    const eventDetailsKey =
-        event?.status === "upcoming" && t.has(`events.${eventId}.details`)
-            ? `events.${eventId}.details`
-            : `events.${eventId}.description`;
+// TODO: make async and server-side?
+export default async function EventDetailPage({ params }: PageProps) {
+    const t = await getTranslations();
+    const locale = await getLocale();
+    // const t = useTranslations();
+    // const params = useParams();
+    const { id } = await params;
+    const eventId = Number(id);
+    console.log(eventId)
+    // const rawId = params.id;
+    // const eventId = Number(Array.isArray(rawId) ? rawId[0] : rawId ?? '');
+
+    // const event = getEventById(eventId);
+    const events = await getEvents();
+    const event = events.find(e => e.id === eventId) || null;
+    const hasDetails: Boolean = (event?.details_en !== '') ? true : false;
 
     if (!event) {
         return (
@@ -53,20 +64,19 @@ export default function EventDetailPage() {
                     {t('event_detail.back')}
                 </Link>
 
-                <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+                {/*<m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>*/}
+                <div>
                     <div className="flex items-center gap-3 mb-6">
                         <span className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase ${event.status === 'upcoming' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'bg-slate-200 text-slate-500'}`}>
                             {event.status === 'upcoming' ? t('event_detail.upcoming_badge') : t('event_detail.past_badge')}
                         </span>
                         <span className="text-xs font-bold text-slate-400 tracking-widest uppercase">
-                            {event.category}
+                            {event.type}
                         </span>
                     </div>
 
                     <h1 className="text-4xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter leading-tight mb-6">
-                        {event.status === 'upcoming'
-                            ? t(`events.${eventId}.title`)
-                            : t(`events_page.archive.${eventId}.title`)}
+                        {(locale==='en') ? event.title_en : event.title_gr}
                     </h1>
 
                     <div className="space-y-4 mb-10 border-l-4 border-blue-600 pl-5">
@@ -81,9 +91,9 @@ export default function EventDetailPage() {
                             {event.status === "upcoming" && (
                                 <a
                                     href={getGoogleCalendarUrl({
-                                        title: t(`events.${eventId}.title`),
+                                        title: (locale==='en') ? event.title_en : event.title_gr,
                                         date: event.date,
-                                        description: t(`events.${eventId}.description`)
+                                        description: (locale==='en') ? event.description_en : event.description_gr
                                     })}
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -113,13 +123,16 @@ export default function EventDetailPage() {
                             </a>
                         </div>
                     </div>
-                </m.div>
+                  </div>
+                {/*</m.div>*/}
 
-                <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
+                {/*<m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>*/}
+                <div>
                     {event.status === "upcoming" ? (
                         <div className="space-y-16">
                             <p className="text-lg text-slate-600 leading-relaxed font-light whitespace-pre-line bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-                                {t(eventDetailsKey)}
+                              {/* TODO: use the correct language here */}
+                              {(hasDetails) ? event.details_en : event.description_en}
                             </p>
 
                             {event.speakers && (
@@ -128,7 +141,8 @@ export default function EventDetailPage() {
                                         {t('event_detail.speakers')}
                                     </h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        {event.speakers.map((speaker: Speaker) => (
+                                        {/* Speakers -- Temporarily Hidden */}
+                                        {/*{event.speakers.map((speaker: Speaker) => (
                                             <div key={speaker.name} className="bg-white border border-slate-100 rounded-3xl p-6 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
                                                 <Image src={speaker.image} alt={speaker.name} width={64} height={64} className="rounded-full object-cover border-2 border-slate-50" />
                                                 <div>
@@ -136,12 +150,13 @@ export default function EventDetailPage() {
                                                     <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mt-1">{speaker.role}</p>
                                                 </div>
                                             </div>
-                                        ))}
+                                        ))}*/}
                                     </div>
                                 </div>
                             )}
 
-                            {event.agenda && (
+                            {/* Agenda -- Temporarily Hidden */}
+                            {/*{event.agenda && (
                                 <div>
                                     <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight mb-6">
                                         {t('event_detail.agenda')}
@@ -165,9 +180,10 @@ export default function EventDetailPage() {
                                         </div>
                                     </div>
                                 </div>
-                            )}
+                            )}*/}
 
-                            <Sponsors sponsors={event.sponsors} variant="page" />
+                            {/* Sponsort -- Temporarily Hidden */}
+                            {/*<Sponsors sponsors={event.sponsors} variant="page" />*/}
 
                             <div className="bg-white border border-blue-100 rounded-[2.5rem] p-8 md:p-12 shadow-xl relative overflow-hidden mt-12">
                                 <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-50 rounded-full blur-2xl" />
@@ -208,9 +224,11 @@ export default function EventDetailPage() {
                                 </p>
                             </div>
 
-                            <Sponsors sponsors={event.sponsors} variant="page" />
+                            {/* Sponsort -- Temporarily Hidden */}
+                            {/*<Sponsors sponsors={event.sponsors} variant="page" />*/}
 
-                            <div>
+                            {/* Photos -- Temporarily Hidden */}
+                            {/*<div>
                                 <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight mb-6 flex items-center gap-3">
                                     {t('event_detail.gallery_title')}
                                     <span className="text-xs font-bold text-slate-400 bg-slate-200 px-3 py-1 rounded-full">{event.photos.length}</span>
@@ -223,10 +241,11 @@ export default function EventDetailPage() {
                                         </div>
                                     ))}
                                 </div>
-                            </div>
+                            </div>*/}
                         </div>
                     )}
-                </m.div>
+                {/*  TODO: This was m.div */}
+                </div>
             </div>
 
         </main>
