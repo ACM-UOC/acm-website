@@ -35,6 +35,7 @@ export interface ACMEvent {
 
 
 export interface Event {
+    id: number;
     title_en: string;
     title_gr: string;
     status: "upcoming" | "past";

@@ -14,7 +14,7 @@ async function fetchFromDb(table_name: string, revalidate_after: number): Promis
     while(true) {
         const data_url = createURL(table_name, page);
         const res = await fetch(data_url, {
-            next: { 
+            next: {
                 tags: [table_name],
                 revalidate: revalidate_after,
             }
@@ -22,11 +22,11 @@ async function fetchFromDb(table_name: string, revalidate_after: number): Promis
 
         // Found the last page
         if (!res.ok || res.status == 400) break;
-    
+
         const data = await res.json();
         if(data.length === 0) break;
         allResults = allResults.concat(data);
-    
+
         page++;
     }
 
@@ -41,6 +41,7 @@ export async function getEvents(): Promise<Event[]>  {
         const mappedEvents = rawEvents.map((event: any) => {
             const acf = event.acf || {};
             return {
+                id: event.id || -1,
                 title_en: acf.title_en || "",
                 title_gr: acf.title_gr || "",
                 status: acf.status,
@@ -59,12 +60,10 @@ export async function getEvents(): Promise<Event[]>  {
             };
         });
 
-        console.log("MAPPED EVENTS: ", mappedEvents);
-
         return mappedEvents;
 
     } catch (error) {
-        return [];    
+        return [];
     }
 }
 
