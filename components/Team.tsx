@@ -42,7 +42,7 @@ async function TeamList() {
                 />
               ) : (
                 <span className="text-slate-400 font-bold text-5xl">
-                  {locale==='el' ? (member.name_gr[0]) : (member.name[0])}
+                  {locale==='el' ? (member.name_gr[0].normalize('NFD').replace(/[\u0300-\u036f]/g, "")) : (member.name[0])}
                 </span>
               )}
             </div>
