@@ -34,7 +34,7 @@ async function fetchFromDb(table_name: string, revalidate_after: number): Promis
 }
 
 
-export async function getEvents(): Promise<Event[]>  {
+async function getEvents(): Promise<Event[]>  {
     try {
         const rawEvents = await fetchFromDb("events", 60*60*24);
 
@@ -67,10 +67,13 @@ export async function getEvents(): Promise<Event[]>  {
     }
 }
 
-// export const getUpcomingEvents = () => getEvents.filter(e => e.status === "upcoming");
-// export const getPastEvents = () => eventsDatabase.filter(e => e.status === "past");
-// export const getEventById = (id: string) => eventsDatabase.find(e => e.id === id) || null;
-// export const getAllYears = () => Array.from(new Set(getPastEvents().map(e => e.year)));
+export const getUpcomingEvents = async () => (await getEvents()).filter(e => e.status === "upcoming");
+// TODO: sort this by closest upcoming date
+// TODO: maybe do the same for past events
+export const getUpcomingEventsSorted = async () => (await getEvents()).filter(e => e.status === "upcoming");
+export const getPastEvents = async () => (await getEvents()).filter(e => e.status === "past");
+export const getEventById = async (id: number) => (await getEvents()).find(e => e.id === id);
+export const getAllYears = async () => Array.from(new Set((await getPastEvents()).map(e => e.date.split(" ").pop())));
 
 export async function getAcmMembers(): Promise<TeamMember[]> {
   try {

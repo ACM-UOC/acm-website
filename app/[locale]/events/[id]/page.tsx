@@ -1,7 +1,7 @@
 // "use client";
 import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { getEvents } from '@/lib/db_parser';
+import { getEventById } from '@/lib/db_parser';
 import EventDetails from '@/components/EventDetails';
 
 import { getGoogleCalendarUrl } from '@/lib/calendar';
@@ -22,8 +22,7 @@ export default async function EventDetailPage({ params }: PageProps) {
     const { id } = await params;
     const eventId = Number(id);
 
-    const events = await getEvents();
-    const event = events.find(e => e.id === eventId) || null;
+    const event = await getEventById(eventId);
     const hasDetails: boolean = (event?.details_en !== '') ? true : false;
 
     if (!event) {

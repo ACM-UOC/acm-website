@@ -22,10 +22,10 @@ export default async function UpcomingEventsGrid() {
             <div className="w-16 h-1.5 bg-blue-600 mt-6 rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.3)]" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch max-h-[500px]">
           {/* Upcoming Events */}
           <Suspense fallback={<div className="animate-pulse text-slate-400">Loading upcoming events...</div>}>
-            <EventCards page="home" />
+            <EventCards page="rest" />
           </Suspense>
 
           {/* Stay Tuned Card*/}

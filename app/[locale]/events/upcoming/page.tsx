@@ -31,7 +31,7 @@ export default async function AllUpcomingEventsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           <Suspense fallback={<div className="animate-pulse text-slate-400">Loading upcoming events...</div>}>
-            <EventCards page="home" />
+            <EventCards page="rest" />
           </Suspense>
         </div>
 
