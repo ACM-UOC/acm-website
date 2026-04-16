@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
-import { getUpcomingEvents } from '@/lib/db_parser';
+import { getUpcomingEvents, sortEvents } from '@/lib/db_parser';
 import { getLocale, getTranslations } from 'next-intl/server';
 
 
@@ -11,7 +11,7 @@ interface EventCardProps {
 export default async function EventList({ page = 'rest' }: EventCardProps) {
   const t = await getTranslations();
   const locale = await getLocale();
-  const upcomingEvents = await getUpcomingEvents();
+  const upcomingEvents = (await getUpcomingEvents()).sort((a,b) => sortEvents(a,b,"upcoming"));
 
   return (
     <>

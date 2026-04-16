@@ -67,10 +67,32 @@ async function getEvents(): Promise<Event[]>  {
     }
 }
 
+export function sortEvents(a: Event, b: Event, status: "upcoming" | "past") {
+  const months: { [key: string]: number } = {
+    January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
+    July: 6, August: 7, September: 8, October: 9, November: 10, December: 11
+  };
+
+  const getTimestamp = (dateStr: string) => {
+    const [dayStr, month, year] = dateStr.split(" ");
+
+    const day = status === "upcoming"
+      ? dayStr.split('-')[0]
+      : dayStr.split('-').pop();
+
+    return new Date(Number(year), months[month], Number(day)).getTime();
+  };
+
+  const timeA = getTimestamp(a.date);
+  const timeB = getTimestamp(b.date);
+
+  if (status === "upcoming")
+    return timeA - timeB;
+  else
+    return timeB - timeA;
+}
+
 export const getUpcomingEvents = async () => (await getEvents()).filter(e => e.status === "upcoming");
-// TODO: sort this by closest upcoming date
-// TODO: maybe do the same for past events
-export const getUpcomingEventsSorted = async () => (await getEvents()).filter(e => e.status === "upcoming");
 export const getPastEvents = async () => (await getEvents()).filter(e => e.status === "past");
 export const getEventById = async (id: number) => (await getEvents()).find(e => e.id === id);
 export const getAllYears = async () => Array.from(new Set((await getPastEvents()).map(e => e.date.split(" ").pop())));

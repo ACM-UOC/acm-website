@@ -209,11 +209,11 @@ export default async function EventDetailPage({ params }: PageProps) {
                                     {t('event_detail.recap_title')}
                                 </h3>
                                 <p className="text-lg text-slate-600 leading-relaxed font-light bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-                                    {t(`events_page.archive.${eventId}.description`)}
+                                  {locale==='en' ? event.description_en : event.description_gr}
                                 </p>
                             </div>
 
-                            {/* Sponsort -- Temporarily Hidden */}
+                            {/* Sponsors -- Temporarily Hidden */}
                             {/*<Sponsors sponsors={event.sponsors} variant="page" />*/}
 
                             {/* Photos -- Temporarily Hidden */}

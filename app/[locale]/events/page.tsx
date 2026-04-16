@@ -2,12 +2,12 @@ import { Suspense } from 'react';
 import EventCards from '@/components/EventCards';
 import PastEvents from '@/components/PastEvents';
 import EventSlider from '@/components/EventsSlider';
-import { getPastEvents, getAllYears } from '@/lib/db_parser';
+import { getPastEvents, getAllYears, sortEvents } from '@/lib/db_parser';
 import PastEventsAnimation from '@/components/PastEventsAnimation';
 
 
 export default async function EventsPage() {
-  const pastEvents = await getPastEvents();
+  const pastEvents = (await getPastEvents()).sort((a,b) => sortEvents(a, b, "past"));
   const dynamicYears = await getAllYears();
   const years = ["All", ...dynamicYears];
 
