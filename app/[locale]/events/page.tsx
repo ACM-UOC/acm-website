@@ -7,28 +7,28 @@ import PastEventsAnimation from '@/components/PastEventsAnimation';
 
 
 export default async function EventsPage() {
-    const pastEvents = await getPastEvents();
-    const dynamicYears = await getAllYears();
-    const years = ["All", ...dynamicYears];
+  const pastEvents = await getPastEvents();
+  const dynamicYears = await getAllYears();
+  const years = ["All", ...dynamicYears];
 
-    return (
-        <main className="min-h-screen bg-slate-50 relative z-0">
-            <div className="absolute top-0 left-0 w-full h-[45vh] min-h-[450px] bg-white rounded-b-[4rem] shadow-sm -z-10" />
+  return (
+    <main className="min-h-screen bg-slate-50 relative z-0">
+      <div className="absolute top-0 left-0 w-full h-[45vh] min-h-[450px] bg-white rounded-b-[4rem] shadow-sm -z-10" />
 
-            <div className="max-w-7xl mx-auto px-6 pt-32 pb-24">
+      <div className="max-w-7xl mx-auto px-6 pt-32 pb-24">
 
-                <PastEventsAnimation />
+        <PastEventsAnimation />
 
-                <div className="mb-32">
-                  <EventSlider>
-                    <Suspense fallback={<div className="animate-pulse text-slate-400">Loading upcoming events...</div>}>
-                      <EventCards page="rest" />
-                    </Suspense>
-                  </EventSlider>
-                </div>
+        <div className="mb-32">
+          <EventSlider>
+            <Suspense fallback={<div className="animate-pulse text-slate-400">Loading upcoming events...</div>}>
+              <EventCards page="slider" />
+            </Suspense>
+          </EventSlider>
+        </div>
 
-                <PastEvents pastEvents={pastEvents} years={years} />
-            </div>
-        </main>
-    );
+        <PastEvents pastEvents={pastEvents} years={years} />
+      </div>
+    </main>
+  );
 }
