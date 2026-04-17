@@ -14,12 +14,16 @@ const securityHeaders = [
         key: 'Content-Security-Policy',
         value: [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+            "base-uri 'self'",
+            "object-src 'none'",
+            "script-src 'self' 'unsafe-inline'",
             "style-src 'self' 'unsafe-inline'",
             "img-src 'self' data: https: blob:",
-            "font-src 'self' https:",
+            "font-src 'self' data: https:",
             "connect-src 'self' https://formspree.io",
+            "form-action 'self' https://formspree.io",
             "frame-ancestors 'none'",
+            "upgrade-insecure-requests",
         ].join('; '),
     },
 ];
@@ -33,10 +37,14 @@ const nextConfig: NextConfig = {
         return [{ source: '/(.*)', headers: securityHeaders }];
     },
     images: {
+        qualities: [70, 75],
+        formats: ['image/avif', 'image/webp'],
+        minimumCacheTTL: 60 * 60 * 24 * 30,
         remotePatterns: [
             { protocol: 'https', hostname: 'i.pravatar.cc' },
             { protocol: 'https', hostname: 'www.gstatic.com' },
             { protocol: 'https', hostname: 'upload.wikimedia.org' },
+            { protocol: 'https', hostname: 'data.uoc.acm.org' },
         ],
     },
 };

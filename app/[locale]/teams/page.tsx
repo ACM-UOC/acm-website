@@ -3,6 +3,14 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 
 const teamIds = ["game_dev"];
+const teamIcons: Record<string, React.ReactNode> = {
+    "game_dev": (
+        <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="#155DFC" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="8" width="20" height="12" rx="5" />
+            <path d="M9 12H7M8 11v2M16 11.5h.01M18 13h.01" />
+        </svg>
+    ),
+};
 
 const BASE_URL = 'https://uoc.acm.org';
 
@@ -44,7 +52,7 @@ export default async function TeamsPage() {
                     </h1>
                     <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full shadow-[0_2px_10px_rgba(37,99,235,0.3)] mb-8"></div>
                     <p className="text-lg text-slate-600 leading-relaxed italic px-4">
-                        "{t('teams_page.description')}"
+                        &ldquo;{t('teams_page.description')}&rdquo;
                     </p>
                 </div>
 
@@ -58,7 +66,7 @@ export default async function TeamsPage() {
 
                             <div className="relative z-10 flex flex-col h-full">
                                 <div className="text-5xl mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 origin-left">
-                                    {t(`teams_page.teams.${id}.icon`)}
+                                    {teamIcons[id]}
                                 </div>
 
                                 <h2 className="text-2xl font-black text-slate-900 tracking-tight uppercase mb-4 group-hover:text-blue-600 transition-colors">
@@ -73,7 +81,8 @@ export default async function TeamsPage() {
 
                                 <div className="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
                                     <Link
-                                        href={`/teams/${id}`}
+                                        href={t(`teams_page.teams.${id}.url`)}
+                                        target="_blank"
                                         className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-blue-600 transition-colors before:absolute before:inset-0"
                                     >
                                         {t('teams_page.explore_cta')}
@@ -89,13 +98,14 @@ export default async function TeamsPage() {
                         </div>
                     ))}
 
+                    {/* Stay Tuned Card */}
                     <div className="group bg-slate-50/50 rounded-[2.5rem] border border-dashed border-slate-200 p-10 transition-all duration-500 flex flex-col items-center justify-center text-center min-h-[320px]">
-                        <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 text-blue-300">
+                        <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-6 text-blue-300">
                             <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
                             </svg>
                         </div>
-                        <h3 className="text-xl font-bold text-slate-400 mb-3 tracking-tight uppercase">
+                        <h3 className="text-xl font-bold text-slate-600 mb-3 tracking-tight uppercase">
                             {t('events.stay_tuned.title')}
                         </h3>
                         <div className="mt-4 flex gap-2">

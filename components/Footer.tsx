@@ -1,8 +1,9 @@
 import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 
 export default async function Footer() {
+  const locale = await getLocale();
   const t = await getTranslations();
   const currentYear = new Date().getFullYear();
 
@@ -13,8 +14,8 @@ export default async function Footer() {
 
           {/* Column 1 - branding */}
           <div className="space-y-6">
-            <Link href="#home" className="inline-flex items-center space-x-3 group cursor-pointer">
-              <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[5deg] relative">
+            <div className="inline-flex items-center space-x-3 group">
+              <div className="w-12 h-12 flex items-center justify-center relative">
                 <Image
                   src="/logo.png"
                   alt="ACM UOC Logo"
@@ -24,14 +25,14 @@ export default async function Footer() {
                 />
               </div>
               <div className="flex flex-col justify-center">
-                <span className="font-black text-2xl tracking-tighter leading-none text-white group-hover:text-blue-500 transition-colors">
+                <span className="font-black text-2xl tracking-tighter leading-none text-white">
                   ACM <span className="text-blue-500 italic">UOC</span>
                 </span>
-                <span className="text-[9px] font-mono font-bold text-slate-400 tracking-[0.2em] uppercase mt-1 group-hover:text-slate-300 transition-colors">
+                <span className="text-[9px] font-mono font-bold text-slate-400 tracking-[0.2em] uppercase mt-1">
                   Student Chapter
                 </span>
               </div>
-            </Link>
+            </div>
 
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm font-light italic">
               &ldquo;{t('footer.description')}&rdquo;
@@ -63,8 +64,8 @@ export default async function Footer() {
           {/* Column 4 - contact */}
           <div>
             <h3 className="font-bold text-lg mb-5 text-slate-100">{t('footer.contact_us')}</h3>
-            <a href="mailto:acm@csd.uoc.gr" className="text-blue-400 text-lg font-bold hover:text-blue-300 transition-colors">
-              acm@csd.uoc.gr
+            <a href="mailto:acmuoc@csd.uoc.gr" className="text-blue-400 text-lg font-bold hover:text-blue-300 transition-colors">
+              acmuoc@csd.uoc.gr
             </a>
           </div>
         </div>
@@ -74,7 +75,11 @@ export default async function Footer() {
           <p className="text-slate-400 text-sm">
             © {currentYear} ACM Student Chapter UOC. {t('footer.rights')}
           </p>
-          <div className="flex items-center gap-5 group cursor-pointer">
+          <Link
+            href={`https://www.csd.uoc.gr/CSD/index.jsp?lang=${locale==='el' ? 'gr' : locale}`}
+            target="_blank"
+            className="flex items-center gap-5 group cursor-pointer">
+
             <div className="text-right hidden sm:block">
               <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-slate-400 group-hover:text-blue-500 transition-colors">
                 {t('footer.university')}
@@ -91,7 +96,7 @@ export default async function Footer() {
                 className="relative object-contain opacity-80 brightness-200 grayscale group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-500"
               />
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </footer>

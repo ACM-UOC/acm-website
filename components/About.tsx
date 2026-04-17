@@ -53,17 +53,17 @@ export default async function About() {
           {pillars.map((pillar) => (
             <div
               key={pillar.id}
-              className="group relative p-10 bg-white rounded-3xl border border-slate-100 shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
+              className="group relative p-10 bg-white rounded-3xl border border-slate-100 shadow-xl overflow-hidden"
             >
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-50 rounded-full group-hover:bg-blue-100 transition-colors duration-500"></div>
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-50 rounded-full"></div>
               <div className="relative z-10">
-                <div className="text-blue-600 mb-6 transform group-hover:scale-110 transition-transform duration-500">
+                <div className="text-blue-600 mb-6">
                   {pillar.icon}
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
                   {t(`about.pillars.${pillar.id}.title`)}
                 </h3>
-                <div className="w-8 h-1 bg-blue-600 mb-6 group-hover:w-16 transition-all duration-500 rounded-full"></div>
+                <div className="w-8 h-1 bg-blue-600 mb-6 rounded-full"></div>
                 <p className="text-slate-500 leading-relaxed font-light text-sm italic">
                   &ldquo;{t(`about.pillars.${pillar.id}.desc`)}&rdquo;
                 </p>
