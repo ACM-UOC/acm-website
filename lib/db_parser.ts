@@ -95,7 +95,7 @@ export function sortEvents(a: Event, b: Event, status: "upcoming" | "past") {
 export const getUpcomingEvents = async () => (await getEvents()).filter(e => e.status === "upcoming");
 export const getPastEvents = async () => (await getEvents()).filter(e => e.status === "past");
 export const getEventById = async (id: number) => (await getEvents()).find(e => e.id === id);
-export const getAllYears = async () => Array.from(new Set((await getPastEvents()).map(e => e.date.split(" ").pop())));
+export const getAllYears = async () => Array.from(new Set((await getPastEvents()).map(e => e.date.split(" ").pop()!)));
 
 export async function getAcmMembers(): Promise<TeamMember[]> {
   try {
