@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import EventCards from '@/components/EventCards';
 import PastEvents from '@/components/PastEvents';
 import EventSlider from '@/components/EventsSlider';
-import { getPastEvents, getAllYears, sortEvents } from '@/lib/db_parser';
+import { getPastEvents, getAllYears, sortEvents, getUpcomingEvents } from '@/lib/db_parser';
 import PastEventsAnimation from '@/components/PastEventsAnimation';
 
 
@@ -10,6 +10,8 @@ export default async function EventsPage() {
   const pastEvents = (await getPastEvents()).sort((a,b) => sortEvents(a, b, "past"));
   const dynamicYears = await getAllYears();
   const years = ["All", ...dynamicYears];
+
+  const shouldLoop = (await getUpcomingEvents()).length > 3;
 
   return (
     <main className="min-h-screen bg-slate-50 relative z-0">
@@ -20,7 +22,7 @@ export default async function EventsPage() {
         <PastEventsAnimation />
 
         <div className="mb-32">
-          <EventSlider>
+          <EventSlider shouldLoop={shouldLoop}>
             <Suspense fallback={<div className="animate-pulse text-slate-400">Loading upcoming events...</div>}>
               <EventCards page="slider" />
             </Suspense>

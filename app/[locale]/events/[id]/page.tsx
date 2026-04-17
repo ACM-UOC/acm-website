@@ -1,4 +1,3 @@
-// "use client";
 import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { getEventById } from '@/lib/db_parser';
