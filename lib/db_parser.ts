@@ -1,10 +1,10 @@
-import { Event } from "@/data/events";
-import { TeamMember } from "@/components/Team";
+import { Event, TeamMember, Team } from "@/lib/types";
+import { details } from "framer-motion/client";
 
 const db_url: string = "https://data.uoc.acm.org/wp-json/wp/v2/";
 
 const createURL = (table_name: string, page: number) : string => {
-    return `${db_url}${table_name}?acf_format=standard&_fields=id,acf,&per_page=100&page=${page}`;
+  return `${db_url}${table_name}?acf_format=standard&_fields=id,acf,&per_page=100&page=${page}`;
 }
 
 async function fetchFromDb(table_name: string, revalidate_after: number): Promise<any[]> {
@@ -124,6 +124,47 @@ export async function getAcmMembers(): Promise<TeamMember[]> {
       let b_min = Math.min(...b.roles.map(getRank));
       return a_min - b_min;
     });
+
+    return result;
+  } catch (error) {
+    return [];
+  }
+}
+
+export async function getTeams(): Promise<Team[]> {
+  try {
+    const allTeams = await fetchFromDb("teams", 60 * 60 * 24);
+
+    const result = await Promise.all(allTeams.map(async (team: any) => {
+      const acf = team.acf || {};
+      const membersIDs = acf.members.join(',');
+
+      // TODO: check if there was no IDs in the members, what do we do there? Some checks?
+      const membersJson = await (await fetch(`${db_url}team-members?acf_format=standard&_fields=id,acf&include=${membersIDs}`)).json();
+      const members = membersJson.map((member: any) => {
+        const acf = member.acf || {};
+        return {
+          name: `${acf.firstname_en} ${acf.lastname_en}`,
+          name_gr: `${acf.firstname_gr} ${acf.lastname_gr}`,
+          roles: acf.role,
+          linkedin: acf.link_linkedin,
+          image: (acf.image===false) ? '' : acf.image,
+        };
+      });
+
+      return {
+        id: team.id || -1,
+        name: acf.name || "",
+        short_name: acf.short_name || "",
+        description_en: acf.description_en || "",
+        description_gr: acf.description_gr || "",
+        details_en: acf.details_en || "",
+        details_gr: acf.details_gr || "",
+        websiteUrl: acf.link || "",
+        image: (acf.image === false) ? "" : acf.image,
+        members: members
+      };
+    }));
 
     return result;
   } catch (error) {
