@@ -14,7 +14,7 @@ export interface Speaker {
 export interface AgendaItem {
   time: string;
   title: string;
-  desc: string;
+  desc?: string;
 }
 
 export interface Event {
@@ -32,6 +32,7 @@ export interface Event {
   registrationUrl?: string; // External link:Google Form, Eventbrite, etc.
   image: string;
   speakers?: string;
+  agenda: AgendaItem[];
   // speakers?: Speaker[];
   // sponsors: Sponsor[];
   // agenda?: AgendaItem[];

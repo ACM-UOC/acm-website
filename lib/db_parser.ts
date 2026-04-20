@@ -1,5 +1,4 @@
-import { Event, TeamMember, Team } from "@/lib/types";
-import { details } from "framer-motion/client";
+import { Event, AgendaItem, TeamMember, Team } from "@/lib/types";
 
 const db_url: string = "https://data.uoc.acm.org/wp-json/wp/v2/";
 
@@ -36,11 +35,19 @@ async function fetchFromDb(table_name: string, revalidate_after: number): Promis
 
 async function getEvents(): Promise<Event[]>  {
     try {
-        const rawEvents = await fetchFromDb("events", 60*60*24);
+      const rawEvents = await fetchFromDb("events", 60*60*24);
 
         const mappedEvents = rawEvents.map((event: any) => {
-            const acf = event.acf || {};
-            return {
+          const acf = event.acf || {};
+
+          const parseAgenda = (x: string) : AgendaItem => {
+            const index = x.indexOf('|');
+            const time = x.substring(0, index).trim();
+            const rest = x.substring(index+1, x.length).trim();
+            return {time: time, title: rest};
+          }
+
+          return {
                 id: event.id || -1,
                 title_en: acf.title_en || "",
                 title_gr: acf.title_gr || "",
@@ -57,6 +64,7 @@ async function getEvents(): Promise<Event[]>  {
                 speakers: acf.speakers || "",
                 place_name: acf.place_name || "",
                 place_google_maps_link: acf.place_google_maps_link || "",
+                agenda: (acf.agenda!=="") ? acf.agenda.split('\n').map(parseAgenda) : []
             };
         });
 
