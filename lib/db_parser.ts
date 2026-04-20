@@ -2,77 +2,78 @@ import { Event, AgendaItem, TeamMember, Team } from "@/lib/types";
 
 const db_url: string = "https://data.uoc.acm.org/wp-json/wp/v2/";
 
-const createURL = (table_name: string, page: number) : string => {
+const createURL = (table_name: string, page: number): string => {
   return `${db_url}${table_name}?acf_format=standard&_fields=id,acf,&per_page=100&page=${page}`;
-}
+};
 
 async function fetchFromDb(table_name: string, revalidate_after: number): Promise<any[]> {
-    let page = 1;
-    let allResults: any[] = [];
+  let page = 1;
+  let allResults: any[] = [];
 
-    while(true) {
-        const data_url = createURL(table_name, page);
-        const res = await fetch(data_url, {
-            next: {
-                tags: [table_name],
-                revalidate: revalidate_after,
-            }
-        });
+  while(true) {
+    const data_url = createURL(table_name, page);
+    const res = await fetch(data_url, {
+      next: {
+        tags: [table_name],
+        revalidate: revalidate_after,
+      }
+    });
 
-        // Found the last page
-        if (!res.ok || res.status == 400) break;
+    // Found the last page
+    if (!res.ok || res.status == 400) break;
 
-        const data = await res.json();
-        if(data.length === 0) break;
-        allResults = allResults.concat(data);
+    const data = await res.json();
+    if(data.length === 0) break;
+    allResults = allResults.concat(data);
 
-        page++;
-    }
+    page++;
+  }
 
-    return allResults;
+  return allResults;
 }
 
 
 async function getEvents(): Promise<Event[]>  {
-    try {
-      const rawEvents = await fetchFromDb("events", 60*60*24);
+  try {
+    const rawEvents = await fetchFromDb("events", 60*60*24);
 
-        const mappedEvents = rawEvents.map((event: any) => {
-          const acf = event.acf || {};
+    const mappedEvents = rawEvents.map((event: any) => {
+      const acf = event.acf || {};
 
-          const parseAgenda = (x: string) : AgendaItem => {
-            const index = x.indexOf('|');
-            const time = x.substring(0, index).trim();
-            const rest = x.substring(index+1, x.length).trim();
-            return {time: time, title: rest};
-          }
+      const parseAgenda = (x: string) : AgendaItem => {
+        const index = x.indexOf('|');
+        const time = x.substring(0, index).trim();
+        const rest = x.substring(index+1, x.length).trim();
+        return {time: time, title: rest};
+      };
 
-          return {
-                id: event.id || -1,
-                title_en: acf.title_en || "",
-                title_gr: acf.title_gr || "",
-                status: acf.status,
-                type: acf.type || "Event",
-                date: acf.date || "",
-                time: acf.time || "",
-                description_en: acf.description_en || "",
-                description_gr: acf.description_gr || "",
-                details_en: acf.details_en || "",
-                details_gr: acf.details_gr || "",
-                image: (acf.image===false) ? "" : acf.image,
-                registrationUrl: acf.registration_url,
-                speakers: acf.speakers || "",
-                place_name: acf.place_name || "",
-                place_google_maps_link: acf.place_google_maps_link || "",
-                agenda: (acf.agenda!=="") ? acf.agenda.split('\n').map(parseAgenda) : []
-            };
-        });
+      return {
+        id: event.id || -1,
+        title_en: acf.title_en || "",
+        title_gr: acf.title_gr || "",
+        status: acf.status,
+        type: acf.type || "Event",
+        date: acf.date || "",
+        time: acf.time || "",
+        description_en: acf.description_en || "",
+        description_gr: acf.description_gr || "",
+        details_en: acf.details_en || "",
+        details_gr: acf.details_gr || "",
+        image: (acf.image===false) ? "" : acf.image,
+        registrationUrl: acf.registration_url,
+        speakers: acf.speakers || "",
+        place_name: acf.place_name || "",
+        place_google_maps_link: acf.place_google_maps_link || "",
+        agenda: (acf.agenda!=="") ? acf.agenda.split('\n').map(parseAgenda) : []
+      };
+    });
 
-        return mappedEvents;
+    return mappedEvents;
 
-    } catch (error) {
-        return [];
-    }
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }
 
 export function sortEvents(a: Event, b: Event, status: "upcoming" | "past") {
@@ -128,8 +129,8 @@ export async function getAcmMembers(): Promise<TeamMember[]> {
     };
 
     result.sort((a, b) => {
-      let a_min = Math.min(...a.roles.map(getRank));
-      let b_min = Math.min(...b.roles.map(getRank));
+      const a_min = Math.min(...a.roles.map(getRank));
+      const b_min = Math.min(...b.roles.map(getRank));
       return a_min - b_min;
     });
 
