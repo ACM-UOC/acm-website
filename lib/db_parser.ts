@@ -1,4 +1,4 @@
-import { Event, AgendaItem, TeamMember, Team } from "@/lib/types";
+import { Event, AgendaItem, TeamMember, Team, Speaker } from "@/lib/types";
 
 const db_url: string = "https://data.uoc.acm.org/wp-json/wp/v2/";
 
@@ -32,7 +32,6 @@ async function fetchFromDb(table_name: string, revalidate_after: number): Promis
   return allResults;
 }
 
-
 async function getEvents(): Promise<Event[]>  {
   try {
     const rawEvents = await fetchFromDb("events", 60*60*24);
@@ -41,10 +40,13 @@ async function getEvents(): Promise<Event[]>  {
       const acf = event.acf || {};
 
       const parseAgenda = (x: string) : AgendaItem => {
-        const index = x.indexOf('|');
-        const time = x.substring(0, index).trim();
-        const rest = x.substring(index+1, x.length).trim();
-        return {time: time, title: rest};
+        const [ time = '', title = '', desc = '' ] = x.split('\\').map(x => x.trim());
+        return { time, title, desc };
+      };
+
+      const parseSpeakers = (x: string): Speaker => {
+        const [ name = '', role = '', image = '' ] = x.split('\\').map(x => x.trim());
+        return { name, role, image };
       };
 
       return {
@@ -61,10 +63,10 @@ async function getEvents(): Promise<Event[]>  {
         details_gr: acf.details_gr || "",
         image: (acf.image===false) ? "" : acf.image,
         registrationUrl: acf.registration_url,
-        speakers: acf.speakers || "",
+        speakers: (acf.speakers!=="") ? acf.speakers.split('\n').map(parseSpeakers) : [],
+        agenda: (acf.agenda!=="") ? acf.agenda.split('\n').map(parseAgenda) : [],
         place_name: acf.place_name || "",
         place_google_maps_link: acf.place_google_maps_link || "",
-        agenda: (acf.agenda!=="") ? acf.agenda.split('\n').map(parseAgenda) : []
       };
     });
 
