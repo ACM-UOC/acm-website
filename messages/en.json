@@ -102,19 +102,6 @@
         "stay_tuned": {
             "title": "More to Come",
             "description": "We are currently cooking new workshops and seminars."
-        },
-        "game-dev-workshop": {
-            "title": "Into Game Development",
-            "description": "A full-day event covering the essentials of game development industry insights from working professionals, the tools of the trade, and a hands-on introduction to Unity and C# where you build your first 3D world.",
-            "cta": "Register Now",
-            "status": "Workshop"
-        },
-        "game-jam": {
-            "title": "Game Jam",
-            "description": "Build a game in 2 days. Join solo or in a team of up to 5.",
-            "details": "We are thrilled to announce the very first CSD Game Jam!\n\nA special initiative that brings together programmers, artists, designers, writers, musicians, and every new creator who wants to test their skills in game development and build something truly their own.\n\n🚀 Build a game in 2 days\n🤝 Join solo or in a team of up to 5 people\n🕹 The theme is revealed at the start of the jam\n🎨 Restriction: Retro Graphics\n\n🗓 April 29-30, 2026\n📍 Hybrid event - onsite at the Department of Computer Science, University of Crete, or online from anywhere\n\nThe CSD Game Jam is organized by Ikarus, the Game Development team of the University of Crete, as part of the ACM Student Chapter of the University of Crete - an effort that highlights the talent, creativity, and momentum of the new generation of game developers in Greece.\n\nIn parallel, a workshop will take place on April 21, 2026, giving participants the opportunity to gain valuable knowledge and prepare better for the game jam experience.\n\nRegister and join the game!",
-            "cta": "Join the Jam",
-            "status": "Game Jam"
         }
     },
     "events_page": {
@@ -126,15 +113,7 @@
         "archive_badge": "Archive",
         "archive_title": "Past Events",
         "filter_all": "All Years",
-        "read_recap": "Read Recap",
-        "archive": {
-            "careerfair-2024": {
-                "title": "Career Fair 2024",
-                "description": "Before we were even officially founded, our team organized the CSD Career Fair bringing together students and companies at the University of Crete. Unorganized, scrappy, and entirely student-driven.",
-                "month": "2024",
-                "day": "CSD"
-            }
-        }
+        "read_recap": "Read Recap"
     },
     "event_detail": {
         "back": "Back to Events",

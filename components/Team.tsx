@@ -3,13 +3,6 @@ import { getAcmMembers } from '@/lib/db_parser';
 import { getLocale, getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 
-export interface TeamMember {
-  name: string;
-  name_gr: string;
-  roles: Array<string>;
-  image: string;
-  linkedin?: string;
-}
 
 async function TeamList() {
   const locale = await getLocale();

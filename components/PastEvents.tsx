@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { Event } from '@/data/events';
+import { Event } from '@/lib/types';
 
 
 interface PastEventsProps {

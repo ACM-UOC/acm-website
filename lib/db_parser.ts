@@ -1,70 +1,80 @@
-import { Event } from "@/data/events";
-import { TeamMember } from "@/components/Team";
+import { Event, AgendaItem, TeamMember, Team, Speaker } from "@/lib/types";
 
 const db_url: string = "https://data.uoc.acm.org/wp-json/wp/v2/";
 
-const createURL = (table_name: string, page: number) : string => {
-    return `${db_url}${table_name}?acf_format=standard&_fields=id,acf,&per_page=100&page=${page}`;
-}
+const createURL = (table_name: string, page: number): string => {
+  return `${db_url}${table_name}?acf_format=standard&_fields=id,acf,&per_page=100&page=${page}`;
+};
 
 async function fetchFromDb(table_name: string, revalidate_after: number): Promise<any[]> {
-    let page = 1;
-    let allResults: any[] = [];
+  let page = 1;
+  let allResults: any[] = [];
 
-    while(true) {
-        const data_url = createURL(table_name, page);
-        const res = await fetch(data_url, {
-            next: {
-                tags: [table_name],
-                revalidate: revalidate_after,
-            }
-        });
+  while(true) {
+    const data_url = createURL(table_name, page);
+    const res = await fetch(data_url, {
+      next: {
+        tags: [table_name],
+        revalidate: revalidate_after,
+      }
+    });
 
-        // Found the last page
-        if (!res.ok || res.status == 400) break;
+    // Found the last page
+    if (!res.ok || res.status == 400) break;
 
-        const data = await res.json();
-        if(data.length === 0) break;
-        allResults = allResults.concat(data);
+    const data = await res.json();
+    if(data.length === 0) break;
+    allResults = allResults.concat(data);
 
-        page++;
-    }
+    page++;
+  }
 
-    return allResults;
+  return allResults;
 }
 
-
 async function getEvents(): Promise<Event[]>  {
-    try {
-        const rawEvents = await fetchFromDb("events", 60*60*24);
+  try {
+    const rawEvents = await fetchFromDb("events", 60*60*24);
 
-        const mappedEvents = rawEvents.map((event: any) => {
-            const acf = event.acf || {};
-            return {
-                id: event.id || -1,
-                title_en: acf.title_en || "",
-                title_gr: acf.title_gr || "",
-                status: acf.status,
-                type: acf.type || "Event",
-                date: acf.date || "",
-                time: acf.time || "",
-                description_en: acf.description_en || "",
-                description_gr: acf.description_gr || "",
-                details_en: acf.details_en || "",
-                details_gr: acf.details_gr || "",
-                image: (acf.image===false) ? "" : acf.image,
-                registrationUrl: acf.registration_url,
-                speakers: acf.speakers || "",
-                place_name: acf.place_name || "",
-                place_google_maps_link: acf.place_google_maps_link || "",
-            };
-        });
+    const mappedEvents = rawEvents.map((event: any) => {
+      const acf = event.acf || {};
 
-        return mappedEvents;
+      const parseAgenda = (x: string) : AgendaItem => {
+        const [ time = '', title = '', desc = '' ] = x.split('\\').map(x => x.trim());
+        return { time, title, desc };
+      };
 
-    } catch (error) {
-        return [];
-    }
+      const parseSpeakers = (x: string): Speaker => {
+        const [ name = '', role = '', image = '' ] = x.split('\\').map(x => x.trim());
+        return { name, role, image };
+      };
+
+      return {
+        id: event.id || -1,
+        title_en: acf.title_en || "",
+        title_gr: acf.title_gr || "",
+        status: acf.status,
+        type: acf.type || "Event",
+        date: acf.date || "",
+        time: acf.time || "",
+        description_en: acf.description_en || "",
+        description_gr: acf.description_gr || "",
+        details_en: acf.details_en || "",
+        details_gr: acf.details_gr || "",
+        image: (acf.image===false) ? "" : acf.image,
+        registrationUrl: acf.registration_url,
+        speakers: (acf.speakers!=="") ? acf.speakers.split('\n').map(parseSpeakers) : [],
+        agenda: (acf.agenda!=="") ? acf.agenda.split('\n').map(parseAgenda) : [],
+        place_name: acf.place_name || "",
+        place_google_maps_link: acf.place_google_maps_link || "",
+      };
+    });
+
+    return mappedEvents;
+
+  } catch (error) {
+    return [];
+  }
 }
 
 export function sortEvents(a: Event, b: Event, status: "upcoming" | "past") {
@@ -120,10 +130,51 @@ export async function getAcmMembers(): Promise<TeamMember[]> {
     };
 
     result.sort((a, b) => {
-      let a_min = Math.min(...a.roles.map(getRank));
-      let b_min = Math.min(...b.roles.map(getRank));
+      const a_min = Math.min(...a.roles.map(getRank));
+      const b_min = Math.min(...b.roles.map(getRank));
       return a_min - b_min;
     });
+
+    return result;
+  } catch (error) {
+    return [];
+  }
+}
+
+export async function getTeams(): Promise<Team[]> {
+  try {
+    const allTeams = await fetchFromDb("teams", 60 * 60 * 24);
+
+    const result = await Promise.all(allTeams.map(async (team: any) => {
+      const acf = team.acf || {};
+      const membersIDs = acf.members.join(',');
+
+      // TODO: check if there was no IDs in the members, what do we do there? Some checks?
+      const membersJson = await (await fetch(`${db_url}team-members?acf_format=standard&_fields=id,acf&include=${membersIDs}`)).json();
+      const members = membersJson.map((member: any) => {
+        const acf = member.acf || {};
+        return {
+          name: `${acf.firstname_en} ${acf.lastname_en}`,
+          name_gr: `${acf.firstname_gr} ${acf.lastname_gr}`,
+          roles: acf.role,
+          linkedin: acf.link_linkedin,
+          image: (acf.image===false) ? '' : acf.image,
+        };
+      });
+
+      return {
+        id: team.id || -1,
+        name: acf.name || "",
+        short_name: acf.short_name || "",
+        description_en: acf.description_en || "",
+        description_gr: acf.description_gr || "",
+        details_en: acf.details_en || "",
+        details_gr: acf.details_gr || "",
+        websiteUrl: acf.link || "",
+        image: (acf.image === false) ? "" : acf.image,
+        members: members
+      };
+    }));
 
     return result;
   } catch (error) {
