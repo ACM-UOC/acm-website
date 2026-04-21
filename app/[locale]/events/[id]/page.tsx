@@ -2,12 +2,11 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { getEventById } from '@/lib/db_parser';
 import EventDetails from '@/components/EventDetails';
-import { AgendaItem } from '@/lib/types';
+import { AgendaItem, Speaker } from '@/lib/types';
 import { getGoogleCalendarUrl } from '@/lib/calendar';
+import Image from 'next/image';
 
-// import Image from 'next/image';
 // import Sponsors from '@/components/Sponsors';
-// import { getEventById, type Speaker, type AgendaItem } from '@/data/events';
 
 
 interface PageProps {
@@ -123,22 +122,22 @@ export default async function EventDetailPage({ params }: PageProps) {
                 {eventText}
               </p>
 
-              {event.speakers && (
+              {/* Speakers */}
+              {(event.speakers.length!==0) && (
                 <div>
                   <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight mb-6">
                     {t('event_detail.speakers')}
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Speakers -- Temporarily Hidden */}
-                    {/*{event.speakers.map((speaker: Speaker) => (
-                                            <div key={speaker.name} className="bg-white border border-slate-100 rounded-3xl p-6 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
-                                                <Image src={speaker.image} alt={speaker.name} width={64} height={64} className="rounded-full object-cover border-2 border-slate-50" />
-                                                <div>
-                                                    <h4 className="font-bold text-slate-900">{speaker.name}</h4>
-                                                    <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mt-1">{speaker.role}</p>
-                                                </div>
-                                            </div>
-                                        ))}*/}
+                    {event.speakers.map((speaker: Speaker) => (
+                      <div key={speaker.name} className="bg-white border border-slate-100 rounded-3xl p-6 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
+                        {speaker.image!=='' && <Image src={speaker.image} alt={speaker.name} width={64} height={64} className="rounded-full object-cover border-2 border-slate-50" />}
+                        <div>
+                          <h4 className="font-bold text-slate-900">{speaker.name}</h4>
+                          <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mt-1">{speaker.role}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -169,7 +168,7 @@ export default async function EventDetailPage({ params }: PageProps) {
                 </div>
               )}
 
-              {/* Sponsort -- Temporarily Hidden */}
+              {/* Sponsor -- Temporarily Hidden */}
               {/*<Sponsors sponsors={event.sponsors} variant="page" />*/}
 
               <div className="bg-white border border-blue-100 rounded-[2.5rem] p-8 md:p-12 shadow-xl relative overflow-hidden mt-12">

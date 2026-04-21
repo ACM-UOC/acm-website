@@ -31,9 +31,8 @@ export interface Event {
   details_gr: string;
   registrationUrl?: string; // External link:Google Form, Eventbrite, etc.
   image: string;
-  speakers?: string;
   agenda: AgendaItem[];
-  // speakers?: Speaker[];
+  speakers: Speaker[];
   // sponsors: Sponsor[];
   // agenda?: AgendaItem[];
   // photos: number[];
