@@ -73,7 +73,6 @@ async function getEvents(): Promise<Event[]>  {
     return mappedEvents;
 
   } catch (error) {
-    console.log(error);
     return [];
   }
 }
